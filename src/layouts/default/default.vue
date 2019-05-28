@@ -2,7 +2,12 @@
   <div class="default">
     <Button @click="signOut">Log out</Button>
     <slot></slot>
-    <BottomNav :routes="routes" :currentRouteName="$route.name" @navigate="handleNavigation"/>
+    <BottomNav 
+      :routes="routes" 
+      :currentRouteName="$route.name" 
+      @navigate="handleNavigation"
+      :i18n="this._i18n"
+    />
   </div>
 </template>
 

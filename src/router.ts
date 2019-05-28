@@ -31,6 +31,7 @@ export const routes: RouteList = [
     meta: {
       iconEmoji: '💸',
       friendlyName: 'Make Money',
+      translationKey: 'routes.makeMoney',
       topLevel: true,
       requiresAuth: true,
       layout: 'default'
@@ -43,6 +44,7 @@ export const routes: RouteList = [
     meta: {
       iconEmoji: '🙏',
       friendlyName: 'Get Things',
+      translationKey: 'routes.getThings',
       topLevel: true,
       requiresAuth: true,
       layout: 'default'
