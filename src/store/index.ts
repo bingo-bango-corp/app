@@ -1,15 +1,24 @@
 import Vue from 'vue'
-import Vuex, { Module } from 'vuex'
+import Vuex from 'vuex'
+import VuexEasyFirestore from 'vuex-easy-firestore'
+Vue.use(Vuex)
+
+import * as Firebase from 'firebase/app'
 
 import profile from './modules/profile'
+import chat from './modules/chat'
 
-Vue.use(Vuex)
+const easyFirestore = VuexEasyFirestore(
+  [chat],
+  {logging: true, FirebaseDependency: Firebase}
+)
 
 const store = new Vuex.Store({
   state: {},
   modules: {
     profile
-  }
+  },
+  plugins: [easyFirestore]
 })
 
 export default store

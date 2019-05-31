@@ -49,6 +49,14 @@ export const routes: RouteList = [
       requiresAuth: true,
       layout: 'default'
     }
+  },
+  {
+    path: '/chat/:id?',
+    name: 'chat',
+    component: () => import(/* webpackChunkName: "chat" */ './views/chat'),
+    meta: {
+      layout: 'default'
+    }
   }
 ]
 
