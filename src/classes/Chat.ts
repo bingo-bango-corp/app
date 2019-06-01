@@ -75,7 +75,6 @@ export default class Chat {
   }
 
   private async newChat(users: ChatUserIDs): Promise<string> {
-    console.log('creating chat with', users)
     const createChatRequest = await createChat({userIDs: users})
     return createChatRequest.data.chatId
   }

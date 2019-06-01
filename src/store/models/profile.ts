@@ -4,6 +4,11 @@ export type ProfileType = {
   loggedIn: true
   uid: string,
   displayName?: string,
-  photoUrl?: URL,
+  photoUrl?: string,
   emailVerified: boolean,
+}
+export interface PublicProfile {
+  uid: string,
+  displayName?: string,
+  photoUrl?: string,
 }

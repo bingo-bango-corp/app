@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Chat, { ChatUser } from '@/classes/Chat'
 
 @Component
@@ -25,7 +25,6 @@ export default class BottomNav extends Vue {
       otherUser, 
       this.$store.state.profile.data.uid
     ])
-    console.log(this.chat.chatMessages)
   }
 
   sendMessage() {

@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { ProfileType } from '@/store/models/profile'
+import { ProfileType, PublicProfile } from '@/store/models/profile'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -7,6 +7,18 @@ import 'firebase/auth'
 export default class Profile extends VuexModule {
   data: ProfileType = {
     loggedIn: false
+  }
+
+  get publicProfile(): PublicProfile | null {
+    if (this.data.loggedIn) {
+      return {
+        uid: this.data.uid,
+        photoUrl: this.data.photoUrl,
+        displayName: this.data.displayName
+      }
+    } else {
+      return null
+    }
   }
 
   @Mutation
@@ -23,7 +35,7 @@ export default class Profile extends VuexModule {
         loggedIn: true,
         uid: user.uid,
         displayName: user.displayName || undefined,
-        photoUrl: user.photoURL ? new URL(user.photoURL): undefined,
+        photoUrl: user.photoURL ? user.photoURL: undefined,
         emailVerified: user.emailVerified
       } 
     } else {
@@ -41,5 +53,5 @@ export default class Profile extends VuexModule {
       loggedIn: false
     }
     return Promise.resolve(profile)
-  } 
+  }
 }
