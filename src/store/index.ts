@@ -6,6 +6,7 @@ Vue.use(Vuex)
 import * as Firebase from 'firebase/app'
 
 import profile from './modules/profile'
+import preferences from './modules/preferences'
 import chat from './modules/chat'
 
 const easyFirestore = VuexEasyFirestore(
@@ -16,7 +17,8 @@ const easyFirestore = VuexEasyFirestore(
 const store = new Vuex.Store({
   state: {},
   modules: {
-    profile
+    profile,
+    preferences
   },
   plugins: [easyFirestore]
 })

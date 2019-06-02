@@ -51,13 +51,18 @@ export const routes: RouteList = [
     }
   },
   {
-    path: '/chat/:id?',
-    name: 'chat',
-    component: () => import(/* webpackChunkName: "chat" */ './views/chat'),
+    path: '/you',
+    name: 'you',
+    component: () => import(/* webpackChunkName: "you" */ './views/you'),
     meta: {
+      iconEmoji: '🤠',
+      friendlyName: 'You',
+      translationKey: 'routes.you',
+      topLevel: true,
+      requiresAuth: true,
       layout: 'default'
     }
-  }
+  },
 ]
 
 const router = new Router({

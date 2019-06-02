@@ -1,6 +1,7 @@
 {
   "routes": {
     "makeMoney": "Make Money",
-    "getThings": "Get Things"
+    "getThings": "Get Things",
+    "you": "You"
   }
 }

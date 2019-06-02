@@ -1,5 +1,6 @@
 <template>
-  <ThemeProvider id="app">
+  <ThemeProvider :theme="$store.state.preferences.theme" id="app">
+    <div id="appBackground" />
     <component :is="desiredLayout">
       <router-view/>
     </component>
@@ -30,6 +31,10 @@ body
   margin: 0
   padding: 0
 #app
+  color: var(--foreground)
+#appBackground
+  z-index: -500
+  position: fixed
   height: 100vh
   width: 100vw
   background: var(--background)
