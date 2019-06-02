@@ -9,6 +9,7 @@ import * as Firebase from 'firebase/app'
 import profile from './modules/profile'
 import preferences from './modules/preferences'
 import chat from './modules/chat'
+import location from './modules/location'
 
 const easyFirestore = VuexEasyFirestore(
   [chat],
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
   state: {},
   modules: {
     profile,
-    preferences
+    preferences,
+    location
   },
   plugins: [easyFirestore, vuexLocal.plugin]
 })

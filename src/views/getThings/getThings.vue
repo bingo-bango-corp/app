@@ -1,26 +1,47 @@
 <template>
-  <div class="home">
-    getThings!
+  <div class="getThings">
+    <input type="text" v-model="what" placeholder="what do u want"/>
+    <input type="text" v-model="where" placeholder="where u want it"/>
+    <input type="number" v-model="tip" placeholder="how much € u wanna tip"/>
+    <BingoButton :onClick="submit">submit</BingoButton>
   </div>
 </template>
 
-<script>
-import { Vue, Component } from 'vue-property-decorator'
+<script lang="ts">
+import { Vue, Component, Model } from 'vue-property-decorator'
 import Jobs from '@/classes/Jobs'
+import { BingoButton } from 'simsalabim-design'
 
-@Component
+@Component({
+  components: {
+    BingoButton
+  }
+})
 export default class makeMoney extends Vue {
   jobs = new Jobs
+  what: string = ''
+  where: string = ''
+  tip: number | null = null
 
   mounted() {
-    this.jobs.new(52.540717, 13.353449, {
-      description: 'test job',
-      thing: 'a test thing',
+    this.$store.dispatch('updateLocation')
+  }
+
+  async submit() {
+    const location = this.$store.getters.currentLocation
+
+    const jobAdd = await this.jobs.new(location[0], location[1], {
+      description:this.where,
+      thing: this.what,
       tip: {
-        cents: 1000,
+        cents: this.tip! * 100,
         currency: 'EUR'
       }
     })
+
+    this.where = ''
+    this.what = ''
+    this.tip = null
   }
 } 
 </script>
