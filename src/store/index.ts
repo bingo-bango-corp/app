@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexEasyFirestore from 'vuex-easy-firestore'
+import VuexPersistence from 'vuex-persist'
 Vue.use(Vuex)
 
 import * as Firebase from 'firebase/app'
@@ -14,13 +15,18 @@ const easyFirestore = VuexEasyFirestore(
   {logging: true, FirebaseDependency: Firebase}
 )
 
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+  modules: ['preferences']
+})
+
 const store = new Vuex.Store({
   state: {},
   modules: {
     profile,
     preferences
   },
-  plugins: [easyFirestore]
+  plugins: [easyFirestore, vuexLocal.plugin]
 })
 
 export default store
