@@ -3,15 +3,17 @@ import { preferences } from '@/store/models/preferences'
 
 @Module
 export default class Profile extends VuexModule {
-  theme = 'light'
+  data: preferences = {
+    theme: 'light'
+  }
 
   get currentTheme() {
-    return this.theme
+    return this.data.theme
   }
 
   @Mutation
   writeCurrentTheme(theme: string) {
-    this.theme = theme
+    this.data.theme = theme
   }
 
   @Action({ commit: 'writeCurrentTheme' })

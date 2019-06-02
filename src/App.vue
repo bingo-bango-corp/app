@@ -1,5 +1,5 @@
 <template>
-  <ThemeProvider :theme="$store.state.preferences.theme" id="app">
+  <ThemeProvider :theme="$store.getters.currentTheme" id="app">
     <div id="appBackground" />
     <component :is="desiredLayout">
       <router-view/>
