@@ -2,7 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { preferences } from '@/store/models/preferences'
 
 @Module
-export default class Profile extends VuexModule {
+export default class Preferences extends VuexModule {
   data: preferences = {
     theme: 'light'
   }
