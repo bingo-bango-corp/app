@@ -1,3 +1,5 @@
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 module.exports = {
   pluginOptions: {
     i18n: {
@@ -6,5 +8,10 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: false
     }
+  },
+  configureWebpack: {
+    plugins: [
+      new WorkboxPlugin.GenerateSW()
+    ]
   }
 }

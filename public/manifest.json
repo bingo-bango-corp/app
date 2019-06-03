@@ -1,6 +1,6 @@
 {
-  "name": "pwa-test",
-  "short_name": "pwa-test",
+  "name": "Bingo Bango",
+  "short_name": "Bingo Bango",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
