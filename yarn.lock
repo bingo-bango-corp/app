@@ -7639,6 +7639,11 @@ regexpu-core@^4.5.4:
     unicode-match-property-ecmascript "^1.0.4"
     unicode-match-property-value-ecmascript "^1.1.0"
 
+register-service-worker@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.6.2.tgz#9297e54c205c371c6e49bfa88f6997e8dd315f4c"
+  integrity sha512-I8L87fX2TK29LDx+wgyOUh2BJ3rDIRC1FtRZEHeP3rivzDv6p1DDZLGGtPucqjEkm45+2crtFIFssEWv56+9Wg==
+
 regjsgen@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/regjsgen/-/regjsgen-0.2.0.tgz#6c016adeac554f75823fe37ac05b92d5a4edb1f7"
@@ -8137,10 +8142,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsalabim-design@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.3.4.tgz#212eb2eea1525c2058adee39014430ccce0753b1"
-  integrity sha512-S10V/1ZVjicHG5F/ulOvVnB20JJjmIwg17OMpOCd9O9CLHWQY2hkjfM2bqCSZ1v2Xv17R0zpz3vJIj5tK9wzsw==
+simsalabim-design@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.3.7.tgz#2fe2c887d455c2b28b4557bbd5cf71de5196c7ef"
+  integrity sha512-7c8s5Z8ICTe7rcIW+bimZhpDcBWTKqwEoIdv8X6uH9HZCxCpQ+Oq4/0m0Pt2KyUn/z60wMsohZXXTKGOycw/Xg==
   dependencies:
     core-js "^2.6.5"
     vue "^2.6.10"

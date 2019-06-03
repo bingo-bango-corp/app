@@ -48,6 +48,14 @@ export const routes: RouteList = [
       topLevel: true,
       requiresAuth: true,
       layout: 'default'
+    },
+  },
+  {
+    path: '/get-things/new',
+    name: 'newJob',
+    component: () => import(/* webpackChunkName: "newJob" */ './views/getThings/new'),
+    meta: {
+      layout: 'default'
     }
   },
   {

@@ -1,8 +1,10 @@
 import * as geofirex from 'geofirex'
 import firebase from 'firebase/app'
+import 'firebase/firestore'
 import { Observable } from 'rxjs/internal/Observable';
 import store from '@/store'
 const geo = geofirex.init(firebase)
+const db = firebase.firestore()
 
 import { PublicProfile } from '@/store/models/profile'
 
@@ -24,6 +26,11 @@ export interface JobModel extends JobData {
     geohash: string
   }
   owner: PublicProfile
+}
+
+
+interface JobList extends Array<any> {
+  [key: number]: JobModel
 }
 
 
@@ -61,6 +68,18 @@ export default class Jobs {
     const query = 
       this.jobsCollection.within(point, radius, this.field)
     return geofirex.get(query)
+  }
+
+  public async getOwn(): Promise<JobList> {
+    const query = db.collection('jobs').where("owner.uid", "==", this.myPublicProfile.uid)
+    const snapshot = await query.get()
+    let result: JobList = []
+
+    snapshot.forEach(s => {
+      result.push(s.data())
+    })
+
+    return result
   }
 
   public subscribe(
