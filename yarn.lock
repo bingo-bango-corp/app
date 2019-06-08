@@ -8239,10 +8239,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsalabim-design@^0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.3.7.tgz#2fe2c887d455c2b28b4557bbd5cf71de5196c7ef"
-  integrity sha512-7c8s5Z8ICTe7rcIW+bimZhpDcBWTKqwEoIdv8X6uH9HZCxCpQ+Oq4/0m0Pt2KyUn/z60wMsohZXXTKGOycw/Xg==
+simsalabim-design@^0.3.9:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.3.9.tgz#a329387e873dcd2b423244ac46e294376e9258b4"
+  integrity sha512-428wtT4IlVxcPISxcTMrUmzY2TpgH4oLBCegU4rVGpTqjc0IHlJ0scYMMEcBVnPawGYk7gUsrtOC0ksOTrEK6w==
   dependencies:
     core-js "^2.6.5"
     vue "^2.6.10"
@@ -9292,6 +9292,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+
+velocity-animate@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/velocity-animate/-/velocity-animate-1.5.2.tgz#5a351d75fca2a92756f5c3867548b873f6c32105"
+  integrity sha512-m6EXlCAMetKztO1ppBhGU1/1MR3IiEevO6ESq6rcrSQ3Q77xYSW13jkfXW88o4xMrkXJhy/U7j4wFR/twMB0Eg==
 
 vendors@^1.0.0:
   version "1.0.3"

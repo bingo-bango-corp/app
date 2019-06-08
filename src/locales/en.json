@@ -3,5 +3,8 @@
     "makeMoney": "Make Money",
     "getThings": "Get Things",
     "you": "You"
+  },
+  "getThings": {
+    "newRequest": "🙏 New request"
   }
 }

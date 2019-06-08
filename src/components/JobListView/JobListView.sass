@@ -1,0 +1,26 @@
+.JobListView
+  .items
+    > *
+      margin-bottom: 16px
+      &:last-child
+        margin-bottom: 0
+  .loading
+    display: flex
+    width: 100%
+    justify-content: center
+    align-items: center
+    height: 80vh
+    position: absolute
+
+.fade-translate-enter-active, .fade-translate-leave-active
+  transition: all .3s ease-out
+
+.fade-translate-enter, .fade-translate-leave-to
+  transform: translateY(10px)
+  opacity: 0
+
+.fade-enter-active, .fade-leave-active
+  transition: all .3s ease
+
+.fade-enter, .fade-leave-to
+  opacity: 0

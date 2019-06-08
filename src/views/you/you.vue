@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <BingoButton :onClick="signOut">{{ $t('you.logOut') }}</BingoButton>
     <div class="themeSwitcher" @click="switchLight">Switch to light theme</div>
     <div class="themeSwitcher" @click="switchDark">Switch to dark theme</div>
     <div class="themeSwitcher" @click="switchInsane">Switch to insane theme</div>
@@ -8,8 +9,13 @@
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
+import { BingoButton } from 'simsalabim-design'
 
-@Component
+@Component({
+  components: {
+    BingoButton
+  }
+})
 export default class makeMoney extends Vue {
   switchLight() {
     this.$store.dispatch('setCurrentTheme', 'light')
@@ -19,6 +25,11 @@ export default class makeMoney extends Vue {
   }
   switchInsane() {
     this.$store.dispatch('setCurrentTheme', 'insane')
+  }
+
+  async signOut() {
+    await this.$store.dispatch('signOut')
+    this.$router.push('/login')
   }
 } 
 </script>

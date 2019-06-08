@@ -8,7 +8,6 @@ const db = firebase.firestore()
 
 import { PublicProfile } from '@/store/models/profile'
 
-
 export interface JobData {
   description: string
   thing: string
@@ -21,6 +20,7 @@ export interface JobData {
 
 
 export interface JobModel extends JobData {
+  timestamp: any
   point: {
     geopoint: geofirex.firestore.GeoPoint
     geohash: string
@@ -29,7 +29,7 @@ export interface JobModel extends JobData {
 }
 
 
-interface JobList extends Array<any> {
+export interface JobList extends Array<any> {
   [key: number]: JobModel
 }
 
@@ -53,6 +53,7 @@ export default class Jobs {
   ): Promise<geofirex.firestore.DocumentReference> {
     const data: JobModel = {
       ...jobData,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       point: geo.point(lat, long).data,
       owner: this.myPublicProfile
     } 
@@ -80,6 +81,12 @@ export default class Jobs {
     })
 
     return result
+  }
+
+  public initializeOwnJobsStore(): void {
+    store.dispatch('myJobs/openDBChannel', {
+      where: [["owner.uid", "==", this.myPublicProfile.uid]]
+    })
   }
 
   public subscribe(

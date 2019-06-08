@@ -1,7 +1,7 @@
 <template>
   <ThemeProvider :theme="$store.getters.currentTheme" id="app">
     <div id="appBackground" />
-    <component :is="desiredLayout">
+    <component mode="out-in" :is="desiredLayout">
       <router-view/>
     </component>
   </ThemeProvider>

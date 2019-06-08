@@ -25,7 +25,6 @@ export default class newRequest extends Vue {
 
   async mounted() {
     this.$store.dispatch('updateLocation')
-    console.log(this.$route.path)
   }
 
   async submit() {

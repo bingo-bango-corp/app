@@ -1,6 +1,5 @@
 <template>
   <div class="default">
-    <Button @click="signOut">Log out</Button>
     <slot></slot>
     <BottomNav
       :routes="routes" 
@@ -26,11 +25,6 @@ export default class Default extends Vue {
 
   handleNavigation(route: BingoRoute) {
     this.$router.push(route.path)
-  }
-
-  async signOut() {
-    await this.$store.dispatch('signOut')
-    this.$router.push('/login')
   }
 }
 </script>
