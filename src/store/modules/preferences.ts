@@ -1,7 +1,7 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { preferences } from '@/store/models/preferences'
-import { themes } from 'simsalabim-design'
-import setThemeColor from '@/util/setThemeColor'
+import { themes, theme } from 'simsalabim-design'
+import { setThemeColorForTheme } from '@/util/setThemeColor'
 
 @Module
 export default class Preferences extends VuexModule {
@@ -9,15 +9,18 @@ export default class Preferences extends VuexModule {
     theme: 'light'
   }
 
-  get currentTheme() {
+  get currentTheme(): string {
     return this.data.theme
+  }
+
+  get currentThemeObject(): theme {
+    return themes[this.data.theme]
   }
 
   @Mutation
   writeCurrentTheme(theme: string) {
     this.data.theme = theme
-    const tc = themes[theme].tokens.background
-    setThemeColor(`rgb(${tc.r},${tc.g},${tc.b})`)
+    setThemeColorForTheme(themes[theme])
   }
 
   @Action({ commit: 'writeCurrentTheme' })

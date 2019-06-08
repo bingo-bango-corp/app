@@ -14,6 +14,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import {Route} from 'vue-router'
 import layouts from '@/layouts'
 import { ThemeProvider } from 'simsalabim-design'
+import { setThemeColorForTheme } from '@/util/setThemeColor'
 
 @Component({
   components: {
@@ -22,6 +23,9 @@ import { ThemeProvider } from 'simsalabim-design'
   }
 })
 export default class App extends Vue {
+  mounted() {
+    setThemeColorForTheme(this.$store.getters.currentThemeObject)
+  }
   get desiredLayout() {
     return this.$route.meta ? this.$route.meta.layout || 'plain' : 'plain'
   }
