@@ -6,17 +6,22 @@ import firebaseConfig from './config/firebase'
 
 export default () => {
   Firebase.initializeApp(firebaseConfig)
-  return new Promise<void>((resolve, reject) => {
-    Firebase.firestore().enablePersistence()
-      .then(() => {
-        resolve()
-      })
-      .catch((err: any) => {
-        if (err.code === 'failed-precondition') {
-          reject(err)
-        } else if (err.code === 'unimplemented') {
-          reject(err)
-        }
-      })
-  })
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('Enabling Offline Mode')
+    return new Promise<void>((resolve, reject) => {
+      Firebase.firestore().enablePersistence()
+        .then(() => {
+          resolve()
+        })
+        .catch((err: any) => {
+          if (err.code === 'failed-precondition') {
+            reject(err)
+          } else if (err.code === 'unimplemented') {
+            reject(err)
+          }
+        })
+    })
+  } else {
+    return Promise.resolve()
+  }
 }
