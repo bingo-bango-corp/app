@@ -8239,16 +8239,17 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsalabim-design@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.4.3.tgz#8948311ecd8415e417c394e4430f136f95be55ae"
-  integrity sha512-tBqOM56viHaC7zHi6IsNwJfV9k+IyooL5YxegCiL/sVVcaTSlQCwBCGSzEaJ8DKrhgHj6TNfNlAFxzGQO8m3Kg==
+simsalabim-design@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.4.5.tgz#34429c90339ae949a5a390ac92a945187e5ca118"
+  integrity sha512-Ov+15xHG+CkLJyxovpGx6x2OXvpvD2Mlg2YniNKhbLY1lYvoFOKB/pon8H3rtZhYjeSPxlCdbpAbYSyv9ZfUIA==
   dependencies:
     core-js "^2.6.5"
     vue "^2.6.10"
     vue-class-component "^6.0.0"
     vue-property-decorator "^7.0.0"
     vue-ripple-directive "^2.0.1"
+    vue-smooth-reflow "^0.1.12"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -9443,6 +9444,11 @@ vue-router@^3.0.3:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.6.tgz#2e4f0f9cbb0b96d0205ab2690cfe588935136ac3"
   integrity sha512-Ox0ciFLswtSGRTHYhGvx2L44sVbTPNS+uD2kRISuo8B39Y79rOo0Kw0hzupTmiVtftQYCZl87mwldhh2L9Aquw==
+
+vue-smooth-reflow@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/vue-smooth-reflow/-/vue-smooth-reflow-0.1.12.tgz#bca66e7cecc7ab1f683ebb02e1d9b75a2ab4db98"
+  integrity sha512-cic+dmqsBzu/lRMXf/mhUPMM0g0vancJGUyNMMGHjis0ilSFd1RjIrZYcU5B7ef+n5oshH33/zbMA8OYyRTu7Q==
 
 vue-style-loader@^4.1.0:
   version "4.1.2"

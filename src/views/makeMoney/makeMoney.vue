@@ -6,13 +6,23 @@
           <JobCard class="jobCard"
             :title="job.thing"
             :description="job.description"
-            :actions="null"
+            :actions="[
+              {
+                title: '🤚 Pick it up',
+                backgroundColor: 'var(--secondary)',
+                onClick() {
+                  console.log('pickkid up')
+                }
+              },
+            ]"
             :distance="job.queryMetadata.distance"
             :tip="{
               cents: job.tip.cents,
               currency: job.tip.currency
             }"
             :locale="$i18n.locale"
+            :collapsed="(selected != index)"
+            @click.native="toggleJob(index)"
           />
         </div>
       </JobListView>
@@ -35,6 +45,7 @@ import { JobCard } from 'simsalabim-design'
 export default class makeMoney extends Vue {
   jobs = new Jobs
   loading = false
+  selected: number | null = null
   
   nearbyJobs: Array<any> = []
   radius: number = .5
@@ -58,6 +69,12 @@ export default class makeMoney extends Vue {
     this.nearbyJobs = nearbyJobs
 
     this.loading = false
+  }
+
+  toggleJob(index: number) {
+    this.selected = (this.selected === index)
+      ? null
+      : index
   }
 }
 </script>

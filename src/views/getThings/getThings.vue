@@ -12,6 +12,8 @@
               cents: job.tip.cents,
               currency: job.tip.currency
             }"
+            :collapsed="false"
+            :elevated="false"
             :locale="$i18n.locale"
           />
         </div>
