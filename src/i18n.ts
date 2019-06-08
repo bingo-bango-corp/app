@@ -18,7 +18,7 @@ function loadLocaleMessages () {
 }
 
 export default new VueI18n({
-  locale: navigator.language.substring(0,2) || process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: navigator.language || process.env.VUE_APP_I18N_LOCALE || 'de-EN',
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'de-EN',
   messages: loadLocaleMessages()
 })
