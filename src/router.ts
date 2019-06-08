@@ -1,8 +1,7 @@
-import Vue from "vue";
-import Router from "vue-router";
-import home from "./views/home";
-import login from "./views/login";
-import store from "@/store";
+import Vue from "vue"
+import Router from "vue-router"
+import login from "./views/login"
+import store from "@/store"
 
 import { RouteList } from 'simsalabim-design'
 import { RouteConfig } from 'vue-router'
@@ -11,21 +10,13 @@ Vue.use(Router);
 
 export const routes: RouteList = [
   {
-    path: "/",
-    name: "home",
-    component: home,
-    meta: {
-      layout: 'default',
-      requiresAuth: true
-    }
-  },
-  {
     path: "/login",
     name: "login",
     component: login,
   },
   {
     path: '/make-money',
+    alias: '/',
     name: 'makeMoney',
     component: () => import(/* webpackChunkName: "makeMoney" */ './views/makeMoney'),
     meta: {
