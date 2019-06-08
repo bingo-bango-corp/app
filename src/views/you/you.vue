@@ -1,9 +1,14 @@
 <template>
   <div class="home">
     <BingoButton :onClick="signOut">{{ $t('you.logOut') }}</BingoButton>
-    <div class="themeSwitcher" @click="switchLight">Switch to light theme</div>
-    <div class="themeSwitcher" @click="switchDark">Switch to dark theme</div>
-    <div class="themeSwitcher" @click="switchInsane">Switch to insane theme</div>
+    <div class="displayName">
+      <input type="text" v-model="displayName" @blur="handleDisplayNameBlur">
+    </div>
+    <div class="themes">
+      <div class="themeSwitcher" @click="switchLight">Switch to light theme</div>
+      <div class="themeSwitcher" @click="switchDark">Switch to dark theme</div>
+      <div class="themeSwitcher" @click="switchInsane">Switch to insane theme</div>
+    </div>
   </div>
 </template>
 
@@ -17,12 +22,26 @@ import { BingoButton } from 'simsalabim-design'
   }
 })
 export default class makeMoney extends Vue {
+  get displayName() {
+    return this.$store.state.profile.data.displayName
+  }
+
+  handleDisplayNameBlur() {
+    this.$store.dispatch('updateRemoteDisplayName')
+  }
+
+  set displayName(value) {
+    this.$store.dispatch('setDisplayName', value)
+  }
+
   switchLight() {
     this.$store.dispatch('setCurrentTheme', 'light')
   }
+
   switchDark() {
     this.$store.dispatch('setCurrentTheme', 'dark')
   }
+
   switchInsane() {
     this.$store.dispatch('setCurrentTheme', 'insane')
   }

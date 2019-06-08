@@ -2,6 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { ProfileType, PublicProfile } from '@/store/models/profile'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 
 @Module
 export default class Profile extends VuexModule {
@@ -27,15 +28,19 @@ export default class Profile extends VuexModule {
   }
 
   @Action({ commit: 'writeProfile' })
-  updateProfileFromFirebase(): Promise<ProfileType> {
+  async updateProfileFromFirebase(): Promise<ProfileType> {
     const user: firebase.User | null = firebase.auth().currentUser
     let profile: ProfileType
     if (user) {
+      const db = firebase.firestore()
+      const remoteUserProfile = await db.collection('users').doc(user.uid).get()
+      const { displayName, photoURL } = remoteUserProfile.data() as any
+
       profile = {
         loggedIn: true,
         uid: user.uid,
-        displayName: user.displayName || undefined,
-        photoUrl: user.photoURL ? user.photoURL: undefined,
+        displayName: displayName || user.displayName || undefined,
+        photoUrl: photoURL || user.photoURL || undefined,
         emailVerified: user.emailVerified
       } 
     } else {
@@ -53,5 +58,32 @@ export default class Profile extends VuexModule {
       loggedIn: false
     }
     return Promise.resolve(profile)
+  }
+
+  @Action({ commit: 'writeProfile' })
+  setDisplayName(name: string): ProfileType {
+    if (this.data.loggedIn) {
+      const profile: ProfileType = {
+        ...this.data,
+        displayName: name
+      }
+      return profile
+    } else {
+      throw new Error('Cannot set display name if no-one is logged in.')
+    }
+  }
+
+  @Action
+  async updateRemoteDisplayName(): Promise<void> {
+    if (this.data.loggedIn) {
+      const db = firebase.firestore()
+      await db.collection('users').doc(this.data.uid).update({
+        'displayName': this.data.displayName
+      }).catch((e) => {
+        throw new Error(e)
+      })
+    } else {
+      throw new Error('Cannot update remote user name if no-one is logged in.')
+    }
   }
 }
