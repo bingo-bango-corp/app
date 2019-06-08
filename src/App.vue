@@ -2,7 +2,9 @@
   <ThemeProvider :theme="$store.getters.currentTheme" id="app">
     <div id="appBackground" />
     <component mode="out-in" :is="desiredLayout">
-      <router-view/>
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </component>
   </ThemeProvider>
 </template>
@@ -32,10 +34,18 @@ body
   padding: 0
 #app
   color: var(--foreground)
+  position: fixed
+  width: 100%
+  height: 100%
+  overflow-x: hidden
 #appBackground
   z-index: -500
   position: fixed
   height: 100vh
   width: 100vw
   background: var(--background)
+.fade-enter-active, .fade-leave-active
+  transition: all .05s ease
+.fade-enter, .fade-leave-to
+  opacity: 0
 </style>

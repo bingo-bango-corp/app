@@ -43,7 +43,6 @@ export default class getThings extends Vue {
   }
 
   async mounted() {
-    console.log(navigator.language)
     this.loading = true
     this.myJobs = await this.jobs.getOwn()
     this.loading = false
