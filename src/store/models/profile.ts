@@ -3,9 +3,11 @@ export type ProfileType = {
 } | {
   loggedIn: true
   uid: string,
+  email?: string,
   displayName?: string,
   photoUrl?: string,
   emailVerified: boolean,
+  byAuthProvider: Array<any>
 }
 export interface PublicProfile {
   uid: string,

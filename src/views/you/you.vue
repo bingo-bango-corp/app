@@ -8,6 +8,15 @@
       <BingoInput type="text" v-model="displayName" @blur="handleDisplayNameBlur" />
     </HeadlineContentPair>
     <HeadlineContentPair
+      headline="🔗 Linked Accounts"
+      description="These are the accounts you've used to sign into Bingo Bango."
+      class="linkedAccounts"
+    >
+      <div class="account" v-for="(account, index) in accounts" :key="index">
+        {{ account.providerId }}
+      </div>
+    </HeadlineContentPair>
+    <HeadlineContentPair
       :headline="$t('you.theme.headline')"
       :description="$t('you.theme.description')"
       class="theme"
@@ -40,6 +49,10 @@ import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
   }
 })
 export default class makeMoney extends Vue {
+  get accounts() {
+    return this.$store.state.profile.data.byAuthProvider
+  }
+
   get currentTheme() {
     return this.$store.getters.currentTheme
   }

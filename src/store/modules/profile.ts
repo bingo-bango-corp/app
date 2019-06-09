@@ -50,9 +50,11 @@ export default class Profile extends VuexModule {
       profile = {
         loggedIn: true,
         uid: user.uid,
+        email: user.email || undefined,
         displayName: displayName || user.displayName || undefined,
         photoUrl: photoURL || user.photoURL || undefined,
-        emailVerified: user.emailVerified
+        emailVerified: user.emailVerified,
+        byAuthProvider: user.providerData
       } 
     } else {
       profile = {
