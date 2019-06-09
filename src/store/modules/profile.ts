@@ -33,8 +33,19 @@ export default class Profile extends VuexModule {
     let profile: ProfileType
     if (user) {
       const db = firebase.firestore()
-      const remoteUserProfile = await db.collection('users').doc(user.uid).get()
-      const { displayName, photoURL } = remoteUserProfile.data() as any
+      const remoteUserProfile = await db
+        .collection('users')
+        .doc(user.uid)
+        .get()
+
+      let displayName: string | undefined = undefined
+      let photoURL: string | undefined = undefined
+      
+      if (remoteUserProfile.exists) {
+        const remoteUserProfileData = remoteUserProfile.data()
+        displayName = remoteUserProfileData!.displayName
+        photoURL = remoteUserProfileData!.photoURL
+      }
 
       profile = {
         loggedIn: true,

@@ -6,15 +6,7 @@
           <JobCard class="jobCard"
             :title="job.thing"
             :description="job.description"
-            :actions="[
-              {
-                title: '🤚 Pick it up',
-                backgroundColor: 'var(--secondary)',
-                onClick() {
-                  console.log('pickkid up')
-                }
-              },
-            ]"
+            :actions="jobActions"
             :distance="job.queryMetadata.distance"
             :tip="{
               cents: job.tip.cents,
@@ -46,6 +38,16 @@ export default class makeMoney extends Vue {
   jobs = new Jobs
   loading = false
   selected: number | null = null
+
+  jobActions = [
+    {
+      title: '🤚 Pick it up',
+      backgroundColor: 'var(--secondary)',
+      onClick: () => {
+        console.log('pickkid up')
+      }
+    },
+  ]
   
   nearbyJobs: Array<any> = []
   radius: number = .5
