@@ -1,27 +1,49 @@
 <template>
-  <div class="home">
-    <BingoButton :onClick="signOut">{{ $t('you.logOut') }}</BingoButton>
-    <div class="displayName">
-      <input type="text" v-model="displayName" @blur="handleDisplayNameBlur">
-    </div>
-    <div class="themes">
-      <div class="themeSwitcher" @click="switchLight">Switch to light theme</div>
-      <div class="themeSwitcher" @click="switchDark">Switch to dark theme</div>
-      <div class="themeSwitcher" @click="switchInsane">Switch to insane theme</div>
-    </div>
+  <div class="you">
+    <HeadlineContentPair
+      :headline="$t('you.displayName.headline')"
+      :description="$t('you.displayName.description')"
+      class="displayName"
+    >
+      <BingoInput type="text" v-model="displayName" @blur="handleDisplayNameBlur" />
+    </HeadlineContentPair>
+    <HeadlineContentPair
+      :headline="$t('you.theme.headline')"
+      :description="$t('you.theme.description')"
+      class="theme"
+    >
+      <div class="themeButtons">
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'light'}" :onClick="switchLight">
+          {{ $t('you.theme.themeButtons.light') }}
+        </BingoButton>
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'dark'}" :onClick="switchDark">
+          {{ $t('you.theme.themeButtons.dark') }}
+        </BingoButton>
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'insane'}" :onClick="switchInsane">
+          {{ $t('you.theme.themeButtons.insane') }}
+        </BingoButton>
+      </div>
+    </HeadlineContentPair>
+    <BingoButton backgroundColor="var(--cardBackground)" color="var(--foreground)" :onClick="signOut">{{ $t('you.logOut') }}</BingoButton>
   </div>
 </template>
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
-import { BingoButton } from 'simsalabim-design'
+import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
 
 @Component({
   components: {
-    BingoButton
+    BingoButton,
+    HeadlineContentPair,
+    BingoInput
   }
 })
 export default class makeMoney extends Vue {
+  get currentTheme() {
+    return this.$store.getters.currentTheme
+  }
+
   get displayName() {
     return this.$store.state.profile.data.displayName
   }

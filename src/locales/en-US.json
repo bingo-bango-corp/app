@@ -6,5 +6,21 @@
   },
   "getThings": {
     "newRequest": "🙏 New request"
+  },
+  "you": {
+    "displayName": {
+      "headline": "👯‍ Your display name",
+      "description": "People will see this username when you post jobs or chat with them. You can leave it as your real name, which makes it easy to find your doorbell, or come up with something fun and tell people your name in the chat when you need to."
+    },
+    "theme": {
+      "headline": "💅 Your theme",
+      "description": "Select a theme for Bingo Bango on this device.",
+      "themeButtons": {
+        "light": "🌞Light",
+        "dark": "🌚Dark",
+        "insane": "🤡Insane"
+      }
+    },
+    "logOut": "Log out 👋"
   }
 }

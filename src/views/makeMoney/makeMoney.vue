@@ -43,7 +43,8 @@ export default class makeMoney extends Vue {
     {
       title: '🤚 Pick it up',
       backgroundColor: 'var(--secondary)',
-      onClick: () => {
+      onClick: (event: Event) => {
+        event.stopPropagation()
         console.log('pickkid up')
       }
     },
