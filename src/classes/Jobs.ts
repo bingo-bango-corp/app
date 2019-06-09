@@ -7,6 +7,12 @@ const geo = geofirex.init(firebase)
 const db = firebase.firestore()
 
 import { PublicProfile } from '@/store/models/profile'
+import { DocumentReference } from '@firebase/firestore-types';
+
+export interface UidProfilePair {
+  profile: DocumentReference,
+  uid: string
+}
 
 export interface JobData {
   description: string
@@ -15,9 +21,8 @@ export interface JobData {
     cents: number
     currency: string
   }
-  assigne?: PublicProfile | undefined
+  assigne?: UidProfilePair | undefined
 }
-
 
 export interface JobModel extends JobData {
   timestamp: any
@@ -25,7 +30,7 @@ export interface JobModel extends JobData {
     geopoint: geofirex.firestore.GeoPoint
     geohash: string
   }
-  owner: PublicProfile
+  owner: UidProfilePair
 }
 
 
@@ -55,7 +60,10 @@ export default class Jobs {
       ...jobData,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       point: geo.point(lat, long).data,
-      owner: this.myPublicProfile
+      owner: {
+        uid: this.myPublicProfile.uid,
+        profile: db.collection('users').doc(this.myPublicProfile.uid)
+      }
     } 
     return this.jobsCollection.add(data)
   }  
@@ -81,6 +89,17 @@ export default class Jobs {
     })
 
     return result
+  }
+
+  public async getProfileForUid(uid: string): Promise<PublicProfile> {
+    const query = db.collection('users').doc(uid)
+    const snapshot = await query.get()
+
+    if (snapshot.exists) {
+      return snapshot.data() as PublicProfile
+    }
+
+    throw new Error('This user does not exist!')
   }
 
   public initializeOwnJobsStore(): void {
