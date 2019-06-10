@@ -31,6 +31,7 @@ export interface JobModel extends JobData {
     geohash: string
   }
   owner: UidProfilePair
+  state: 'unassigned' | 'assigned' | 'delivered' | 'cancelled'
 }
 
 
@@ -63,7 +64,8 @@ export default class Jobs {
       owner: {
         uid: this.myPublicProfile.uid,
         profile: db.collection('users').doc(this.myPublicProfile.uid)
-      }
+      },
+      state: 'unassigned'
     } 
     return this.jobsCollection.add(data)
   }  
