@@ -5,6 +5,7 @@
         <div class="job" v-for="(job, index) in nearbyJobs" :key="index">
           <JobCard class="jobCard"
             :title="job.thing"
+            :jobId="job.id"
             :description="job.description"
             :actions="jobActions"
             :distance="job.queryMetadata.distance"
@@ -43,9 +44,9 @@ export default class makeMoney extends Vue {
     {
       title: '🤚 Pick it up',
       backgroundColor: 'var(--secondary)',
-      onClick: (event: Event) => {
-        event.stopPropagation()
-        console.log('pickkid up')
+      onClick: (event: any) => {
+        event.event.stopPropagation()
+        
       }
     },
   ]
@@ -78,6 +79,11 @@ export default class makeMoney extends Vue {
     this.selected = (this.selected === index)
       ? null
       : index
+  }
+
+  async takeJob(id: string) {
+    const res = await this.jobs.takeJob(id)
+    console.log(res)
   }
 }
 </script>

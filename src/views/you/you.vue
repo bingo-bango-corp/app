@@ -22,18 +22,18 @@
       class="theme"
     >
       <div class="themeButtons">
-        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'light'}" :onClick="switchLight">
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'light'}" @clicked="switchLight">
           {{ $t('you.theme.themeButtons.light') }}
         </BingoButton>
-        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'dark'}" :onClick="switchDark">
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'dark'}" @clicked="switchDark">
           {{ $t('you.theme.themeButtons.dark') }}
         </BingoButton>
-        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'insane'}" :onClick="switchInsane">
+        <BingoButton class="themeSwitcher" :class="{active : currentTheme === 'insane'}" @clicked="switchInsane">
           {{ $t('you.theme.themeButtons.insane') }}
         </BingoButton>
       </div>
     </HeadlineContentPair>
-    <BingoButton backgroundColor="var(--cardBackground)" color="var(--foreground)" :onClick="signOut">{{ $t('you.logOut') }}</BingoButton>
+    <BingoButton backgroundColor="var(--cardBackground)" color="var(--foreground)" @clicked="signOut">{{ $t('you.logOut') }}</BingoButton>
   </div>
 </template>
 

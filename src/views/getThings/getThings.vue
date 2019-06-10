@@ -1,6 +1,6 @@
 <template>
   <div class="getThings">
-    <BingoButton class="newRequestButton" :onClick="handleNewClick">{{ $t('getThings.newRequest') }}</BingoButton>
+    <BingoButton class="newRequestButton" @clicked="handleNewClick">{{ $t('getThings.newRequest') }}</BingoButton>
     <div class="yourJobs">
       <JobListView :loading="loading">
         <div class="job" v-for="(job, index) in myJobs" :key="index">

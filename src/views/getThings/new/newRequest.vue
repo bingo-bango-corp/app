@@ -3,7 +3,7 @@
     <input type="text" v-model="what" placeholder="what do u want"/>
     <input type="text" v-model="where" placeholder="where u want it"/>
     <input type="number" v-model="tip" placeholder="how much € u wanna tip"/>
-    <BingoButton :onClick="submit">submit</BingoButton>
+    <BingoButton @clicked="submit">submit</BingoButton>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default class newRequest extends Vue {
   async submit() {
     const location = this.$store.getters.currentLocation
 
-    const jobAdd = await this.jobs.new(location[0], location[1], {
+    await this.jobs.new(location[0], location[1], {
       description:this.where,
       thing: this.what,
       tip: {

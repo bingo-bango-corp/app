@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <BingoButton :onClick="signInWithGoogle">Sign in with Google</BingoButton>
-    <BingoButton :onClick="signInWithFacebook">Sign in with Facebook</BingoButton>
+    <BingoButton @clicked="signInWithGoogle">Sign in with Google</BingoButton>
+    <BingoButton @clicked="signInWithFacebook">Sign in with Facebook</BingoButton>
   </div>
 </template>
 
