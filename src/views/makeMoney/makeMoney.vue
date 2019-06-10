@@ -46,7 +46,7 @@ export default class makeMoney extends Vue {
       backgroundColor: 'var(--secondary)',
       onClick: (event: any) => {
         event.event.stopPropagation()
-        
+        this.takeJob(event.meta.jobId)
       }
     },
   ]
