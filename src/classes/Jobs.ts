@@ -45,7 +45,7 @@ export default class Jobs {
 
   field: string = 'point'
   jobsCollection: geofirex.GeoFireCollectionRef = 
-    geo.collection('jobs')
+    geo.collection('jobs', ref => ref.where('state', '==', 'unassigned'))
 
   constructor() {
     if (!store.state.profile.data.uid) throw new Error('No user profile found.')
