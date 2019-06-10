@@ -27,6 +27,7 @@ export default class Location extends VuexModule {
 
   @Action({ commit: 'writeLocationData' })
   async updateLocation(): Promise<LocationType> {
+    this.data.loading = true
     const request = await geolocationRequest().catch((e) => {
       return {
         permission: false
