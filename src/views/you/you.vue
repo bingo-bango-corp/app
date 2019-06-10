@@ -40,6 +40,7 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator'
 import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
+import setUpNotifications from '@/util/setUpNotifications'
 
 @Component({
   components: {
@@ -49,6 +50,10 @@ import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
   }
 })
 export default class makeMoney extends Vue {
+  mounted() {
+    setUpNotifications(this.$store.state.profile.data.uid)
+  }
+
   get accounts() {
     return this.$store.state.profile.data.byAuthProvider
   }

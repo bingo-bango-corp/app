@@ -1,11 +1,13 @@
 // ~config/firebase.js
 import * as Firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/messaging'
 
 import firebaseConfig from './config/firebase'
 
 export default () => {
   Firebase.initializeApp(firebaseConfig)
+  Firebase.messaging().usePublicVapidKey(process.env.VUE_APP_FIREBASE_MESSAGING_KEY)
   if (window.matchMedia('(display-mode: standalone)').matches) {
     console.log('Enabling Offline Mode')
     return new Promise<void>((resolve, reject) => {

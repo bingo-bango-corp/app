@@ -1,30 +1,34 @@
-import { register } from 'register-service-worker';
+import { register } from 'register-service-worker'
+import firebase from 'firebase/app'
+import '@firebase/messaging'
 
-if (process.env.NODE_ENV === 'production') {
+export default () => {
+  const messaging = firebase.messaging()
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(
         'App is being served from cache by a service worker.\n' +
         'For more details, visit https://goo.gl/AFskqB',
-      );
+      )
     },
-    registered() {
-      console.log('Service worker has been registered.');
+    registered(registration) {
+      messaging.useServiceWorker(registration)
+      console.log('Service worker has been registered.')
     },
     cached() {
-      console.log('Content has been cached for offline use.');
+      console.log('Content has been cached for offline use.')
     },
     updatefound() {
-      console.log('New content is downloading.');
+      console.log('New content is downloading.')
     },
     updated() {
-      (window as any).updateAvailable = true;
+      (window as any).updateAvailable = true
     },
     offline() {
-      console.log('No internet connection found. App is running in offline mode.');
+      console.log('No internet connection found. App is running in offline mode.')
     },
     error(error) {
-      console.error('Error during service worker registration:', error);
+      console.error('Error during service worker registration:', error)
     },
-  });
+  })
 }

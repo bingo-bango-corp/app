@@ -11,7 +11,10 @@ module.exports = {
   },
   configureWebpack: {
     plugins: [
-      new WorkboxPlugin.GenerateSW()
+      new WorkboxPlugin.InjectManifest({
+        swSrc: './src/sw.js',
+        swDest: 'service-worker.js'
+      })
     ]
   }
 }

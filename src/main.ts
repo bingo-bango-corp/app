@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './registerServiceWorker'
+import registerServiceWorker from './registerServiceWorker'
 
 import initFirebase from './initFirebase'
 
@@ -20,6 +20,7 @@ Vue.use(VueMeta)
 
 const initializeApp = async () => {
   await initFirebase()
+  registerServiceWorker()
   firebase.auth().onAuthStateChanged(async user => {
     if (user) {
       await store.dispatch('updateProfileFromFirebase')
