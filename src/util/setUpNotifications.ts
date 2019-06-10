@@ -17,6 +17,13 @@ export default async (uid: string) => {
   messaging.onTokenRefresh(async () => {
     handleMessageTokenUpdate(db, messaging, uid)
   })
+
+  messaging.onMessage(payload => {
+    const {title, ...options} = payload.notification;
+    navigator.serviceWorker.ready.then(registration => {
+      registration.showNotification(title, options)
+    })
+  })
 }
 
 const handleMessageTokenUpdate = async (
