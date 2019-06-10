@@ -1,10 +1,12 @@
 import * as geofirex from 'geofirex'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/functions'
 import { Observable } from 'rxjs/internal/Observable';
 import store from '@/store'
 const geo = geofirex.init(firebase)
 const db = firebase.firestore()
+const takeJob = firebase.functions().httpsCallable('takeJob')
 
 import { PublicProfile } from '@/store/models/profile'
 import { DocumentReference } from '@firebase/firestore-types';
@@ -45,7 +47,7 @@ export default class Jobs {
 
   field: string = 'point'
   jobsCollection: geofirex.GeoFireCollectionRef = 
-    geo.collection('jobs', ref => ref.where('state', '==', 'unassigned'))
+  geo.collection('jobs', ref => ref.where('state', '==', 'unassigned'))
 
   constructor() {
     if (!store.state.profile.data.uid) throw new Error('No user profile found.')
@@ -78,7 +80,10 @@ export default class Jobs {
     const point = geo.point(lat, long)
     const query = 
       this.jobsCollection.within(point, radius, this.field)
-    return geofirex.get(query)
+
+    const jobs = await geofirex.get(query)
+
+    return jobs.filter((job: any) => job.owner.uid != this.myPublicProfile.uid)
   }
 
   public async getOwn(): Promise<JobList> {
@@ -117,5 +122,14 @@ export default class Jobs {
   ): Observable<geofirex.GeoQueryDocument[]> {
     const point = geo.point(lat, long)
     return this.jobsCollection.within(point, radius, this.field)
+  }
+
+  public async takeJob(
+    jobID: string
+  ): Promise<firebase.functions.HttpsCallableResult> {
+    return takeJob({
+      jobID: jobID,
+      uid: this.myPublicProfile.uid
+    })
   }
 }
