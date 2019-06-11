@@ -43,7 +43,6 @@ const handleMessageTokenUpdate = async (
 }
 
 const writeTokenToUser = (db: any, token: string, uid: string) => {
-  console.log(`writing token ${token} to ${uid}`)
   return db
     .collection('users')
     .doc(uid)

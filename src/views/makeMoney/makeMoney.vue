@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import Jobs from '@/classes/Jobs'
+import { queryNearbyJobs, takeJob } from '@/helpers/jobs'
 import JobListView from '@/components/JobListView'
 import { JobCard } from 'simsalabim-design'
 import { Route } from 'vue-router'
@@ -45,7 +45,6 @@ Component.registerHooks([
   computed: mapState('currentJob', ['data'])
 })
 export default class makeMoney extends Vue {
-  jobs = new Jobs
   loading = false
   selected: number | null = null
 
@@ -81,7 +80,8 @@ export default class makeMoney extends Vue {
     const location = this.$store.getters.currentLocation
     this.loading = true
 
-    const nearbyJobs = await this.jobs.query(
+    const nearbyJobs = await queryNearbyJobs(
+      this.$store.getters.uid,
       location[0], 
       location[1], 
       this.radius
@@ -99,7 +99,7 @@ export default class makeMoney extends Vue {
 
   async takeJob(id: string) {
     this.loading = true
-    await this.jobs.takeJob(id)
+    await takeJob(this.$store.getters.uid, id)
     this.$router.push('/make-money/current-job/')
   }
 

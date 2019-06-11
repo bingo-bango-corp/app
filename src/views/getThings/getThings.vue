@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Jobs, { JobList } from '@/classes/Jobs'
+import { getOwnJobs, JobList } from '@/helpers/jobs'
 import JobListView from '@/components/JobListView'
 import { BingoButton, JobCard } from 'simsalabim-design'
 
@@ -36,7 +36,6 @@ import { BingoButton, JobCard } from 'simsalabim-design'
   }
 })
 export default class getThings extends Vue {
-  jobs = new Jobs
   myJobs: JobList = []
   loading: boolean = true
 
@@ -46,7 +45,7 @@ export default class getThings extends Vue {
 
   async mounted() {
     this.loading = true
-    this.myJobs = await this.jobs.getOwn()
+    this.myJobs = await getOwnJobs(this.$store.getters.uid)
     this.loading = false
   }
 } 

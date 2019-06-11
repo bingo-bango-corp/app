@@ -22,6 +22,11 @@ export default class Profile extends VuexModule {
     }
   }
 
+  get uid(): string | null {
+    if (this.data.loggedIn) return this.data.uid
+    return null
+  }
+
   @Mutation
   writeProfile(profile: ProfileType) {
     this.data = profile

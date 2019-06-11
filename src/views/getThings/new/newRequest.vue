@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Vue, Component, Model } from 'vue-property-decorator'
-import Jobs from '@/classes/Jobs'
+import { createJob } from '@/helpers/jobs'
 import { BingoButton } from 'simsalabim-design'
 
 @Component({
@@ -18,7 +18,6 @@ import { BingoButton } from 'simsalabim-design'
   }
 })
 export default class newRequest extends Vue {
-  jobs = new Jobs
   what: string = ''
   where: string = ''
   tip: number | null = null
@@ -30,14 +29,19 @@ export default class newRequest extends Vue {
   async submit() {
     const location = this.$store.getters.currentLocation
 
-    await this.jobs.new(location[0], location[1], {
-      description:this.where,
-      thing: this.what,
-      tip: {
-        cents: this.tip! * 100,
-        currency: 'EUR'
+    await createJob(
+      this.$store.getters.uid,
+      location[0], 
+      location[1], 
+      {
+        description:this.where,
+        thing: this.what,
+        tip: {
+          cents: this.tip! * 100,
+          currency: 'EUR'
+        }
       }
-    })
+    )
 
     this.where = ''
     this.what = ''
