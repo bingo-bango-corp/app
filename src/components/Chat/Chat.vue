@@ -49,10 +49,17 @@ export default class Chat extends Vue {
       jobID: this.jobData.id
     })
 
-    this.otherPersonsPublicProfile = (await firebase.firestore()
+    const ref = await firebase.firestore()
       .collection('users')
       .doc((this.jobData as any)[this.otherPersonsRole].uid)
-      .get()).data() as PublicProfile
+      .get()
+
+    const result = ref.data() as PublicProfile
+
+    this.otherPersonsPublicProfile = {
+      ...result,
+      uid: ref.id
+    }
   }
 
   get otherPersonsRole() {
@@ -98,6 +105,7 @@ export default class Chat extends Vue {
 
   sendMessage() {
     clearTimeout(this.typingTimeout)
+    this.isTyping = false
 
     this.$store.dispatch('chat/insert', {
       message: this.messageText
