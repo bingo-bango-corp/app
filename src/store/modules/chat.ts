@@ -1,9 +1,9 @@
-const myModule = {
-  firestorePath: 'chats/{chatId}',
-  firestoreRefType: 'doc',
+const chat = {
+  firestorePath: 'jobs/{jobID}/chat',
+  firestoreRefType: 'collection',
   moduleName: 'chat',
   statePropName: 'data',
   namespaced: true,
 }
 
-export default myModule
+export default chat

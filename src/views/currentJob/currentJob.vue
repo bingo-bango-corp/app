@@ -12,6 +12,7 @@
       :locale="$i18n.locale"
       :collapsed="false"
     />
+    <Chat :jobData="data" />
   </div>
 </template>
 
@@ -22,6 +23,8 @@ import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
 
+import Chat from '@/components/Chat'
+
 Component.registerHooks([
   'beforeRouteEnter'
 ])
@@ -29,7 +32,8 @@ Component.registerHooks([
 @Component({
   computed: mapState('currentJob', ['data']),
   components: {
-    JobCard
+    JobCard,
+    Chat
   }
 })
 export default class currentJob extends Vue {
