@@ -2,19 +2,12 @@ import * as geofirex from 'geofirex'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/functions'
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs/internal/Observable'
+import { PublicProfileRef } from '@/store/models/profile'
 import store from '@/store'
-const geo = geofirex.init(firebase)
-const db = firebase.firestore()
-const takeJob = firebase.functions().httpsCallable('takeJob')
 
 import { PublicProfile } from '@/store/models/profile'
-import { DocumentReference } from '@firebase/firestore-types';
-
-export interface UidProfilePair {
-  profile: DocumentReference,
-  uid: string
-}
+import { Job } from '@/store/models/job'
 
 export interface JobData {
   description: string
@@ -23,31 +16,25 @@ export interface JobData {
     cents: number
     currency: string
   }
-  assigne?: UidProfilePair | undefined
-}
-
-export interface JobModel extends JobData {
-  timestamp: any
-  point: {
-    geopoint: geofirex.firestore.GeoPoint
-    geohash: string
-  }
-  owner: UidProfilePair
-  state: 'unassigned' | 'assigned' | 'delivered' | 'cancelled'
+  assigne?: PublicProfileRef | undefined
 }
 
 
 export interface JobList extends Array<any> {
-  [key: number]: JobModel
+  [key: number]: Job
 }
 
 
 export default class Jobs {
+  geo = geofirex.init(firebase)
+  db = firebase.firestore()
+  takeJobFunction = firebase.functions().httpsCallable('takeJob')
+
   myPublicProfile: PublicProfile
 
   field: string = 'point'
   jobsCollection: geofirex.GeoFireCollectionRef = 
-  geo.collection('jobs', ref => ref.where('state', '==', 'unassigned'))
+  this.geo.collection('jobs', ref => ref.where('state', '==', 'unassigned'))
 
   constructor() {
     if (!store.state.profile.data.uid) throw new Error('No user profile found.')
@@ -59,13 +46,13 @@ export default class Jobs {
     long: number,
     jobData: JobData
   ): Promise<geofirex.firestore.DocumentReference> {
-    const data: JobModel = {
+    const data: Job = {
       ...jobData,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      point: geo.point(lat, long).data,
+      point: this.geo.point(lat, long).data,
       owner: {
         uid: this.myPublicProfile.uid,
-        profile: db.collection('users').doc(this.myPublicProfile.uid)
+        profile: this.db.collection('users').doc(this.myPublicProfile.uid)
       },
       state: 'unassigned'
     } 
@@ -77,7 +64,7 @@ export default class Jobs {
     long: number, 
     radius: number
   ): Promise<any> {
-    const point = geo.point(lat, long)
+    const point = this.geo.point(lat, long)
     const query = 
       this.jobsCollection.within(point, radius, this.field)
 
@@ -87,7 +74,7 @@ export default class Jobs {
   }
 
   public async getOwn(): Promise<JobList> {
-    const query = db.collection('jobs').where("owner.uid", "==", this.myPublicProfile.uid)
+    const query = this.db.collection('jobs').where("owner.uid", "==", this.myPublicProfile.uid)
     const snapshot = await query.get()
     let result: JobList = []
 
@@ -99,7 +86,7 @@ export default class Jobs {
   }
 
   public async getProfileForUid(uid: string): Promise<PublicProfile> {
-    const query = db.collection('users').doc(uid)
+    const query = this.db.collection('users').doc(uid)
     const snapshot = await query.get()
 
     if (snapshot.exists) {
@@ -120,14 +107,14 @@ export default class Jobs {
     long: number, 
     radius: number
   ): Observable<geofirex.GeoQueryDocument[]> {
-    const point = geo.point(lat, long)
+    const point = this.geo.point(lat, long)
     return this.jobsCollection.within(point, radius, this.field)
   }
 
   public async takeJob(
     jobID: string
   ): Promise<void> {
-    await takeJob({
+    await this.takeJobFunction({
       jobID: jobID,
       uid: this.myPublicProfile.uid
     })
@@ -136,4 +123,21 @@ export default class Jobs {
       jobID: jobID
     })
   }
+
+  public async updateCurrentJobStore() {
+    if (store.state.currentJob.data.state) return Promise.resolve()
+
+    const snap = await this.db
+      .collection('jobs')
+      .where('assignee.uid', '==', this.myPublicProfile.uid)
+      .where('state', '==', 'assigned')
+      .get()
+
+    if (!snap.empty) {
+      await store.dispatch('currentJob/openDBChannel', {
+        jobID: snap.docs[0].id
+      })
+    }
+  }
+  
 }

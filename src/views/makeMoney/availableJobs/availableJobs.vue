@@ -24,27 +24,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import Jobs from '@/classes/Jobs'
 import JobListView from '@/components/JobListView'
 import { JobCard } from 'simsalabim-design'
-import { Route } from 'vue-router'
-import store from '@/store'
-import { mapState } from 'vuex';
-import { Job } from '../../store/models/job';
-
-Component.registerHooks([
-  'beforeRouteEnter'
-])
 
 @Component({
   components: {
     JobCard,
     JobListView
-  },
-  computed: mapState('currentJob', ['data'])
+  }
 })
-export default class makeMoney extends Vue {
+export default class availableJobs extends Vue {
   jobs = new Jobs
   loading = false
   selected: number | null = null
@@ -63,13 +54,6 @@ export default class makeMoney extends Vue {
   nearbyJobs: Array<any> = []
   radius: number = .5
 
-  async beforeRouteEnter(to: Route, from: Route, next: Function) {
-    if (store.state.currentJob.data.state) 
-      next('/make-money/current-job')
-    else
-      next()
-  } 
- 
   async mounted() {
     this.loading = true
     await this.$store.dispatch('updateLocation')
@@ -100,14 +84,8 @@ export default class makeMoney extends Vue {
   async takeJob(id: string) {
     this.loading = true
     await this.jobs.takeJob(id)
-    this.$router.push('/make-money/current-job/')
-  }
-
-  @Watch('data')
-  onDataChanged(val: Job, oldVal: Job) {
-    if (val.state) this.$router.push('/make-money/current-job')
   }
 }
 </script>
 
-<style scoped lang="sass" src="./makeMoney.sass">
+<style scoped lang="sass" src="./availableJobs.sass">

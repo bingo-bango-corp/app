@@ -29,6 +29,15 @@ export const routes: RouteList = [
     }
   },
   {
+    path: '/make-money/current-job',
+    name: 'currentJob',
+    component: () => import(/* webpackChunkName: "currentJob" */ './views/currentJob'),
+    meta: {
+      requiresAuth: true,
+      layout: 'default'
+    }
+  },
+  {
     path: '/get-things',
     name: 'getThings',
     component: () => import(/* webpackChunkName: "getThings" */ './views/getThings'),
