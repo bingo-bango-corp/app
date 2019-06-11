@@ -6,7 +6,7 @@
       </div>
     </transition>
     <transition-group class="items" name="fade-translate">
-      <slot></slot>
+      <slot v-if="!loading"></slot>
     </transition-group>
   </div>
 </template>

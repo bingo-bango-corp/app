@@ -82,8 +82,8 @@ export default class makeMoney extends Vue {
   }
 
   async takeJob(id: string) {
-    const res = await this.jobs.takeJob(id)
-    console.log(res)
+    this.loading = true
+    await this.jobs.takeJob(id)
   }
 }
 </script>
