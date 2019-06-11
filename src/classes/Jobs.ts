@@ -126,10 +126,14 @@ export default class Jobs {
 
   public async takeJob(
     jobID: string
-  ): Promise<firebase.functions.HttpsCallableResult> {
-    return takeJob({
+  ): Promise<void> {
+    await takeJob({
       jobID: jobID,
       uid: this.myPublicProfile.uid
+    })
+
+    store.dispatch('currentJob/openDBChannel', {
+      jobID: jobID
     })
   }
 }
