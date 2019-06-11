@@ -1,5 +1,5 @@
 <template>
-  <div class="currentJob">
+  <div class="jobView">
     <JobCard class="jobCard"
       :title="data.thing"
       :jobId="data.id"
@@ -12,59 +12,42 @@
       :locale="$i18n.locale"
       :collapsed="false"
     />
-    <Chat :jobData="data" iAm="assignee" />
+    <Chat :jobData="data" iAm="owner" />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { JobCard } from 'simsalabim-design'
+import { subscribeToJob } from '@/helpers/jobs'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
 
 import Chat from '@/components/Chat'
 
-Component.registerHooks([
-  'beforeRouteEnter'
-])
-
 @Component({
-  computed: mapState('currentJob', ['data']),
+  computed: mapState('viewedJob', ['data']),
   components: {
     JobCard,
     Chat
   }
 })
-export default class currentJob extends Vue {
+export default class jobView extends Vue {
   jobActions = [
     {
-      title: '✅ Delivered',
-      backgroundColor: 'var(--primary)',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-      }
-    },
-    {
-      title: '🚫 I can\'t pick it up',
+      title: '🚫 Cancel job',
       backgroundColor: '#EB5757',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-      }
-    },
-    {
-      title: '💬 Send a message',
       onClick: (event: any) => {
         event.event.stopPropagation()
       }
     },
   ]
 
-  async beforeRouteEnter(to: Route, from: Route, next: Function) {
-    if (!store.state.currentJob.data.state) next('/')
-    next()
+  async mounted() {
+    await subscribeToJob(this.$route.params.id)
   }
 }
 </script>
 
-<style scoped lang="sass" src="./currentJob.sass">
+<style scoped lang="sass" src="./jobView.sass">

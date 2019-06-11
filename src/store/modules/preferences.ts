@@ -1,6 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { preferences } from '@/store/models/preferences'
-import { themes, theme } from 'simsalabim-design'
+import { themes, theme } from 'simsalabim-design'
 import { setThemeColorForTheme } from '@/util/setThemeColor'
 
 @Module

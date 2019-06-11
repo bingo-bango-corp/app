@@ -18,7 +18,9 @@ export interface JobData {
   assigne?: PublicProfileRef | undefined
 }
 
-export interface JobList extends Array<Job> {}
+export interface JobList {
+  [id: string]: Job
+}
 
 export const createJob = (
   uid: string,
@@ -74,9 +76,12 @@ export const getOwnJobs = async (
   const snapshot = 
     await db.collection('jobs').where("owner.uid", "==", uid).get()
   
-  let result: JobList = []
+  let result: any = {}
 
-  snapshot.forEach(s => result.push(s.data() as Job))
+  snapshot.forEach(s => result = {
+    ...result,
+    [s.id]: s.data()
+  })
 
   return result
 }
@@ -112,6 +117,14 @@ export const updateCurrentJobStore = async (
     await store.dispatch('currentJob/openDBChannel', {
       jobID: snap.docs[0].id
     })
+}
+
+export const subscribeToJob = async (
+  jobID: string
+) => {
+  await store.dispatch('viewedJob/openDBChannel', {
+    jobID: jobID
+  })
 }
 
 export const doesCurrentJobExist = (): boolean => {

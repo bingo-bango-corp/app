@@ -3,7 +3,7 @@ import firebase from 'firebase/app'
 import '@firebase/messaging'
 
 export default () => {
-  const messaging = firebase.messaging()
+  /*const messaging = firebase.messaging()
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(
@@ -30,5 +30,5 @@ export default () => {
     error(error) {
       console.error('Error during service worker registration:', error)
     },
-  })
+  })*/
 }

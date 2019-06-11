@@ -6,19 +6,22 @@
         {{ message.message }}
       </div>
     </div>
-    <BingoInput v-model="messageText" />
-    <button @click="sendMessage">send message</button>
+    <BingoInput v-model="messageText" @input="typing"/>
+    {{ isOtherPersonTyping }}
+    <button @click="sendMessage" @change="typing">send message</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 import { BingoInput } from 'simsalabim-design'
 
 import { Job } from '../../store/models/job';
+import { arrayUnion, arrayRemove } from 'vuex-easy-firestore';
+import { PublicProfile } from '../../store/models/profile';
 
 @Component({
   components: {
@@ -27,12 +30,19 @@ import { Job } from '../../store/models/job';
 })
 export default class Chat extends Vue {
   messageText = ''
-  otherPersonsPublicProfile: Job | null = null
+  otherPersonsPublicProfile: PublicProfile | null = null
+  isTyping = false
+  typingTimeout: number | undefined = undefined
 
   @Prop({
     type: Object,
     required: true
   }) readonly jobData!: Job
+
+  @Prop({
+    type: String,
+    required: true
+  }) readonly iAm!: 'owner' | 'assignee'
 
   async mounted() {
     this.$store.dispatch('chat/openDBChannel', {
@@ -41,16 +51,30 @@ export default class Chat extends Vue {
 
     this.otherPersonsPublicProfile = (await firebase.firestore()
       .collection('users')
-      .doc(this.jobData.owner.uid)
-      .get()).data() as Job
+      .doc((this.jobData as any)[this.otherPersonsRole].uid)
+      .get()).data() as PublicProfile
+  }
+
+  get otherPersonsRole() {
+    switch (this.iAm) {
+      case 'owner':
+        return 'assignee'
+      default:
+        return 'owner'
+    }
   }
 
   get messages() {
-    return this.$store.state.chat.data
+    return Object.values(this.$store.state.chat.data).filter((m: any) => m.id != 'typing')
   }
 
   get myProfile() {
     return this.$store.getters.publicProfile
+  }
+
+  get isOtherPersonTyping() {
+    if (!this.otherPersonsPublicProfile) return false
+    return this.$store.state.chat.data.typing[this.otherPersonsPublicProfile.uid] || false
   }
 
   profileForUid(uid: string) {
@@ -59,12 +83,35 @@ export default class Chat extends Vue {
       : this.otherPersonsPublicProfile
   }
 
+  typing() {
+    this.isTyping = true
+    this.updateTypingTimeout()
+  }
+
+  updateTypingTimeout() {
+    clearTimeout(this.typingTimeout)
+
+    this.typingTimeout = setTimeout(() => {
+      this.isTyping = false
+    }, 2000)
+  }
+
   sendMessage() {
+    clearTimeout(this.typingTimeout)
+
     this.$store.dispatch('chat/insert', {
       message: this.messageText
     })
 
     this.messageText = ''
+  }
+
+  @Watch('isTyping')
+  onTypingChanged(val: boolean) {
+    this.$store.dispatch('chat/set', {
+      id: 'typing',
+      [this.myProfile.uid]: val
+    })
   }
 }
 </script>

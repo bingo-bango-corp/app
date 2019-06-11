@@ -59,6 +59,15 @@ export const routes: RouteList = [
     }
   },
   {
+    path: '/get-things/:id',
+    name: 'jobView',
+    component: () => import(/* webpackChunkName: "jobView" */ './views/jobView'),
+    meta: {
+      requiresAuth: true,
+      layout: 'default'
+    }
+  },
+  {
     path: '/you',
     name: 'you',
     component: () => import(/* webpackChunkName: "you" */ './views/you'),
