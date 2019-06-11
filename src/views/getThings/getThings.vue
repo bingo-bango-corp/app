@@ -47,7 +47,6 @@ export default class getThings extends Vue {
       backgroundColor: 'var(--secondary)',
       onClick: (event: any) => {
         event.event.stopPropagation()
-        console.log(event)
         router.push(`/get-things/${event.meta.jobId}`)
       }
     },
