@@ -20,7 +20,6 @@ import 'firebase/firestore'
 import { BingoInput } from 'simsalabim-design'
 
 import { Job } from '../../store/models/job';
-import { arrayUnion, arrayRemove } from 'vuex-easy-firestore';
 import { PublicProfile } from '../../store/models/profile';
 
 @Component({
