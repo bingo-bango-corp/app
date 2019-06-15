@@ -6,7 +6,7 @@ import store from "@/store"
 import { RouteList } from 'simsalabim-design'
 import { RouteConfig } from 'vue-router'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export const routes: RouteList = [
   {
@@ -80,22 +80,42 @@ export const routes: RouteList = [
       layout: 'default'
     }
   },
+  {
+    path: '/permissions',
+    name: 'pems',
+    component: () => import(/* webpackChunkName: "permissions" */ './views/permissions'),
+    meta: {
+      requiresAuth: true,
+      layout: 'plain'
+    },
+  },
 ]
 
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: <RouteConfig[]>routes
-});
+})
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const currentPermissions = store.getters['permissions/currentPermissions']
+
+  if (!currentPermissions.checked) await store.dispatch('permissions/updatePermissions')
+
   if (!requiresAuth) next()
   else if (
     requiresAuth &&
-    store.state.profile.data.loggedIn == false
-    ) next("login")
-  else next()
-});
+    store.state.profile.data.loggedIn == false &&
+    to.path !== '/login'
+    ) next('login')
+  else if (
+    requiresAuth &&
+    !store.state.permissions.data.allRequiredGranted &&
+    to.path !== '/permissions'
+  ) {
+    next('/permissions')
+  } else next()
+})
 
 export default router;

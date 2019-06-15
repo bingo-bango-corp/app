@@ -12,7 +12,6 @@ export default class Location extends VuexModule {
     if (this.data.permission)
       return this.data.location
     else
-      console.warn('No location available')
       return null
   }
 
@@ -27,19 +26,22 @@ export default class Location extends VuexModule {
 
   @Action({ commit: 'writeLocationData' })
   async updateLocation(): Promise<LocationType> {
-    const request = await geolocationRequest().catch((e) => {
+    try {
+      const request = await geolocationRequest()
       return {
-        permission: false
+        permission: true,
+        loading: false,
+        location: [
+          request.coords.latitude,
+          request.coords.longitude
+        ],
+        accuracy: request.coords.accuracy,
       }
-    })
-    return {
-      permission: true,
-      loading: false,
-      location: [
-        request.coords.latitude,
-        request.coords.longitude
-      ],
-      accuracy: request.coords.accuracy,
+    } catch(e) {
+      return {
+        loading: false,
+        permission: false,
+      }
     }
   }
 }
@@ -48,6 +50,8 @@ const geolocationRequest = (): Promise<any> => {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(function (position) {
       resolve(position)
+    }, (e) => {
+      reject(e)
     })
   })
 }

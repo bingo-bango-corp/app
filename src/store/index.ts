@@ -12,6 +12,7 @@ import chat from './modules/chat'
 import currentJob from './modules/currentJob'
 import viewedJob from './modules/viewedJob'
 import location from './modules/location'
+import permissions from './modules/permissions'
 
 const easyFirestore = VuexEasyFirestore(
   [chat, currentJob, viewedJob],
@@ -26,6 +27,7 @@ const vuexLocal = new VuexPersistence({
 const store = new Vuex.Store({
   state: {},
   modules: {
+    permissions,
     profile,
     preferences,
     location
