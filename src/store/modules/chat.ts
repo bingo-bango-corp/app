@@ -17,6 +17,7 @@ const chat = {
     }
   },
   sync: {
+    orderBy: ['seconds'],
     guard: ['created_at', 'updated_at']
   }
 }
