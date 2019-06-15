@@ -1,7 +1,27 @@
-.Chat
-  .messages
-    .message
-      margin: 16px 0
+.chatContainer
+  width: 100%
+  position: relative
+  .Chat
+    .messages
+      padding-bottom: 130px
+      .message
+        margin: 16px 0
+    .typingIndicator
+      position: absolute
+    .inputBar
+      position: fixed
+      bottom: 63px
+      box-sizing: border-box
+      opacity: 0
+      transition: opacity 1s 1s
+      display: flex
+      background-color: var(--background)
+      padding: 8px 8px 16px 8px
+      border-radius: 16px 16px 0 0
+      .input
+        margin-right: 8px
+        &::before
+          background-color: var(--background)
 .list-item
   display: inline-block
   margin-right: 10px
@@ -17,4 +37,3 @@
 .fade-translate-enter, .fade-translate-leave-to
   transform: translateY(10px)
   opacity: 0
-  

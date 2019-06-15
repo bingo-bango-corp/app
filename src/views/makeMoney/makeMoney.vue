@@ -60,7 +60,7 @@ export default class makeMoney extends Vue {
   ]
   
   nearbyJobs: Array<any> = []
-  radius: number = .5
+  radius: number = 5
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (store.state.currentJob.data.state) 

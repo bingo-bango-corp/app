@@ -1,24 +1,40 @@
-<template>
-  <transition name="fade-translate">
-    <div v-if="!loading" class="Chat">
-      <div class="messages">
-        <transition-group name="list">
-          <ChatMessage 
-            v-for="message in $store.getters['chat/messages']"
-            class="message"
-            :key="message.id"
-            :displayName="profileForUid(message.created_by).displayName"
-            :photoURL="profileForUid(message.created_by).photoURL"
-            :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
-            :message="message.message"
+<template ref="chat">
+  <div class="chatContainer" ref="chat"> 
+    <transition name="fade-translate">
+      <div v-if="!loading" class="Chat">
+        <div class="messages">
+          <transition-group name="list">
+            <ChatMessage 
+              v-for="message in $store.getters['chat/messages']"
+              class="message"
+              :key="message.id"
+              :displayName="profileForUid(message.created_by).displayName"
+              :photoURL="profileForUid(message.created_by).photoURL"
+              :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
+              :message="message.message"
+            />
+          </transition-group>
+          <div v-if="isOtherPersonTyping" class="typingIndicator">
+            {{ otherPersonsPublicProfile.displayName }} is typing
+          </div>
+        </div>
+        <div class="inputBar"
+          :style="{
+            width: containerWidth,
+            left: containerLeft,
+            opacity: 1
+          }"
+        >
+          <BingoInput 
+            class="input"
+            v-model="messageText"
+            @input="typing"
           />
-        </transition-group>
+          <BingoButton @clicked="sendMessage">Send</BingoButton>
+        </div>
       </div>
-      <BingoInput v-model="messageText" @input="typing"/>
-      {{ isOtherPersonTyping }}
-      <button @click="sendMessage" @change="typing">send message</button>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
@@ -26,7 +42,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { BingoInput, ChatMessage } from 'simsalabim-design'
+import { BingoInput, ChatMessage, BingoButton } from 'simsalabim-design'
 
 import { Job } from '../../store/models/job';
 import { PublicProfile } from '../../store/models/profile';
@@ -34,7 +50,8 @@ import { PublicProfile } from '../../store/models/profile';
 @Component({
   components: {
     BingoInput,
-    ChatMessage
+    ChatMessage,
+    BingoButton
   }
 })
 export default class Chat extends Vue {
@@ -89,6 +106,7 @@ export default class Chat extends Vue {
 
   get isOtherPersonTyping() {
     if (!this.otherPersonsPublicProfile) return false
+    if (!this.$store.getters['chat/typing']) return false
     return this.$store.getters['chat/typing'][this.otherPersonsPublicProfile.uid] || false
   }
 
@@ -117,12 +135,14 @@ export default class Chat extends Vue {
 
     this.$store.dispatch('chat/insert', {
       message: this.messageText,
-      created_at: {
-        seconds: new Date()
-      }
+      seconds: new Date()
     })
 
     this.messageText = ''
+
+    await this.$nextTick
+
+    document.getElementById('app')!.scrollTo(0,document.getElementById('app')!.scrollHeight)
   }
 
   @Watch('isTyping')
@@ -135,6 +155,14 @@ export default class Chat extends Vue {
 
   async beforeDestroy() {
     await this.$store.dispatch('chat/closeDBChannel', {clearModule: true})
+  }
+
+  get containerWidth() {
+    return this.$refs.chat ? `${(this.$refs.chat as HTMLDivElement).offsetWidth}px` : '0px'
+  }
+
+  get containerLeft() {
+    return this.$refs.chat ? `${(this.$refs.chat as HTMLDivElement).getBoundingClientRect().left}px` : '0px'
   }
 }
 </script>

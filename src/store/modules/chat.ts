@@ -6,10 +6,10 @@ const chat = {
   namespaced: true,
   getters: {
     messages: (state: any) => {
-      return Object.values(state.data).sort((a: any, b: any) => {
-        return a.created_at.seconds - b.created_at.seconds
-      }).filter((d: any) => {
+      return Object.values(state.data).filter((d: any) => {
         return d.id !== 'typing'
+      }).sort((a: any, b: any) => {
+        return a.seconds - b.seconds
       })
     },
     typing: (state: any) => {
