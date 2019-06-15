@@ -15,6 +15,9 @@ const chat = {
     typing: (state: any) => {
       return state.data.typing
     }
+  },
+  sync: {
+    guard: ['created_at', 'updated_at']
   }
 }
 

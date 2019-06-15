@@ -4,7 +4,7 @@
       <div class="messages">
         <transition-group name="list">
           <ChatMessage 
-            v-for="message in messages"
+            v-for="message in $store.getters['chat/messages']"
             class="message"
             :key="message.id"
             :displayName="profileForUid(message.created_by).displayName"
@@ -83,10 +83,6 @@ export default class Chat extends Vue {
     }
   }
 
-  get messages() {
-    return this.$store.getters['chat/messages']
-  }
-
   get myProfile() {
     return this.$store.getters.publicProfile
   }
@@ -115,12 +111,15 @@ export default class Chat extends Vue {
     }, 2000)
   }
 
-  sendMessage() {
+  async sendMessage() {
     clearTimeout(this.typingTimeout)
     this.isTyping = false
 
     this.$store.dispatch('chat/insert', {
-      message: this.messageText
+      message: this.messageText,
+      created_at: {
+        seconds: new Date()
+      }
     })
 
     this.messageText = ''
