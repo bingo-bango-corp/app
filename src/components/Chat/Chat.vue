@@ -14,9 +14,9 @@
               :message="message.message"
             />
           </transition-group>
-          <div v-if="isOtherPersonTyping" class="typingIndicator">
-            {{ otherPersonsPublicProfile.displayName }} is typing
-          </div>
+          <transition name="list">
+            <TypingIndicator v-if="isOtherPersonTyping" :pictureURL="otherPersonsPublicProfile.pictureURL" />
+          </transition>
         </div>
         <div class="inputBar"
           :style="{
@@ -42,7 +42,12 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { BingoInput, ChatMessage, BingoButton } from 'simsalabim-design'
+import { 
+  BingoInput,
+  ChatMessage,
+  BingoButton,
+  TypingIndicator,
+} from 'simsalabim-design'
 
 import { Job } from '../../store/models/job';
 import { PublicProfile } from '../../store/models/profile';
@@ -51,7 +56,8 @@ import { PublicProfile } from '../../store/models/profile';
   components: {
     BingoInput,
     ChatMessage,
-    BingoButton
+    BingoButton,
+    TypingIndicator
   }
 })
 export default class Chat extends Vue {
