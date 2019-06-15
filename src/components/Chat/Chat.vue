@@ -1,10 +1,15 @@
 <template>
   <div class="Chat">
     <div class="messages">
-      <div class="message" v-for="message in messages" :key="message.id">
-        {{ profileForUid(message.created_by).displayName }}
-        {{ message.message }}
-      </div>
+      <ChatMessage 
+        v-for="message in messages"
+        class="message"
+        :key="message.id"
+        :displayName="profileForUid(message.created_by).displayName"
+        :photoURL="profileForUid(message.created_by).photoUrl"
+        :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
+        :message="message.message"
+      />
     </div>
     <BingoInput v-model="messageText" @input="typing"/>
     {{ isOtherPersonTyping }}
@@ -17,14 +22,15 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { BingoInput } from 'simsalabim-design'
+import { BingoInput, ChatMessage } from 'simsalabim-design'
 
 import { Job } from '../../store/models/job';
 import { PublicProfile } from '../../store/models/profile';
 
 @Component({
   components: {
-    BingoInput
+    BingoInput,
+    ChatMessage
   }
 })
 export default class Chat extends Vue {
