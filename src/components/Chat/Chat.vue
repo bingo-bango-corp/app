@@ -1,20 +1,24 @@
 <template>
-  <div class="Chat">
-    <div class="messages">
-      <ChatMessage 
-        v-for="message in messages"
-        class="message"
-        :key="message.id"
-        :displayName="profileForUid(message.created_by).displayName"
-        :photoURL="profileForUid(message.created_by).photoURL"
-        :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
-        :message="message.message"
-      />
+  <transition name="fade-translate">
+    <div v-if="!loading" class="Chat">
+      <div class="messages">
+        <transition-group name="list">
+          <ChatMessage 
+            v-for="message in messages"
+            class="message"
+            :key="message.id"
+            :displayName="profileForUid(message.created_by).displayName"
+            :photoURL="profileForUid(message.created_by).photoURL"
+            :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
+            :message="message.message"
+          />
+        </transition-group>
+      </div>
+      <BingoInput v-model="messageText" @input="typing"/>
+      {{ isOtherPersonTyping }}
+      <button @click="sendMessage" @change="typing">send message</button>
     </div>
-    <BingoInput v-model="messageText" @input="typing"/>
-    {{ isOtherPersonTyping }}
-    <button @click="sendMessage" @change="typing">send message</button>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -38,6 +42,7 @@ export default class Chat extends Vue {
   otherPersonsPublicProfile: PublicProfile | null = null
   isTyping = false
   typingTimeout: number | undefined = undefined
+  loading = true
 
   @Prop({
     type: Object,
@@ -50,7 +55,7 @@ export default class Chat extends Vue {
   }) readonly iAm!: 'owner' | 'assignee'
 
   async created() {
-    this.$store.dispatch('chat/openDBChannel', {
+    await this.$store.dispatch('chat/openDBChannel', {
       jobID: this.jobData.id
     })
 
@@ -65,6 +70,8 @@ export default class Chat extends Vue {
       ...result,
       uid: ref.id
     }
+
+    this.loading = false
   }
 
   get otherPersonsRole() {

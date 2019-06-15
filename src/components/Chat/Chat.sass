@@ -2,3 +2,19 @@
   .messages
     .message
       margin: 16px 0
+.list-item
+  display: inline-block
+  margin-right: 10px
+.list-enter-active, .list-leave-active 
+  transition: all .3s
+.list-enter, .list-leave-to
+  opacity: 0
+  transform: translateY(20px)
+.flip-list-move
+  transition: transform .3s
+.fade-translate-enter-active, .fade-translate-leave-active
+  transition: all .3s ease-out
+.fade-translate-enter, .fade-translate-leave-to
+  transform: translateY(10px)
+  opacity: 0
+  
