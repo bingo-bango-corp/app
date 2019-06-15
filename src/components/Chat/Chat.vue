@@ -25,7 +25,7 @@
             opacity: 1
           }"
         >
-          <BingoInput 
+          <BingoInput
             class="input"
             v-model="messageText"
             @input="typing"
