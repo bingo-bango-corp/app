@@ -6,7 +6,7 @@
         class="message"
         :key="message.id"
         :displayName="profileForUid(message.created_by).displayName"
-        :photoURL="profileForUid(message.created_by).photoUrl"
+        :photoURL="profileForUid(message.created_by).photoURL"
         :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
         :message="message.message"
       />
@@ -49,7 +49,7 @@ export default class Chat extends Vue {
     required: true
   }) readonly iAm!: 'owner' | 'assignee'
 
-  async mounted() {
+  async created() {
     this.$store.dispatch('chat/openDBChannel', {
       jobID: this.jobData.id
     })

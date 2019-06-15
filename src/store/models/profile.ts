@@ -7,14 +7,14 @@ export type ProfileType = {
   uid: string,
   email?: string,
   displayName?: string,
-  photoUrl?: string,
+  photoURL?: string,
   emailVerified: boolean,
   byAuthProvider: Array<any>
 }
 export interface PublicProfile {
   uid: string,
   displayName?: string,
-  photoUrl?: string,
+  photoURL?: string,
 }
 
 export interface PublicProfileRef {

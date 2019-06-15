@@ -14,7 +14,7 @@ export default class Profile extends VuexModule {
     if (this.data.loggedIn) {
       return {
         uid: this.data.uid,
-        photoUrl: this.data.photoUrl,
+        photoURL: this.data.photoURL,
         displayName: this.data.displayName
       }
     } else {
@@ -57,7 +57,7 @@ export default class Profile extends VuexModule {
         uid: user.uid,
         email: user.email || undefined,
         displayName: displayName || user.displayName || undefined,
-        photoUrl: photoURL || user.photoURL || undefined,
+        photoURL: photoURL || user.photoURL || undefined,
         emailVerified: user.emailVerified,
         byAuthProvider: user.providerData
       } 
