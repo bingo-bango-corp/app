@@ -126,6 +126,11 @@ export default class Chat extends Vue {
       [this.myProfile.uid]: val
     })
   }
+
+  async beforeDestroy() {
+    await this.$store.dispatch('chat/closeDBChannel', {clearModule: true})
+    console.log('closed')
+  }
 }
 </script>
 

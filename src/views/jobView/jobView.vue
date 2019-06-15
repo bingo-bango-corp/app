@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { JobCard } from 'simsalabim-design'
-import { subscribeToJob } from '@/helpers/jobs'
+import { subscribeToJob, unsubscribeFromJob } from '@/helpers/jobs'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
@@ -46,6 +46,10 @@ export default class jobView extends Vue {
 
   async mounted() {
     await subscribeToJob(this.$route.params.id)
+  }
+
+  async beforeDestroy() {
+    await unsubscribeFromJob()
   }
 }
 </script>

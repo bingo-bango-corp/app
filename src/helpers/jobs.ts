@@ -127,6 +127,12 @@ export const subscribeToJob = async (
   })
 }
 
+export const unsubscribeFromJob = async () => {
+  await store.dispatch('viewedJob/closeDBChannel', {
+    clearModule: true
+  })
+}
+
 export const doesCurrentJobExist = (): boolean => {
   return (store.state.currentJob.data.state)
 }
