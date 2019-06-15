@@ -84,7 +84,7 @@ export default class Chat extends Vue {
   }
 
   get messages() {
-    return Object.values(this.$store.state.chat.data).filter((m: any) => m.id != 'typing')
+    return this.$store.getters['chat/messages']
   }
 
   get myProfile() {
@@ -93,7 +93,7 @@ export default class Chat extends Vue {
 
   get isOtherPersonTyping() {
     if (!this.otherPersonsPublicProfile) return false
-    return this.$store.state.chat.data.typing[this.otherPersonsPublicProfile.uid] || false
+    return this.$store.getters['chat/typing'][this.otherPersonsPublicProfile.uid] || false
   }
 
   profileForUid(uid: string) {
@@ -136,7 +136,6 @@ export default class Chat extends Vue {
 
   async beforeDestroy() {
     await this.$store.dispatch('chat/closeDBChannel', {clearModule: true})
-    console.log('closed')
   }
 }
 </script>
