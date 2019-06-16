@@ -18,7 +18,7 @@
             :message="message.message"
           />
           <transition name="list">
-            <TypingIndicator v-if="isOtherPersonTyping" :pictureURL="otherPersonsPublicProfile.pictureURL" />
+            <TypingIndicator v-if="isOtherPersonTyping" :pictureURL="otherPersonsPublicProfile.photoURL" />
           </transition>
         </div>
         <div class="inputBar">
@@ -58,6 +58,7 @@ import { PublicProfile } from '../../store/models/profile';
   }
 })
 export default class Chat extends Vue {
+  testdata = false
   messageText = ''
   otherPersonsPublicProfile: PublicProfile | null = null
   isTyping = false
@@ -108,6 +109,7 @@ export default class Chat extends Vue {
   }
 
   get isOtherPersonTyping() {
+    console.log(this.$store.getters['chat/typing'])
     if (!this.otherPersonsPublicProfile) return false
     if (!this.$store.getters['chat/typing']) return false
     return this.$store.getters['chat/typing'][this.otherPersonsPublicProfile.uid] || false
@@ -152,6 +154,7 @@ export default class Chat extends Vue {
   onTypingChanged(val: boolean) {
     this.$store.dispatch('chat/set', {
       id: 'typing',
+      seconds: new Date(),
       [this.myProfile.uid]: val
     })
   }
