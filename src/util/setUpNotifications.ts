@@ -8,11 +8,9 @@ export default async (uid: string) => {
 
   const permission = await Notification.requestPermission()
 
-  if (permission != 'granted') {
+  if (permission !== 'granted') {
     return Promise.reject()
   }
-
-  handleMessageTokenUpdate(db, messaging, uid)
 
   messaging.onTokenRefresh(async () => {
     handleMessageTokenUpdate(db, messaging, uid)
@@ -24,6 +22,8 @@ export default async (uid: string) => {
       registration.showNotification(title, options)
     })
   })
+
+  await handleMessageTokenUpdate(db, messaging, uid)
 }
 
 const handleMessageTokenUpdate = async (
@@ -38,8 +38,6 @@ const handleMessageTokenUpdate = async (
   }
 
   await writeTokenToUser(db, token, uid)
-
-  return Promise.resolve()
 }
 
 const writeTokenToUser = (db: any, token: string, uid: string) => {
