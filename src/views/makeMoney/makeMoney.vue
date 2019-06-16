@@ -30,8 +30,8 @@ import JobListView from '@/components/JobListView'
 import { JobCard } from 'simsalabim-design'
 import { Route } from 'vue-router'
 import store from '@/store'
-import { mapState } from 'vuex';
-import { Job } from '../../store/models/job';
+import { mapState } from 'vuex'
+import { Job } from '../../store/models/job'
 
 Component.registerHooks([
   'beforeRouteEnter'
