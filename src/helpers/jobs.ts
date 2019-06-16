@@ -153,5 +153,5 @@ export const unsubscribeFromJob = async () => {
 }
 
 export const doesCurrentJobExist = (): boolean => {
-  return (store.state.currentJob.data.state)
+  return (store.state.currentJob._sync.signedIn)
 }
