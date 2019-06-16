@@ -112,9 +112,11 @@ export const updateCurrentJobStore = async (
     .get()
 
   if (!snap.empty) {
-    await store.dispatch('currentJob/openDBChannel', {
-      jobID: snap.docs[0].id
-    })
+    if (!doesCurrentJobExist()) {
+      await store.dispatch('currentJob/openDBChannel', {
+        jobID: snap.docs[0].id
+      })
+    }
   } else {
     if (doesCurrentJobExist()) {
       store.dispatch('currentJob/closeDBChannel', {clearModule: true})
