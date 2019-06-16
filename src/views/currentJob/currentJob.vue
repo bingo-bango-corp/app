@@ -23,12 +23,13 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { JobCard } from 'simsalabim-design'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
 import { updateCurrentJobStore } from '@/helpers/jobs'
+import { Job } from '../../store/models/job'
 
 import Chat from '@/components/Chat'
 
@@ -63,7 +64,7 @@ export default class currentJob extends Vue {
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (!store.state.currentJob.data.state) next('/')
-    await updateCurrentJobStore(this.$store.getters.uid)
+    await updateCurrentJobStore(store.getters.uid)
     next()
   }
   
@@ -75,6 +76,11 @@ export default class currentJob extends Vue {
 
   scrollChatToTop() {
     (this.$refs.chat as any).scrollToTop()
+  }
+
+  @Watch('data')
+  onDataChanged(val: Job, oldVal: Job) {
+    if (val.state !== 'assigned') this.$router.push('/make-money')
   }
 }
 </script>
