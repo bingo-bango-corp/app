@@ -159,13 +159,19 @@ export default class Chat extends Vue {
   }
 
   previousScrollStatus: boolean | undefined = undefined
+  previousHeight: number | undefined = undefined
 
   handleScroll() {
-    const atTop = (this.$refs.messagesContainer as HTMLDivElement).scrollTop === 0
-    if (this.previousScrollStatus != atTop) {
+    const elem = this.$refs.messagesContainer as HTMLDivElement
+    const atTop = elem.scrollTop === 0
+    const height = elem.getBoundingClientRect().height
+
+    if (this.previousScrollStatus != atTop && this.previousHeight === height) {
       this.$emit('scrollStatus', atTop)
       this.previousScrollStatus = atTop
+      this.previousHeight = height
     }
+    this.previousHeight = height
   }
 
   public scrollToTop() {

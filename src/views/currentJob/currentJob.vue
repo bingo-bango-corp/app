@@ -77,7 +77,7 @@ export default class currentJob extends Vue {
   }
 
   scrollChatToTop() {
-    (this.$refs.chat as any).scrollToTop()
+    this.cardShouldBeCollapsed = !this.cardShouldBeCollapsed
   }
 
   @Watch('data')
