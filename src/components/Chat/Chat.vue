@@ -2,29 +2,26 @@
   <div class="chatContainer" ref="chat"> 
     <transition name="fade-translate">
       <div v-if="!loading" class="Chat">
-        <div class="messages">
-          <transition-group name="list">
-            <ChatMessage 
-              v-for="message in $store.getters['chat/messages']"
-              class="message"
-              :key="message.id"
-              :displayName="profileForUid(message.created_by).displayName"
-              :photoURL="profileForUid(message.created_by).photoURL"
-              :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
-              :message="message.message"
-            />
-          </transition-group>
+        <div 
+          class="messages" 
+          v-chat-scroll="{always: false}"
+          @scroll="handleScroll"
+          ref="messagesContainer"
+        >
+          <ChatMessage 
+            v-for="message in $store.getters['chat/messages']"
+            class="message"
+            :key="message.id"
+            :displayName="profileForUid(message.created_by).displayName"
+            :photoURL="profileForUid(message.created_by).photoURL"
+            :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
+            :message="message.message"
+          />
           <transition name="list">
             <TypingIndicator v-if="isOtherPersonTyping" :pictureURL="otherPersonsPublicProfile.pictureURL" />
           </transition>
         </div>
-        <div class="inputBar"
-          :style="{
-            width: containerWidth,
-            left: containerLeft,
-            opacity: 1
-          }"
-        >
+        <div class="inputBar">
           <BingoInput
             class="input"
             v-model="messageText"
@@ -159,16 +156,27 @@ export default class Chat extends Vue {
     })
   }
 
+  previousScrollStatus: boolean | undefined = undefined
+
+  handleScroll() {
+    const atTop = (this.$refs.messagesContainer as HTMLDivElement).scrollTop === 0
+    if (this.previousScrollStatus != atTop) {
+      this.$emit('scrollStatus', atTop)
+      this.previousScrollStatus = atTop
+    }
+  }
+
+  public scrollToTop() {
+    const elem = (this.$refs.messagesContainer as HTMLDivElement)
+    const c = elem.scrollTop
+    if (c > 0) {
+      window.requestAnimationFrame(this.scrollToTop)
+      elem.scrollTo(0, c - c / 4)
+    }
+  }
+
   async beforeDestroy() {
     await this.$store.dispatch('chat/closeDBChannel', {clearModule: true})
-  }
-
-  get containerWidth() {
-    return this.$refs.chat ? `${(this.$refs.chat as HTMLDivElement).offsetWidth}px` : '0px'
-  }
-
-  get containerLeft() {
-    return this.$refs.chat ? `${(this.$refs.chat as HTMLDivElement).getBoundingClientRect().left}px` : '0px'
   }
 }
 </script>

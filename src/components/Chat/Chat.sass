@@ -1,27 +1,29 @@
 .chatContainer
-  width: 100%
+  flex: 1
+  min-height: 0
   position: relative
   .Chat
+    height: 100%
+    display: flex
+    flex-direction: column
     .messages
-      padding-bottom: 130px
+      overflow: scroll
+      margin-top: -12px
+      z-index: 0
+      padding-top: 12px
+      margin-bottom: -60px
+      padding-bottom: 64px
       .message
         margin: 16px 0
     .typingIndicator
       position: absolute
     .inputBar
-      position: fixed
-      bottom: 63px
-      box-sizing: border-box
-      opacity: 0
-      transition: opacity 1s 1s
+      background: linear-gradient(rgba(0,0,0,0), var(--background) 75%)
+      margin: 0 0 16px 0
       display: flex
-      background-color: var(--background)
-      padding: 8px 8px 16px 8px
-      border-radius: 16px 16px 0 0
+      z-index: 1
       .input
         margin-right: 8px
-        &::before
-          background-color: var(--background)
 .list-item
   display: inline-block
   margin-right: 10px

@@ -10,9 +10,15 @@
         currency: data.tip.currency
       }"
       :locale="$i18n.locale"
-      :collapsed="false"
+      :collapsed="cardShouldBeCollapsed"
+      @click.native="scrollChatToTop"
     />
-    <Chat :jobData="data" iAm="assignee" />
+    <Chat 
+      :jobData="data"
+      iAm="assignee"
+      ref="chat"
+      @scrollStatus="handleScrollUpdate"
+    />
   </div>
 </template>
 
@@ -52,17 +58,21 @@ export default class currentJob extends Vue {
         event.event.stopPropagation()
       }
     },
-    {
-      title: '💬 Send a message',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-      }
-    },
   ]
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (!store.state.currentJob.data.state) next('/')
     next()
+  }
+  
+  cardShouldBeCollapsed = false
+
+  handleScrollUpdate(scrollStatus: boolean) {
+    this.cardShouldBeCollapsed = !scrollStatus
+  }
+
+  scrollChatToTop() {
+    (this.$refs.chat as any).scrollToTop()
   }
 }
 </script>

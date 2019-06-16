@@ -11,12 +11,14 @@ import 'firebase/auth'
 
 import i18n from './i18n'
 import VueMeta from 'vue-meta'
+import VueChatScroll from 'vue-chat-scroll'
 
 Vue.config.productionTip = false
 
 let app: Object
 
 Vue.use(VueMeta)
+Vue.use(VueChatScroll)
 
 const initializeApp = async () => {
   await initFirebase()
