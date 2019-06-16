@@ -16,6 +16,7 @@ import layouts from '@/layouts'
 import { ThemeProvider } from 'simsalabim-design'
 import { setThemeColorForTheme } from '@/util/setThemeColor'
 import { updateCurrentJobStore } from '@/helpers/jobs'
+import setUpNotifications from '@/util/setUpNotifications'
 
 @Component({
   components: {
@@ -26,11 +27,13 @@ import { updateCurrentJobStore } from '@/helpers/jobs'
 export default class App extends Vue {
   async created() {
     await updateCurrentJobStore(this.$store.getters.uid)
+    await setUpNotifications(this.$store.getters.uid)
   }
 
   mounted() {
     setThemeColorForTheme(this.$store.getters.currentThemeObject)
   }
+
   get desiredLayout() {
     return this.$route.meta ? this.$route.meta.layout || 'plain' : 'plain'
   }

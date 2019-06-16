@@ -50,10 +50,6 @@ import setUpNotifications from '@/util/setUpNotifications'
   }
 })
 export default class makeMoney extends Vue {
-  mounted() {
-    setUpNotifications(this.$store.state.profile.data.uid)
-  }
-
   get accounts() {
     return this.$store.state.profile.data.byAuthProvider
   }
