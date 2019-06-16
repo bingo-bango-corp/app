@@ -28,7 +28,7 @@ import { JobCard } from 'simsalabim-design'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
-import { updateCurrentJobStore } from '@/helpers/jobs'
+import { updateCurrentJobStore, dropJob } from '@/helpers/jobs'
 import { Job } from '../../store/models/job'
 
 import Chat from '@/components/Chat'
@@ -56,15 +56,17 @@ export default class currentJob extends Vue {
     {
       title: '🚫 I can\'t pick it up',
       backgroundColor: '#EB5757',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
+      onClick: async (event: any) => {
+        await dropJob(this.$store.getters.uid, this.$store.state.currentJob.data.id)
+        await updateCurrentJobStore(this.$store.getters.uid)
+        this.$router.push('/make-money')
       }
     },
   ]
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
-    if (!store.state.currentJob.data.state) next('/')
     await updateCurrentJobStore(store.getters.uid)
+    if (!store.state.currentJob.data.state) next('/make-money')
     next()
   }
   
@@ -80,7 +82,8 @@ export default class currentJob extends Vue {
 
   @Watch('data')
   onDataChanged(val: Job, oldVal: Job) {
-    if (val.state !== 'assigned') this.$router.push('/make-money')
+    console.log(val.state)
+    if (val.state != 'assigned') this.$router.push('/make-money')
   }
 }
 </script>

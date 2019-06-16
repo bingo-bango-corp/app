@@ -74,7 +74,9 @@ export const getOwnJobs = async (
   const db = firebase.firestore()
 
   const snapshot = 
-    await db.collection('jobs').where("owner.uid", "==", uid).get()
+    await db.collection('jobs')
+      .where("owner.uid", "==", uid)
+      .get()
   
   let result: any = {}
 
@@ -84,6 +86,18 @@ export const getOwnJobs = async (
   })
 
   return result
+}
+
+export const dropJob = async (
+  uid: string,
+  jobID: string
+): Promise<void> => {
+  await firebase.functions().httpsCallable('dropJob')({
+    jobID: jobID,
+    uid: uid
+  })
+
+  await unsubscribeFromJob()
 }
 
 export const takeJob = async (
