@@ -3,27 +3,29 @@ import '@firebase/messaging'
 import '@firebase/firestore'
 
 export default async (uid: string) => {
-  const db = firebase.firestore()
-  const messaging = firebase.messaging()
+  if (process.env.NODE_ENV === 'production') {
+    const db = firebase.firestore()
+    const messaging = firebase.messaging()
 
-  const permission = await Notification.requestPermission()
+    const permission = await Notification.requestPermission()
 
-  if (permission !== 'granted') {
-    return Promise.reject()
-  }
+    if (permission !== 'granted') {
+      return Promise.reject()
+    }
 
-  messaging.onTokenRefresh(async () => {
-    handleMessageTokenUpdate(db, messaging, uid)
-  })
-
-  messaging.onMessage(payload => {
-    const {title, ...options} = payload.notification;
-    navigator.serviceWorker.ready.then(registration => {
-      registration.showNotification(title, options)
+    messaging.onTokenRefresh(async () => {
+      handleMessageTokenUpdate(db, messaging, uid)
     })
-  })
 
-  await handleMessageTokenUpdate(db, messaging, uid)
+    messaging.onMessage(payload => {
+      const {title, ...options} = payload.notification;
+      navigator.serviceWorker.ready.then(registration => {
+        registration.showNotification(title, options)
+      })
+    })
+
+    await handleMessageTokenUpdate(db, messaging, uid)
+  }
 }
 
 const handleMessageTokenUpdate = async (
