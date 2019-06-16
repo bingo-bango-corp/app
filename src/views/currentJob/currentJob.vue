@@ -28,6 +28,7 @@ import { JobCard } from 'simsalabim-design'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
+import { updateCurrentJobStore } from '@/helpers/jobs'
 
 import Chat from '@/components/Chat'
 
@@ -62,6 +63,7 @@ export default class currentJob extends Vue {
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
     if (!store.state.currentJob.data.state) next('/')
+    await updateCurrentJobStore(this.$store.getters.uid)
     next()
   }
   

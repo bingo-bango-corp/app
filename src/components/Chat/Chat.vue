@@ -109,7 +109,6 @@ export default class Chat extends Vue {
   }
 
   get isOtherPersonTyping() {
-    console.log(this.$store.getters['chat/typing'])
     if (!this.otherPersonsPublicProfile) return false
     if (!this.$store.getters['chat/typing']) return false
     return this.$store.getters['chat/typing'][this.otherPersonsPublicProfile.uid] || false

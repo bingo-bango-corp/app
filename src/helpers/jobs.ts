@@ -103,8 +103,6 @@ export const takeJob = async (
 export const updateCurrentJobStore = async (
   uid: string
 ) => {
-  if (doesCurrentJobExist()) return Promise.resolve()
-
   const db = firebase.firestore()
 
   const snap = await db
@@ -113,10 +111,15 @@ export const updateCurrentJobStore = async (
     .where('state', '==', 'assigned')
     .get()
 
-  if (!snap.empty)
+  if (!snap.empty) {
     await store.dispatch('currentJob/openDBChannel', {
       jobID: snap.docs[0].id
     })
+  } else {
+    if (doesCurrentJobExist()) {
+      store.dispatch('currentJob/closeDBChannel', {clearModule: true})
+    }
+  }  
 }
 
 export const subscribeToJob = async (
