@@ -1,8 +1,23 @@
 <template>
   <div class="newRequest">
-    <input type="text" v-model="what" placeholder="what do u want"/>
-    <input type="text" v-model="where" placeholder="where u want it"/>
-    <input type="number" v-model="tip" placeholder="how much € u wanna tip"/>
+    <HeadlineContentPair
+      headline="🍔 What do you want?"
+      description=""
+    >
+      <BingoInput v-model="what" placeholder="Keep it simple and specific"/>
+    </HeadlineContentPair>
+    <HeadlineContentPair
+      headline="🗺 Where do you want it?"
+      description=""
+    >
+      <BingoInput v-model="where" placeholder="Details like Doorbell name"/>
+    </HeadlineContentPair>
+    <HeadlineContentPair
+      headline="How much do you want to tip?"
+      description=""
+    >
+      <BingoInput type="number" v-model="tip" placeholder="Enter amount of tip in Euro"/>
+    </HeadlineContentPair>
     <BingoButton @clicked="submit">submit</BingoButton>
   </div>
 </template>
@@ -10,11 +25,13 @@
 <script lang="ts">
 import { Vue, Component, Model } from 'vue-property-decorator'
 import { createJob } from '@/helpers/jobs'
-import { BingoButton } from 'simsalabim-design'
+import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
 
 @Component({
   components: {
-    BingoButton
+    BingoButton,
+    HeadlineContentPair,
+    BingoInput
   }
 })
 export default class newRequest extends Vue {
