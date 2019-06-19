@@ -16,20 +16,10 @@ export default async () => {
       },
       async registered(registration) {
         await messaging.useServiceWorker(registration)
-        console.log('Service worker has been registered.')
         return Promise.resolve()
-      },
-      cached() {
-        console.log('Content has been cached for offline use.')
-      },
-      updatefound() {
-        console.log('New content is downloading.')
       },
       updated() {
         (window as any).updateAvailable = true
-      },
-      offline() {
-        console.log('No internet connection found. App is running in offline mode.')
       },
       error(error) {
         return Promise.reject(error)
