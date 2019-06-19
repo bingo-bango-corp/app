@@ -22,7 +22,7 @@ Vue.use(VueChatScroll)
 
 const initializeApp = async () => {
   await initFirebase()
-  registerServiceWorker()
+  await registerServiceWorker()
   firebase.auth().onAuthStateChanged(async user => {
     if (user) {
       await store.dispatch('updateProfileFromFirebase')

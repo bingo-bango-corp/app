@@ -4,8 +4,11 @@ import '@firebase/firestore'
 
 export default async (uid: string) => {
   if (process.env.NODE_ENV === 'production') {
+    const registration = await navigator.serviceWorker.ready
     const db = firebase.firestore()
     const messaging = firebase.messaging()
+
+    await messaging.useServiceWorker(registration)
 
     const permission = await Notification.requestPermission()
 
