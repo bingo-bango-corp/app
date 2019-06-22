@@ -40,7 +40,6 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator'
 import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
-import setUpNotifications from '@/util/setUpNotifications'
 
 @Component({
   components: {
