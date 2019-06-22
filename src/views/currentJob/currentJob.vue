@@ -1,35 +1,22 @@
 <template>
   <div class="currentJob">
-    <JobCard class="jobCard"
-      :title="data.thing"
-      :jobId="data.id"
-      :description="data.description"
+    <JobChatView
       :actions="jobActions"
-      :tip="{
-        cents: data.tip.cents,
-        currency: data.tip.currency
-      }"
-      :locale="$i18n.locale"
-      :collapsed="cardShouldBeCollapsed"
-      @click.native="scrollChatToTop"
-    />
-    <Chat 
-      :jobData="data"
-      iAm="assignee"
-      ref="chat"
-      @scrollStatus="handleScrollUpdate"
+      :job="data"
+      :forceLoading="forceLoading"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { JobCard } from 'simsalabim-design'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
 import { updateCurrentJobStore, dropJob } from '@/helpers/jobs'
 import { Job } from '../../store/models/job'
+
+import JobChatView from '@/components/JobChatView'
 
 import Chat from '@/components/Chat'
 
@@ -40,11 +27,12 @@ Component.registerHooks([
 @Component({
   computed: mapState('currentJob', ['data']),
   components: {
-    JobCard,
-    Chat
+    JobChatView
   }
 })
 export default class currentJob extends Vue {
+  forceLoading: boolean = false
+
   jobActions = [
     {
       title: '✅ Delivered',
@@ -57,6 +45,7 @@ export default class currentJob extends Vue {
       title: '🚫 I can\'t pick it up',
       backgroundColor: '#EB5757',
       onClick: async (event: any) => {
+        this.forceLoading = true
         await dropJob(this.$store.getters.uid, this.$store.state.currentJob.data.id)
         await updateCurrentJobStore(this.$store.getters.uid)
         this.$router.push('/make-money')
@@ -68,16 +57,6 @@ export default class currentJob extends Vue {
     await updateCurrentJobStore(store.getters.uid)
     if (!store.state.currentJob.data.state) next('/make-money')
     next()
-  }
-  
-  cardShouldBeCollapsed = false
-
-  handleScrollUpdate(scrollStatus: boolean) {
-    this.cardShouldBeCollapsed = !scrollStatus
-  }
-
-  scrollChatToTop() {
-    this.cardShouldBeCollapsed = !this.cardShouldBeCollapsed
   }
 
   @Watch('data')
