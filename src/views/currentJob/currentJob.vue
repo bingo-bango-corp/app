@@ -14,7 +14,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import store from '@/store'
 import { Route } from 'vue-router'
 import { mapState } from 'vuex'
-import { updateCurrentJobStore, dropJob } from '@/helpers/jobs'
+import { updateCurrentJobStore, dropJob, unsubscribeFromJob } from '@/helpers/jobs'
 import { Job } from '../../store/models/job'
 
 import JobChatView from '@/components/JobChatView'
@@ -68,6 +68,7 @@ export default class currentJob extends Vue {
   onDataChanged(val: string, oldVal: string) {
     if (val === 'cancelled') {
       this.$router.push('/make-money')
+      unsubscribeFromJob()
     }
   }
 }
