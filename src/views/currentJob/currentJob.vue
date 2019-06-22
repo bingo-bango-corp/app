@@ -66,7 +66,7 @@ export default class currentJob extends Vue {
 
   @Watch('data')
   onDataChanged(val: Job, oldVal: Job) {
-    if (val.state != 'assigned') this.$router.push('/make-money')
+    if (val.state !== 'assigned') this.$router.push('/make-money')
   }
 }
 </script>
