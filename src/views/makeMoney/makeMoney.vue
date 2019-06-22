@@ -63,7 +63,10 @@ export default class makeMoney extends Vue {
   radius: number = 5
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
-    if (store.state.currentJob.data.state) 
+    if (
+      store.state.currentJob.data.state &&
+      store.state.currentJob.data.state === 'assigned'
+    )
       next('/make-money/current-job')
     else
       next()
