@@ -21,7 +21,7 @@
         />
         <Chat 
           :jobData="job"
-          iAm="assignee"
+          :iAm="iAmAn"
           @scrollStatus="handleScrollUpdate"
         />
       </div>
