@@ -112,10 +112,13 @@ router.beforeEach(async (to, from, next) => {
   else if (
     requiresAuth &&
     !store.state.permissions.data.allRequiredGranted &&
-    to.path !== '/permissions'
+    to.path !== '/permissions' &&
+    process.env.NODE_ENV === 'production'
   ) {
     next('/permissions')
-  } else next()
+  } else {
+    next()
+  }
 })
 
 export default router;
