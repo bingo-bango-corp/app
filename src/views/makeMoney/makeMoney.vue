@@ -72,7 +72,7 @@ export default class makeMoney extends Vue {
       next()
   } 
  
-  async mounted() {
+  async created() {
     this.loading = true
     await this.$store.dispatch('updateLocation')
     await this.updateNearbyJobs()
