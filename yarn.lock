@@ -8239,10 +8239,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simsalabim-design@^0.5.7:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.5.7.tgz#43266d7275667d9fb04f54cb641a9fb6cb7e2bc3"
-  integrity sha512-lnTXrOHfLoRz6uXiNaJ487w7gde5Qv71xr9GAsYpDBCjUYNvOW0YP3qtQ3+uljCv0+8aiX4z7stBR0b6uDWLpA==
+simsalabim-design@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/simsalabim-design/-/simsalabim-design-0.5.9.tgz#7b0c5bd77016eff8115c68c94f77ed42a8d32e49"
+  integrity sha512-CufZLi9QVqb3ajclZoQgEhO8WLItw4+yWZglbFC0bg2q/HTzvkFIJuAsw48HGEBgioWdH9wlw9kD/lPO6bA4PA==
   dependencies:
     core-js "^2.6.5"
     vue "^2.6.10"
