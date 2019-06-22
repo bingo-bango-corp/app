@@ -88,6 +88,16 @@ export const getOwnJobs = async (
   return result
 }
 
+export const cancelJob = async (
+  jobID: string,
+  uid: string
+): Promise<void> => {
+  await firebase.app().functions('europe-west1').httpsCallable('cancelJob')({
+    jobID: jobID,
+    uid: uid
+  })
+}
+
 export const dropJob = async (
   uid: string,
   jobID: string
