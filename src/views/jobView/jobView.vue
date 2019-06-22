@@ -4,6 +4,7 @@
       :actions="jobActions"
       :job="data"
       :forceLoading="forceLoading"
+      @actionClicked="handleActionClicked"
     />
   </div>
 </template>
@@ -32,10 +33,13 @@ export default class jobView extends Vue {
       backgroundColor: '#EB5757',
       onClick: (event: any) => {
         event.event.stopPropagation()
-        this.forceLoading = true
       }
     },
   ]
+
+  handleActionClicked(): void {
+    this.forceLoading = true
+  }
 
   async beforeCreate() {
     await subscribeToJob(this.$route.params.id)

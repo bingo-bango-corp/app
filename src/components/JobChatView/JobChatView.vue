@@ -17,6 +17,7 @@
           :locale="$i18n.locale"
           :collapsed="cardShouldBeCollapsed"
           @click.native="scrollChatToTop"
+          @actionClicked="$emit('actionClicked')"
         />
         <Chat 
           :jobData="job"

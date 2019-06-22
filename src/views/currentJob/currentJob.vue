@@ -4,6 +4,7 @@
       :actions="jobActions"
       :job="data"
       :forceLoading="forceLoading"
+      @actionClicked="handleActionClicked"
     />
   </div>
 </template>
@@ -52,6 +53,10 @@ export default class currentJob extends Vue {
       }
     },
   ]
+
+  handleActionClicked(): void {
+    this.forceLoading = true
+  }
 
   async beforeRouteEnter(to: Route, from: Route, next: Function) {
     await updateCurrentJobStore(store.getters.uid)
