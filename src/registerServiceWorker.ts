@@ -7,7 +7,6 @@ export default async () => {
     const messaging = firebase.messaging()
     register(`${process.env.BASE_URL}service-worker.js`, {
       async ready(registration) {
-        await messaging.useServiceWorker(registration)
         console.log(
           'App is being served from cache by a service worker.\n' +
           'For more details, visit https://goo.gl/AFskqB',
@@ -15,7 +14,6 @@ export default async () => {
         return Promise.resolve()
       },
       async registered(registration) {
-        await messaging.useServiceWorker(registration)
         return Promise.resolve()
       },
       updated() {

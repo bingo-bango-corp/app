@@ -16,7 +16,7 @@ import layouts from '@/layouts'
 import { ThemeProvider } from 'simsalabim-design'
 import { setThemeColorForTheme } from '@/util/setThemeColor'
 import { updateCurrentJobStore } from '@/helpers/jobs'
-import setUpNotifications from '@/util/setUpNotifications'
+import { setUpServiceWorker } from '@/util/setUpNotifications'
 
 @Component({
   components: {
@@ -25,9 +25,9 @@ import setUpNotifications from '@/util/setUpNotifications'
   }
 })
 export default class App extends Vue {
-  async created() {
+  async beforeCreate() {
     await updateCurrentJobStore(this.$store.getters.uid)
-    await setUpNotifications(this.$store.getters.uid)
+    await setUpServiceWorker()
   }
 
   mounted() {

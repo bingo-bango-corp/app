@@ -1,23 +1,29 @@
 import firebase from 'firebase/app'
+import store from '@/store'
 import '@firebase/messaging'
 import '@firebase/firestore'
 
 export default async (uid: string) => {
   if (process.env.NODE_ENV === 'production') {
-    const registration = await navigator.serviceWorker.ready
-    const db = firebase.firestore()
-    const messaging = firebase.messaging()
-
-    await messaging.useServiceWorker(registration)
-
     const permission = await Notification.requestPermission()
 
     if (permission !== 'granted') {
       return Promise.reject()
     }
 
+    handleMessageTokenUpdate()
+  }
+}
+
+export const setUpServiceWorker = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    const registration = await navigator.serviceWorker.ready
+    const messaging = firebase.messaging()
+
+    await messaging.useServiceWorker(registration)
+
     messaging.onTokenRefresh(async () => {
-      handleMessageTokenUpdate(db, messaging, uid)
+      handleMessageTokenUpdate()
     })
 
     messaging.onMessage(payload => {
@@ -26,17 +32,15 @@ export default async (uid: string) => {
         registration.showNotification(title, options)
       })
     })
-
-    await handleMessageTokenUpdate(db, messaging, uid)
   }
 }
 
-const handleMessageTokenUpdate = async (
-  db: any,
-  messaging: any,
-  uid: string
-) => {
+const handleMessageTokenUpdate = async () => {
+  console.log('handleUpdate')
+  const messaging = firebase.messaging()
   const token = await messaging.getToken()
+  const db = firebase.firestore()
+  const uid = store.getters.publicProfile.uid
 
   if (!token) {
     return Promise.reject()
