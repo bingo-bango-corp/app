@@ -22,8 +22,8 @@ export default async () => {
         (window as any).updateAvailable = true
       },
       error(error) {
-        return Promise.reject(error)
         console.error('Error during service worker registration:', error)
+        return Promise.reject(error)
       },
     })
   }
