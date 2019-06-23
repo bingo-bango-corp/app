@@ -27,9 +27,30 @@ export const setUpServiceWorker = async () => {
     })
 
     messaging.onMessage(payload => {
-      const {title, ...options} = payload.notification;
+      const { 
+        title, 
+        type,
+        body,
+        link
+      } = payload.data
+
+      const notificationOptions = {
+        body: body,
+        icon: '/round-icon.png',
+        priority: 2,
+        data: {
+          url: link
+        }
+      }
+
+      console.log('Dispatching foreground notification', type, notificationOptions)
+
+      if (type === 'new-chat-message') {
+        store.dispatch('currentJob/incrementUnread')
+      }
+
       navigator.serviceWorker.ready.then(registration => {
-        registration.showNotification(title, options)
+        registration.showNotification(title, notificationOptions)
       })
     })
   }
