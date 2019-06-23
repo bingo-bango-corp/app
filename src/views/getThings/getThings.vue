@@ -6,37 +6,28 @@
         <div class="open" v-if="openJobs.length > 0">
           <h3>Current Jobs</h3>
           <div class="job" v-for="(job) in openJobs" :key="job.id">
-            <JobCard class="jobCard"
+            <JobCardWithActions
               :title="job.thing"
-              :jobId="job.id"
               :description="job.description"
-              :actions="actionsForJobState(job.state)"
-              :tip="{
-                cents: job.tip.cents,
-                currency: job.tip.currency
-              }"
-              :collapsed="false"
-              :locale="$i18n.locale"
-              @click.native="handleCardClick(job.id)"
+              :jobId="job.id"
+              :tip="job.tip"
+              :state="job.state"
+              :job="job"
+              @cancelJob="handleCancelJob($event)"
+              @goToChat="handleGoToChat($event)"
             />
           </div>
         </div>
         <div class="settled" v-if="settledJobs.length > 0">
           <h3>Past Jobs</h3>
           <div class="job" v-for="(job) in settledJobs" :key="job.id">
-            <JobCard class="jobCard"
+            <JobCardWithActions
               :title="job.thing"
-              :jobId="job.id"
               :description="job.description"
-              :actions="actionsForJobState(job.state)"
-              :tip="{
-                cents: job.tip.cents,
-                currency: job.tip.currency
-              }"
-              :collapsed="false"
-              :elevated="false"
-              :locale="$i18n.locale"
-              @click.native="handleCardClick(job.id)"
+              :jobId="job.id"
+              :tip="job.tip"
+              :state="job.state"
+              :job="job"
             />
           </div>
         </div>
@@ -50,66 +41,26 @@ import { Vue, Component } from 'vue-property-decorator'
 import { getOwnJobs, JobList, cancelJob } from '@/helpers/jobs'
 import JobListView from '@/components/JobListView'
 import router from '@/router'
-import { BingoButton, JobCard } from 'simsalabim-design'
+import JobCardWithActions from '@/components/JobCardWithActions'
+import { BingoButton } from 'simsalabim-design'
 import { Job, OPEN_STATES, SETTLED_STATES, State } from '../../store/models/job'
 
 @Component({
   components: {
     BingoButton,
-    JobCard,
-    JobListView
+    JobListView,
+    JobCardWithActions
   }
 })
 export default class getThings extends Vue {
   myJobs: Job[] = []
   loading: boolean = true
 
-  assignedJobActions = [
-    {
-      title: '💬 Go to chat',
-      backgroundColor: 'var(--secondary)',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-        router.push(`/get-things/${event.meta.jobId}`)
-      }
-    },
-    {
-      title: '🚫 Cancel job',
-      backgroundColor: '#EB5757',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-        this.cancelJob(event)
-      }
-    },
-  ]
-
-  unassingedJobActions = [
-    {
-      title: '🚫 Cancel job',
-      backgroundColor: '#EB5757',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-        this.cancelJob(event)
-      }
-    },
-  ]
-
-  actionsForJobState(state: State) {
-    switch (state) {
-      case 'unassigned':
-        return this.unassingedJobActions
-      case 'assigned':
-        return this.assignedJobActions
-      default:
-        return null
-    } 
-  }
-
   handleNewClick(): void {
     this.$router.push('get-things/new')
   }
 
-  handleCardClick(id: string): void {
+  handleGoToChat(id: string): void {
     this.$router.push(`/get-things/${id}`)
   }
 
@@ -134,8 +85,8 @@ export default class getThings extends Vue {
     })
   }
 
-  async cancelJob(e: any): Promise<void> {
-    await cancelJob(e.meta.jobId, this.$store.getters.uid)
+  async handleCancelJob(id: string): Promise<void> {
+    await cancelJob(id, this.$store.getters.uid)
     this.updateJobs()
   }
 
