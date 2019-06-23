@@ -5,7 +5,7 @@ import * as geofirex from 'geofirex'
 
 import store from '@/store'
 
-import { PublicProfileRef } from '@/store/models/profile'
+import { PublicProfileRef, PublicProfile } from '@/store/models/profile'
 import { Job } from '@/store/models/job'
 
 export interface JobData {
@@ -69,14 +69,23 @@ export const queryNearbyJobs = async (
 }
 
 export const getOwnJobs = async (
-  uid: string
+  uid: string,
+  filter?: {
+    only: 'closed' | 'open'
+  }
 ): Promise<JobList> => {
   const db = firebase.firestore()
+  let query = db.collection('jobs').where('owner.uid', '==', uid)
 
-  const snapshot = 
-    await db.collection('jobs')
-      .where("owner.uid", "==", uid)
-      .get()
+  if (filter) {
+    if (filter.only === 'open') {
+      query = query.where('open', '==', true)
+    } else if (filter.only === 'closed') {
+      query = query.where('open', '==', false)
+    }
+  }
+
+  const snapshot = await query.get()
   
   let result: any = {}
 
