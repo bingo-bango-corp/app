@@ -10,7 +10,6 @@
           class="JobBadge"
           headline="Your current job"
           :title="job.thing"
-          :unreadCount="$store.getters['currentJob/unread']"
           @click="$router.push('make-money/current-job')"
         />
       </div>

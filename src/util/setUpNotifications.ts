@@ -45,10 +45,6 @@ export const setUpServiceWorker = async () => {
 
       console.log('Dispatching foreground notification', type, notificationOptions)
 
-      if (type === 'new-chat-message') {
-        store.dispatch('currentJob/incrementUnread')
-      }
-
       navigator.serviceWorker.ready.then(registration => {
         registration.showNotification(title, notificationOptions)
       })
