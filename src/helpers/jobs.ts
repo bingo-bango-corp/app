@@ -5,7 +5,7 @@ import * as geofirex from 'geofirex'
 
 import store from '@/store'
 
-import { PublicProfileRef, PublicProfile } from '@/store/models/profile'
+import { PublicProfileRef } from '@/store/models/profile'
 import { Job } from '@/store/models/job'
 
 export interface JobData {

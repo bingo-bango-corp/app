@@ -38,7 +38,6 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { BottomNav, BingoRoute, JobBadge } from 'simsalabim-design'
 import { routes } from '@/router'
-import { getProfileOfRoleFromJob } from '@/helpers/jobs'
 import { Job } from '@/store/models/job'
 
 @Component({
