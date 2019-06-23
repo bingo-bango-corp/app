@@ -1,4 +1,3 @@
-
 <template>
   <div class="JobCardWithActions">
     <JobCard 
@@ -22,7 +21,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { JobCard, BingoAction } from 'simsalabim-design'
-import { State, Job } from '../../store/models/job'
+import { State, Job } from '@/store/models/job'
 
 import { actionsForStates } from './actionsForStates'
 import propsForStates from './propsForStates'
