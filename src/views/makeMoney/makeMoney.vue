@@ -42,7 +42,6 @@ Component.registerHooks([
     JobCard,
     JobListView
   },
-  computed: mapState('currentJob', ['data'])
 })
 export default class makeMoney extends Vue {
   loading = false
@@ -61,16 +60,6 @@ export default class makeMoney extends Vue {
   
   nearbyJobs: Array<any> = []
   radius: number = 5
-
-  async beforeRouteEnter(to: Route, from: Route, next: Function) {
-    if (
-      store.state.currentJob.data.state &&
-      store.state.currentJob.data.state === 'assigned'
-    )
-      next('/make-money/current-job')
-    else
-      next()
-  } 
  
   async created() {
     this.loading = true
@@ -104,11 +93,6 @@ export default class makeMoney extends Vue {
     this.loading = true
     await takeJob(this.$store.getters.uid, id)
     this.$router.push('/make-money/current-job/')
-  }
-
-  @Watch('data')
-  onDataChanged(val: Job, oldVal: Job) {
-    if (val.state) this.$router.push('/make-money/current-job')
   }
 }
 </script>

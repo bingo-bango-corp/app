@@ -34,7 +34,8 @@ export const routes: RouteList = [
     component: () => import(/* webpackChunkName: "currentJob" */ './views/currentJob'),
     meta: {
       requiresAuth: true,
-      layout: 'default'
+      layout: 'default',
+      hideJobBadge: true,
     }
   },
   {
@@ -64,7 +65,8 @@ export const routes: RouteList = [
     component: () => import(/* webpackChunkName: "jobView" */ './views/jobView'),
     meta: {
       requiresAuth: true,
-      layout: 'default'
+      layout: 'default',
+      hideJobBadge: true,
     }
   },
   {
@@ -94,7 +96,15 @@ export const routes: RouteList = [
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: <RouteConfig[]>routes
+  routes: <RouteConfig[]>routes,
+  scrollBehavior(to, from, savedPosition) {
+    console.log(savedPosition)
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 router.beforeEach(async (to, from, next) => {

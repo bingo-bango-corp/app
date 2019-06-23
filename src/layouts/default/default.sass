@@ -1,7 +1,37 @@
 .default
   height: calc(100vh - 64px)
   padding: 16px
-  overflow: scroll
+  overflow-x: hidden
   margin: 0 auto
   max-width: 800px
   box-sizing: border-box
+  .currentJob
+    position: fixed
+    bottom: 32px
+    width: 100vw
+    left: 0
+    z-index: 1
+    pointer-events: none
+    .JobBadge
+      margin: 0 auto 48px auto
+      width: 90vw
+      pointer-events: all
+      z-index: 1
+  .background
+    width: 100vw
+    z-index: 0
+    position: fixed
+    pointer-events: none
+    bottom: 32px
+    height: 200px
+    background: linear-gradient(rgba(0,0,0,0), var(--background))
+  .spacer
+    height: 80px
+.move-enter-active, .move-leave-active
+  transition: all .3s ease
+.move-enter, .move-leave-to
+  transform: translateY(20vh)
+.fade-enter-active, .fade-leave-active
+  transition: all .3s ease
+.fade-enter, .fade-leave-to
+  opacity: 0

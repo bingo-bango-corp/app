@@ -22,7 +22,7 @@
     "register-service-worker": "^1.6.2",
     "sass": "^1.20.1",
     "sass-loader": "^7.1.0",
-    "simsalabim-design": "^0.5.12",
+    "simsalabim-design": "^0.5.14",
     "velocity-animate": "^1.5.2",
     "vue": "^2.6.10",
     "vue-chat-scroll": "^1.3.5",

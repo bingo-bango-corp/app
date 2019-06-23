@@ -43,6 +43,7 @@ export default class App extends Vue {
 <style lang="sass">
 body
   margin: 0
+  overflow-y: scroll
   padding: 0
 #app
   color: var(--foreground)
