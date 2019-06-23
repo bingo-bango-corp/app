@@ -5,9 +5,11 @@
         <Spinner class="spinner"/>
       </div>
     </transition>
-    <transition-group class="items" name="fade-translate">
-      <slot v-if="!loading"></slot>
-    </transition-group>
+    <transition name="fade-translate">
+      <div v-if="!loading" class="content">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
