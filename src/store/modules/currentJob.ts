@@ -6,6 +6,11 @@ const myJobs = {
   namespaced: true,
   sync: {
     preventInitialDocInsertion: true
+  },
+  getters: {
+    job(state: any) {
+      return state.data
+    }
   }
 }
 
