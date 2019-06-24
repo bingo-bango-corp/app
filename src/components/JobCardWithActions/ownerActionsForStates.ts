@@ -1,15 +1,10 @@
-import { State } from '@/store/models/job'
-import { BingoAction } from 'simsalabim-design'
+import { ActionsForState } from './types'
 
 import {
   cancelJob,
   confirmDelivery,
   goToChat
 } from './actions'
-
-type ActionsForState = {
-  [key in State]: BingoAction[] | null
-}
 
 export const ownerActionsForStates: ActionsForState = {
   unassigned: [
