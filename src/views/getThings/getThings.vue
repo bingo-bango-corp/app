@@ -14,6 +14,7 @@
               :state="job.state"
               :job="job"
               @cancelJob="handleCancelJob($event)"
+              @confirmDelivery="handleConfirmDelivery($event)"
               @goToChat="handleGoToChat($event)"
             />
           </div>
@@ -38,7 +39,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { getOwnJobs, JobList, cancelJob } from '@/helpers/jobs'
+import { 
+  getOwnJobs,
+  JobList,
+  cancelJob,
+  confirmDelivery
+} from '@/helpers/jobs'
 import JobListView from '@/components/JobListView'
 import router from '@/router'
 import JobCardWithActions from '@/components/JobCardWithActions'
@@ -86,7 +92,14 @@ export default class getThings extends Vue {
   }
 
   async handleCancelJob(id: string): Promise<void> {
+    this.loading = true
     await cancelJob(id, this.$store.getters.uid)
+    this.updateJobs()
+  }
+
+  async handleConfirmDelivery(id: string): Promise<void> {
+    this.loading = true
+    await confirmDelivery(id, this.$store.getters.uid)
     this.updateJobs()
   }
 
