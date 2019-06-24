@@ -31,5 +31,6 @@ export const actionsForStates: ActionsForState = {
   ],
   delivered: null,
   cancelled: null,
-  lost: null
+  lost: null,
+  deliveryConfirmed: null,
 }

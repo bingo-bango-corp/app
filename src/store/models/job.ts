@@ -23,6 +23,7 @@ export const STATE_CONSTANTS = {
   UNASSIGNED: 'unassigned',
   ASSIGNED: 'assigned',
   DELIVERED: 'delivered',
+  DELIVERY_CONFIRMED: 'deliveryConfirmed',
   CANCELLED: 'cancelled',
   LOST: 'lost'
 }
@@ -31,21 +32,24 @@ export const STATE_CONSTANTS = {
 export const OPEN_STATES = [
   STATE_CONSTANTS.UNASSIGNED,
   STATE_CONSTANTS.ASSIGNED,
+  STATE_CONSTANTS.DELIVERED,
 ]
 
 // Terminal states that will never change to something else.
 export const SETTLED_STATES = [
   STATE_CONSTANTS.DELIVERED,
+  STATE_CONSTANTS.DELIVERY_CONFIRMED,
   STATE_CONSTANTS.CANCELLED,
   STATE_CONSTANTS.LOST,
 ]
 
 export type OpenState =
   'unassigned' |
-  'assigned'
+  'assigned' |
+  'delivered'
 
 export type SettledState =
-  'delivered' |
+  'deliveryConfirmed' |
   'cancelled' |
   'lost'
 
