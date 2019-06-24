@@ -21,6 +21,14 @@ const goToChatAction: BingoAction = {
   }
 }
 
+const confirmDelivery: BingoAction = {
+  title: '✅ Mark as delivered',
+  backgroundColor: 'var(--primary)',
+  onClick: (vm: any) => {
+    vm.$emit('confirmDelivery', vm.jobId)
+  }
+}
+
 export const actionsForStates: ActionsForState = {
   unassigned: [
     cancelJobAction
@@ -29,7 +37,9 @@ export const actionsForStates: ActionsForState = {
     goToChatAction,
     cancelJobAction
   ],
-  delivered: null,
+  delivered: [
+    confirmDelivery
+  ],
   cancelled: null,
   lost: null,
   deliveryConfirmed: null,
