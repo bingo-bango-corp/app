@@ -1,8 +1,8 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
-import { State, Job } from '@/store/models/job'
-import { PublicProfile } from '@/store/models/profile';
+import { State, Job, STATE_CONSTANTS } from '@/store/models/job'
+import { PublicProfile } from '@/store/models/profile'
 
 interface JobCardProps {
   elevated?: boolean
@@ -15,12 +15,12 @@ interface JobCardProps {
 
 export default async (state: State, vm: any): Promise<JobCardProps> => {
   switch (state) {
-    case 'unassigned':
+    case STATE_CONSTANTS.UNASSIGNED:
       return {
         elevated: true,
         description: vm.description
       }
-    case 'assigned':
+    case STATE_CONSTANTS.ASSIGNED:
       var assignee = await getProfileOfAssignee(vm.job)
 
       return {
@@ -30,14 +30,14 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
           text: `${assignee.displayName} is on it!`
         }
       }
-    case 'cancelled':
+    case STATE_CONSTANTS.CANCELLED:
       return {
         elevated: false,
         personNote: {
           text: 'You cancelled this job.'
         }
       }
-    case 'lost':
+    case STATE_CONSTANTS.LOST:
       var assignee = await getProfileOfAssignee(vm.job)
       
       return {
@@ -45,6 +45,16 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         personNote: {
           pictureUrl: new URL(assignee.photoURL!),
           text: `${assignee.displayName} can't pick this up.`
+        }
+      }
+    case STATE_CONSTANTS.DELIVERED:
+      var assignee = await getProfileOfAssignee(vm.job) 
+
+      return {
+        elevated: true,
+        personNote: {
+          pictureUrl: new URL(assignee.photoURL!),
+          text: `${assignee.displayName} marked this as delivered`
         }
       }
     default:
