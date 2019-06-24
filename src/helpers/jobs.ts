@@ -107,6 +107,16 @@ export const cancelJob = async (
   })
 }
 
+export const confirmDelivery = async (
+  jobID: string,
+  uid: string
+): Promise<void> => {
+  await firebase.app().functions('europe-west1').httpsCallable('confirmDelivery')({
+    jobID: jobID,
+    uid: uid
+  })
+}
+
 export const dropJob = async (
   uid: string,
   jobID: string
