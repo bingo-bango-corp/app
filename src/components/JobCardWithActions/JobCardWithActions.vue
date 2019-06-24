@@ -69,8 +69,8 @@ export default class JobCardWithActions extends Vue {
   } | undefined
 
   get actions(): BingoAction[] | null {
-    return actionsForStates[this.state]
-      ? actionsForStates[this.state]
+    return ownerActionsForStates[this.state]
+      ? ownerActionsForStates[this.state]
       : []
   }
 
