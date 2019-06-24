@@ -54,3 +54,13 @@ export type SettledState =
   'lost'
 
 export type State = OpenState | SettledState
+
+
+// Describe relationship between a user and a job
+
+export const USER_JOB_RELATIONSHIPS = {
+  OWNER: 'owner',
+  ASSIGNEE: 'assignee'
+}
+
+export type JobRelationship = 'owner' | 'assignee'
