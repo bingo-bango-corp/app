@@ -38,7 +38,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { BottomNav, BingoRoute, JobBadge } from 'simsalabim-design'
 import { routes } from '@/router'
-import { Job } from '@/store/models/job'
+import { Job, OPEN_STATES } from '@/store/models/job'
 
 @Component({
   components: {
@@ -59,7 +59,7 @@ export default class Default extends Vue {
   }
 
   get shouldDisplayJobBadge(): boolean {
-    return this.$route.meta.hideJobBadge ? false : (this.job.state != undefined)
+    return this.$route.meta.hideJobBadge ? false : (OPEN_STATES.includes(this.job.state))
   }
 
   get ownerPictureUrl(): string {
