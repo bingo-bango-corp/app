@@ -11,6 +11,7 @@
           headline="Your current job"
           :title="job.thing"
           @click="$router.push('make-money/current-job')"
+          :pictureUrl="ownerPictureUrl"
         />
       </div>
     </transition>
@@ -59,6 +60,10 @@ export default class Default extends Vue {
 
   get shouldDisplayJobBadge(): boolean {
     return this.$route.meta.hideJobBadge ? false : (this.job.state != undefined)
+  }
+
+  get ownerPictureUrl(): string {
+    return this.$store.state.currentJob.ownerPictureUrl
   }
 }
 </script>
