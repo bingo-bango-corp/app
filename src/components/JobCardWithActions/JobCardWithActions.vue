@@ -1,5 +1,5 @@
 <template>
-  <div class="JobCardWithActions">
+  <div class="JobCardWithActions" v-if="propsForState">
     <JobCard 
       class="jobCard"
       v-bind="{
@@ -24,7 +24,10 @@ import { JobCard, BingoAction } from 'simsalabim-design'
 import { State, Job, JobRelationship } from '@/store/models/job'
 
 import { ownerActionsForStates } from './ownerActionsForStates'
-import propsForStates from './propsForStates'
+import { assigneeActionsForStates } from './assigneeActionsForStates'
+import ownerPropsForStates from './ownerPropsForStates'
+import assigneePropsForStates from './assigneePropsForStates'
+import { JobCardProps } from './types';
 
 @Component({
   components: {
@@ -32,7 +35,7 @@ import propsForStates from './propsForStates'
   }
 })
 export default class JobCardWithActions extends Vue {
-  propsForState = {}
+  propsForState: JobCardProps | null = null
 
   @Prop({
     type: String,
@@ -40,11 +43,12 @@ export default class JobCardWithActions extends Vue {
   }) readonly state!: State
 
   @Prop({
-    type: String,
+    type: String
   }) readonly title!: string | undefined
 
   @Prop({
     type: String,
+    required: true
   }) readonly role!: JobRelationship
 
   @Prop({
@@ -69,17 +73,21 @@ export default class JobCardWithActions extends Vue {
   } | undefined
 
   get actions(): BingoAction[] | null {
-    return ownerActionsForStates[this.state]
+    return this.role === 'owner'
       ? ownerActionsForStates[this.state]
-      : []
+      : assigneeActionsForStates[this.state]
   }
 
   async setPropsForState() {
-    this.propsForState = await propsForStates(this.state, this)
+    this.propsForState = this.role === 'owner'
+      ? await ownerPropsForStates(this.state, this)
+      : await assigneePropsForStates(this.state, this)
   }
 
-  handleActionClicked(action: Function): void {
-    action(this)
+  async handleActionClicked(action: Function): Promise<void> {
+    this.$emit('shouldGoToLoading')
+    await action(this)
+    this.$emit('shouldUpdateJobs')
   }
 
   mounted() {

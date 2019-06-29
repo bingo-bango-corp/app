@@ -4,47 +4,20 @@ import 'firebase/firestore'
 import { State, Job, STATE_CONSTANTS } from '@/store/models/job'
 import { PublicProfile } from '@/store/models/profile'
 
-interface JobCardProps {
-  elevated?: boolean
-  description?: string
-  personNote?: {
-    pictureUrl?: URL,
-    text: string,
-  }
-}
+import { JobCardProps } from './types'
 
 export default async (state: State, vm: any): Promise<JobCardProps> => {
   switch (state) {
-    case STATE_CONSTANTS.UNASSIGNED:
+    case STATE_CONSTANTS.ASSIGNED:
       return {
         elevated: true,
         description: vm.description
       }
-    case STATE_CONSTANTS.ASSIGNED:
-      var assignee = await getProfileOfAssignee(vm.job)
-
-      return {
-        elevated: true,
-        personNote: {
-          pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} is on it!`
-        }
-      }
-    case STATE_CONSTANTS.CANCELLED:
-      return {
-        elevated: false,
-        personNote: {
-          text: 'You cancelled this job.'
-        }
-      }
     case STATE_CONSTANTS.LOST:
-      var assignee = await getProfileOfAssignee(vm.job)
-      
       return {
         elevated: false,
         personNote: {
-          pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} can't pick this up.`
+          text: `You said you can't pick this up.`
         }
       }
     case STATE_CONSTANTS.DELIVERED:

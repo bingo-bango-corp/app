@@ -1,10 +1,10 @@
 <template>
   <div class="currentJob">
     <JobChatView
-      :actions="jobActions"
       :job="data"
       :forceLoading="forceLoading"
       @actionClicked="handleActionClicked"
+      role="assignee"
     />
   </div>
 </template>
@@ -34,26 +34,6 @@ Component.registerHooks([
 export default class currentJob extends Vue {
   forceLoading: boolean = false
 
-  jobActions = [
-    {
-      title: '✅ Delivered',
-      backgroundColor: 'var(--primary)',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-      }
-    },
-    {
-      title: '🚫 I can\'t pick it up',
-      backgroundColor: '#EB5757',
-      onClick: async (event: any) => {
-        this.forceLoading = true
-        await dropJob(this.$store.getters.uid, this.$store.state.currentJob.data.id)
-        await updateCurrentJobStore(this.$store.getters.uid)
-        this.$router.push('/make-money')
-      }
-    },
-  ]
-
   handleActionClicked(): void {
     this.forceLoading = true
   }
@@ -66,7 +46,7 @@ export default class currentJob extends Vue {
 
   @Watch('data.state')
   onDataChanged(val: string, oldVal: string) {
-    if (val === 'cancelled') {
+    if (val === 'cancelled' || val === 'lost') {
       this.$router.push('/make-money')
       unsubscribeFromJob()
     }

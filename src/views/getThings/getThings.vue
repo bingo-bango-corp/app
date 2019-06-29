@@ -13,9 +13,9 @@
               :tip="job.tip"
               :state="job.state"
               :job="job"
-              @cancelJob="handleCancelJob($event)"
-              @confirmDelivery="handleConfirmDelivery($event)"
-              @goToChat="handleGoToChat($event)"
+              role="owner"
+              @shouldGoToLoading="handleShouldGoToLoading()"
+              @shouldUpdateJobs="handleShouldUpdateJobs()"
             />
           </div>
         </div>
@@ -29,6 +29,9 @@
               :tip="job.tip"
               :state="job.state"
               :job="job"
+              role="owner"
+              @shouldGoToLoading="handleShouldGoToLoading()"
+              @shouldUpdateJobs="handleShouldUpdateJobs()"
             />
           </div>
         </div>
@@ -97,6 +100,14 @@ export default class getThings extends Vue {
     this.updateJobs()
   }
 
+  handleShouldGoToLoading(): void {
+    this.loading = true
+  }
+
+  handleShouldUpdateJobs(): void {
+    this.updateJobs()
+  }
+
   async handleConfirmDelivery(id: string): Promise<void> {
     this.loading = true
     await confirmDelivery(id, this.$store.getters.uid)
@@ -110,7 +121,7 @@ export default class getThings extends Vue {
   }
 
   async mounted(): Promise<void> {
-    await this.updateJobs()
+    this.updateJobs()
   }
 } 
 </script>

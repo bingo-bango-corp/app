@@ -5,19 +5,16 @@
         <Spinner />
       </div>
       <div class="content" v-else>
-        <JobCard class="jobCard"
+        <JobCardWithActions
+          class="JobCard"
           :title="job.thing"
-          :jobId="job.id"
           :description="job.description"
-          :actions="actions"
-          :tip="{
-            cents: job.tip.cents,
-            currency: job.tip.currency
-          }"
-          :locale="$i18n.locale"
-          :collapsed="cardShouldBeCollapsed"
-          @click.native="scrollChatToTop"
-          @actionClicked="$emit('actionClicked')"
+          :jobId="job.id"
+          :tip="job.tip"
+          :state="job.state"
+          :job="job"
+          :role="role"
+          @shouldGoToLoading="handleShouldGoToLoading()"
         />
         <Chat 
           :jobData="job"
@@ -33,17 +30,21 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { JobCard, BingoAction } from 'simsalabim-design'
 import Chat from '@/components/Chat'
-import { Job } from '@/store/models/job'
+import { Job, JobRelationship } from '@/store/models/job'
 import Spinner from '@/components/Spinner'
+import JobCardWithActions from '@/components/JobCardWithActions'
 
 @Component({
   components: {
     JobCard,
     Chat,
-    Spinner
+    Spinner,
+    JobCardWithActions
   }
 })
 export default class JobChatView extends Vue {
+  internallyLoading: boolean = false
+
   @Prop({
     type: Array,
   }) readonly actions!: BingoAction[] | undefined
@@ -54,6 +55,11 @@ export default class JobChatView extends Vue {
   }) readonly job!: Job
 
   @Prop({
+    type: String,
+    required: true,
+  }) readonly role!: JobRelationship
+
+  @Prop({
     type: Boolean,
     default: false
   }) readonly forceLoading!: boolean
@@ -61,9 +67,13 @@ export default class JobChatView extends Vue {
   cardShouldBeCollapsed: boolean = false
 
   get loading(): boolean {
-    return this.forceLoading
+    return this.forceLoading || this.internallyLoading
       ? true
       : (!this.job)
+  }
+
+  handleShouldGoToLoading() {
+    this.internallyLoading = true
   }
 
   get iAmAn(): 'owner' | 'assignee' {
