@@ -4,38 +4,46 @@
     <div class="yourJobs">
       <JobListView :loading="loading">
         <div class="open" v-if="openJobs.length > 0">
-          <h3>Current Jobs</h3>
-          <div class="job" v-for="(job) in openJobs" :key="job.id">
-            <JobCardWithActions
-              :title="job.thing"
-              :description="job.description"
-              :jobId="job.id"
-              :tip="job.tip"
-              :state="job.state"
-              :job="job"
-              role="owner"
-              @click.native="goToJob(job.id)"
-              @shouldGoToLoading="handleShouldGoToLoading()"
-              @shouldUpdateJobs="handleShouldUpdateJobs()"
-            />
-          </div>
+          <HeadlineContentPair
+            headline=""
+            description="Current Requests"
+          >
+            <div class="job" v-for="(job) in openJobs" :key="job.id">
+              <JobCardWithActions
+                :title="job.thing"
+                :description="job.description"
+                :jobId="job.id"
+                :tip="job.tip"
+                :state="job.state"
+                :job="job"
+                role="owner"
+                @click.native="goToJob(job.id)"
+                @shouldGoToLoading="handleShouldGoToLoading()"
+                @shouldUpdateJobs="handleShouldUpdateJobs()"
+              />
+            </div>
+          </HeadlineContentPair>
         </div>
         <div class="settled" v-if="settledJobs.length > 0">
-          <h3>Past Jobs</h3>
-          <div class="job" v-for="(job) in settledJobs" :key="job.id">
-            <JobCardWithActions
-              :title="job.thing"
-              :description="job.description"
-              :jobId="job.id"
-              :tip="job.tip"
-              :state="job.state"
-              :job="job"
-              role="owner"
-              @click.native="goToJob(job.id)"
-              @shouldGoToLoading="handleShouldGoToLoading()"
-              @shouldUpdateJobs="handleShouldUpdateJobs()"
-            />
-          </div>
+          <HeadlineContentPair
+            headline=""
+            description="Past Requests"
+          >
+            <div class="job" v-for="(job) in settledJobs" :key="job.id">
+              <JobCardWithActions
+                :title="job.thing"
+                :description="job.description"
+                :jobId="job.id"
+                :tip="job.tip"
+                :state="job.state"
+                :job="job"
+                role="owner"
+                @click.native="goToJob(job.id)"
+                @shouldGoToLoading="handleShouldGoToLoading()"
+                @shouldUpdateJobs="handleShouldUpdateJobs()"
+              />
+            </div>
+          </HeadlineContentPair>
         </div>
       </JobListView>
     </div>
@@ -53,14 +61,15 @@ import {
 import JobListView from '@/components/JobListView'
 import router from '@/router'
 import JobCardWithActions from '@/components/JobCardWithActions'
-import { BingoButton } from 'simsalabim-design'
+import { BingoButton, HeadlineContentPair } from 'simsalabim-design'
 import { Job, OPEN_STATES, SETTLED_STATES, State } from '../../store/models/job'
 
 @Component({
   components: {
     BingoButton,
     JobListView,
-    JobCardWithActions
+    JobCardWithActions,
+    HeadlineContentPair
   }
 })
 export default class getThings extends Vue {
