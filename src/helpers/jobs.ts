@@ -107,6 +107,16 @@ export const cancelJob = async (
   })
 }
 
+export const deliverJob = async (
+  jobID: string,
+  uid: string
+): Promise<void> => {
+  await firebase.app().functions('europe-west1').httpsCallable('deliverJob')({
+    jobID: jobID,
+    uid: uid
+  })
+}
+
 export const confirmDelivery = async (
   jobID: string,
   uid: string
@@ -146,25 +156,36 @@ export const takeJob = async (
 export const updateCurrentJobStore = async (
   uid: string
 ) => {
-  const db = firebase.firestore()
+  if (!doesCurrentJobExist()) {
+    const db = firebase.firestore()
 
-  const snap = await db
-    .collection('jobs')
-    .where('assignee.uid', '==', uid)
-    .where('state', '==', 'assigned')
-    .get()
+    let snapshots: Promise<firebase.firestore.QuerySnapshot>[] = []
 
-  if (!snap.empty) {
-    if (!doesCurrentJobExist()) {
+    const assignedQuery = await db
+      .collection('jobs')
+      .where('assignee.uid', '==', uid)
+      .where('state', '==', 'assigned')
+
+    // terrible double query until Firebase can figure out IN queries.
+    const deliveredQuery = await db
+      .collection('jobs')
+      .where('assignee.uid', '==', uid)
+      .where('state', '==', 'delivered')
+
+    snapshots = [
+      assignedQuery.get(),
+      deliveredQuery.get()
+    ]
+
+    const results = await Promise.all(snapshots)
+    const snap = results.find(s => !s.empty)
+    
+    if (snap) {
       await store.dispatch('currentJob/openDBChannel', {
-        jobID: snap.docs[0].id
+        jobID: snap!.docs[0].id
       })
     }
-  } else {
-    if (doesCurrentJobExist()) {
-      store.dispatch('currentJob/closeDBChannel', {clearModule: true})
-    }
-  }  
+  }
 }
 
 export const subscribeToJob = async (

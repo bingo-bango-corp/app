@@ -50,6 +50,16 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
           text: `${assignee.displayName} marked this as delivered`
         }
       }
+    case STATE_CONSTANTS.DELIVERY_CONFIRMED:
+      var assignee = await getProfileOfAssignee(vm.job) 
+
+      return {
+        elevated: false,
+        personNote: {
+          pictureUrl: new URL(assignee.photoURL!),
+          text: `${assignee.displayName} delivered this`
+        }
+      }
     default:
       return {
         elevated: false

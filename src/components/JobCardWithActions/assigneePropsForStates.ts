@@ -21,13 +21,13 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         }
       }
     case STATE_CONSTANTS.DELIVERED:
-      var assignee = await getProfileOfAssignee(vm.job) 
+      var owner = await getProfileOfOwner(vm.job)
 
       return {
         elevated: true,
         personNote: {
-          pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} marked this as delivered`
+          pictureUrl: new URL(owner.photoURL!),
+          text: `Waiting for ${owner.displayName} to confirm delivery…`
         }
       }
     default:
@@ -37,13 +37,11 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
   }
 }
 
-const getProfileOfAssignee = async (job: Job) => {
+const getProfileOfOwner = async (job: Job) => {
   const db = firebase.firestore()
-
-  if (!job.assignee) throw new Error('No assignee on this job.')
 
   return (await db
     .collection('users')
-    .doc(job.assignee.uid)
+    .doc(job.owner.uid)
     .get()).data() as PublicProfile
 } 

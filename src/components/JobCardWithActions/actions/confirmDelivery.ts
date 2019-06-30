@@ -1,9 +1,10 @@
 import { BingoAction } from 'simsalabim-design'
+import { confirmDelivery } from '@/helpers/jobs'
 
-export const confirmDelivery = {
-  title: '✅ Mark as delivered',
+export const confirmDeliveryAction = {
+  title: '✅ Confirm delivery',
   backgroundColor: 'var(--primary)',
-  onClick: (vm: any) => {
-    vm.$emit('confirmDelivery', vm.jobId)
+  onClick: async (vm: any) => {
+   await confirmDelivery(vm.jobId, vm.$store.getters.uid)
   }
 } as BingoAction
