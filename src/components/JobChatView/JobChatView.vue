@@ -67,7 +67,7 @@ export default class JobChatView extends Vue {
   cardShouldBeCollapsed: boolean = false
 
   get loading(): boolean {
-    return this.forceLoading || this.internallyLoading
+    return this.forceLoading || this.internallyLoading || !this.job.state
       ? true
       : (!this.job)
   }
