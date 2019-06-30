@@ -17,7 +17,35 @@ function loadLocaleMessages () {
   return messages
 }
 
+const dateTimeFormats = {
+  'en': {
+    short: {
+      year: 'numeric', month: 'short', day: 'numeric',
+    },
+    long: {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: 'numeric'
+    },
+    time: {
+      hour: 'numeric', minute: 'numeric'
+    }
+  },
+  'de': {
+    short: {
+      year: 'numeric', month: 'short', day: 'numeric'
+    },
+    long: {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: 'numeric'
+    },
+    time: {
+      hour: 'numeric', minute: 'numeric'
+    }
+  }
+}
+
 export default new VueI18n({
+  dateTimeFormats,
   locale: navigator.language.split("-")[0] || process.env.VUE_APP_I18N_LOCALE || 'de-EN',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'de-EN',
   messages: loadLocaleMessages()

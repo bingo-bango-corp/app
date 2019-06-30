@@ -11,5 +11,6 @@ export interface JobCardProps {
   personNote?: {
     pictureUrl?: URL,
     text: string,
-  }
+  },
+  metadata?: string
 }

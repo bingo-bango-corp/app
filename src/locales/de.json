@@ -53,6 +53,7 @@
       "lost": "Du kannst es doch nicht liefern.",
       "delivered": "Warten, dass {user} die Lieferung bestätigt…",
       "delivery_confirmed": "Du hast es geliefert 👍"
-    }
+    },
+    "created": "Erstellt am {longDate}"
   }
 }

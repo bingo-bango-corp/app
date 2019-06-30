@@ -13,6 +13,7 @@ const tb = 'chat.events'
 
 export default (
   message: Message | Notice,
+  timestamp: number,
   role: JobRelationship,
   otherPersonsPublicProfile: PublicProfile
 ) => {
@@ -20,6 +21,7 @@ export default (
     ? adaptNotice(
         (message as Notice),
         role,
+        timestamp,
         otherPersonsPublicProfile
       )
     : (message as Message).message
@@ -28,11 +30,13 @@ export default (
 const adaptNotice = (
   message: Notice,
   role: JobRelationship,
+  timestamp: number,
   otherPersonsPublicProfile: PublicProfile
   ): string | undefined => {
   return translationWithUser(
     stringsForEventType[message.event],
     message.event,
+    timestamp,
     role,
     otherPersonsPublicProfile
   )
@@ -51,20 +55,25 @@ const stringsForEventType: {
 const translationWithUser = (
   stringId: string,
   event: string,
+  timestamp: number,
   role: JobRelationship,
   otherPersonsPublicProfile: PublicProfile
 ): string | undefined => {
   const actionTakenByOwner = OWNER_TRANSITIONS.includes(event)
   const actionTakenByAssignee = ASSIGNEE_TRANSITIONS.includes(event)
 
+  console.log(timestamp)
+
+  const timeString = i18n.d(new Date(timestamp), 'time')
+
   if (
     actionTakenByOwner && role === 'owner' ||
     actionTakenByAssignee && role === 'assignee'
   ) {
-    return i18n.tc(`${tb}.you_did.${stringId}`)
+    return `${timeString} · ${i18n.tc(`${tb}.you_did.${stringId}`)}`
   } else {
-    return i18n.tc(`${tb}.they_did.${stringId}`, 0, {
+    return `${timeString} · ${i18n.tc(`${tb}.they_did.${stringId}`, 0, {
       user: otherPersonsPublicProfile.displayName
-    })
+    })}`
   }
 }

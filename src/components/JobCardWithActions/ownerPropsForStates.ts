@@ -47,7 +47,10 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
           text: i18n.tc(`${tb}.lost`, 0, {
             user: assignee.displayName
           })
-        }
+        },
+        metadata: i18n.tc('jobCard.created', 0, {
+          longDate: i18n.d(new Date(vm.job.timestamp.seconds * 1000), 'long')
+        })
       }
     case STATE_CONSTANTS.DELIVERED:
       var assignee = await getProfileOfAssignee(vm.job) 
@@ -59,7 +62,7 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
           text: i18n.tc(`${tb}.delivered`, 0, {
             user: assignee.displayName
           })
-        }
+        },
       }
     case STATE_CONSTANTS.DELIVERY_CONFIRMED:
       var assignee = await getProfileOfAssignee(vm.job) 
@@ -71,7 +74,10 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
           text: i18n.tc(`${tb}.delivery_confirmed`, 0, {
             user: assignee.displayName
           })
-        }
+        },
+        metadata: i18n.tc('jobCard.created', 0, {
+          longDate: i18n.d(new Date(vm.job.timestamp.seconds * 1000), 'long')
+        })
       }
     default:
       return {

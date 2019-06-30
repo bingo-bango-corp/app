@@ -194,6 +194,7 @@ export default class Chat extends Vue {
   textForMessage(message: Message | Notice) {
     return textForMessage(
       message,
+      message.seconds.seconds * 1000,
       this.iAm,
       this.otherPersonsPublicProfile!
     )
