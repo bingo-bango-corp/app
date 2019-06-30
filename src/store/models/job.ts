@@ -37,7 +37,6 @@ export const OPEN_STATES = [
 
 // Terminal states that will never change to something else.
 export const SETTLED_STATES = [
-  STATE_CONSTANTS.DELIVERED,
   STATE_CONSTANTS.DELIVERY_CONFIRMED,
   STATE_CONSTANTS.CANCELLED,
   STATE_CONSTANTS.LOST,
