@@ -14,6 +14,7 @@
               :state="job.state"
               :job="job"
               role="owner"
+              @click.native="goToJob(job.id)"
               @shouldGoToLoading="handleShouldGoToLoading()"
               @shouldUpdateJobs="handleShouldUpdateJobs()"
             />
@@ -30,6 +31,7 @@
               :state="job.state"
               :job="job"
               role="owner"
+              @click.native="goToJob(job.id)"
               @shouldGoToLoading="handleShouldGoToLoading()"
               @shouldUpdateJobs="handleShouldUpdateJobs()"
             />
@@ -106,6 +108,10 @@ export default class getThings extends Vue {
 
   handleShouldUpdateJobs(): void {
     this.updateJobs()
+  }
+
+  goToJob(id: string) {
+    this.$router.push(`/get-things/${id}`)
   }
 
   async handleConfirmDelivery(id: string): Promise<void> {

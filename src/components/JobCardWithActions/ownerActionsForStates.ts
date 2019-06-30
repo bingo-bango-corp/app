@@ -11,7 +11,6 @@ export const ownerActionsForStates: ActionsForState = {
     cancelJob
   ],
   assigned: [
-    goToChat,
     cancelJob
   ],
   delivered: [
