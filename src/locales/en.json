@@ -32,5 +32,19 @@
       "confirm_delivery": "{user} confirmed delivery."
     },
     "you": "You"
+  },
+  "jobCard": {
+    "owner": {
+      "assigned": "{user} is on it!",
+      "cancelled": "You cancelled this job.",
+      "lost": "{user} can't pick this up.",
+      "delivered": "{user} marked this as delivered.",
+      "delivery_confirmed": "{user} delivered this ✨"
+    },
+    "assignee": {
+      "lost": "You said you can't pick it up.",
+      "delivered": "Waiting for {user} to confirm delivery…",
+      "delivery_confirmed": "You delivered this 👍"
+    }
   }
 }

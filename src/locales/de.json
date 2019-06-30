@@ -1,0 +1,47 @@
+{
+  "routes": {
+    "makeMoney": "Geld machen",
+    "getThings": "Zeug kriegen",
+    "you": "Du"
+  },
+  "you": {
+    "displayName": {
+      "headline": "👯‍ Dein Benutzername",
+      "description": "Das sehen Leute, wenn du Jobs postest oder mit anderen chattest. Du kannst hier deinen echten Namen reinschreiben, damit es einfacher ist deine Klingel zu finden."
+    },
+    "theme": {
+      "headline": "💅 Dein Theme",
+      "description": "Wähle ein Theme für Bingo Bango auf diesem Gerät.",
+      "themeButtons": {
+        "light": "🌞Hell",
+        "dark": "🌚Dunkel",
+        "insane": "🤡Verrückt"
+      }
+    },
+    "logOut": "Ausloggen 👋"
+  },
+  "chat": {
+    "events": {
+      "assign": "{user} kümmert sich drum.",
+      "drop": "{user} kann es doch nicht liefern.",
+      "cancel": "{user} hat die Anfrage abgebrochen.",
+      "deliver": "{user} hat es als geliefert markiert.",
+      "confirm_delivery": "{user} hat die Lieferung bestätigt."
+    },
+    "you": "Du"
+  },
+  "jobCard": {
+    "owner": {
+      "assigned": "{user} kümmert sich drum!",
+      "cancelled": "Du hast die Anfrage abgebrochen.",
+      "lost": "{user} kann es doch nicht liefern.",
+      "delivered": "{user} hat es als geliefert markiert.",
+      "delivery_confirmed": "{user} hat es geliefert ✨"
+    },
+    "assignee": {
+      "lost": "Du kannst es doch nicht liefern.",
+      "delivered": "Warten, dass {user} die Lieferung bestätigt…",
+      "delivery_confirmed": "Du hast es geliefert 👍"
+    }
+  }
+}

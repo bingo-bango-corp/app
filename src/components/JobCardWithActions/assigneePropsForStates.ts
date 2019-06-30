@@ -1,10 +1,15 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import i18n from '@/i18n'
+
 import { State, Job, STATE_CONSTANTS } from '@/store/models/job'
 import { PublicProfile } from '@/store/models/profile'
 
 import { JobCardProps } from './types'
+
+// translation base path
+const tb = 'jobCard.assignee'
 
 export default async (state: State, vm: any): Promise<JobCardProps> => {
   switch (state) {
@@ -17,7 +22,7 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
       return {
         elevated: false,
         personNote: {
-          text: `You said you can't pick this up.`
+          text: i18n.tc(`${tb}.lost`)
         }
       }
     case STATE_CONSTANTS.DELIVERED:
@@ -27,7 +32,16 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: true,
         personNote: {
           pictureUrl: new URL(owner.photoURL!),
-          text: `Waiting for ${owner.displayName} to confirm delivery…`
+          text: i18n.tc(`${tb}.assigned`, 0, {
+            user: owner.displayName
+          })
+        }
+      }
+    case STATE_CONSTANTS.DELIVERY_CONFIRMED:
+      return {
+        elevated: false,
+        personNote: {
+          text: i18n.tc(`${tb}.delivery_confirmed`)
         }
       }
     default:

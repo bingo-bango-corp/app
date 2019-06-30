@@ -1,10 +1,15 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import i18n from '@/i18n'
+
 import { State, Job, STATE_CONSTANTS } from '@/store/models/job'
 import { PublicProfile } from '@/store/models/profile'
 
 import { JobCardProps } from './types'
+
+// translation base path
+const tb = 'jobCard.owner'
 
 export default async (state: State, vm: any): Promise<JobCardProps> => {
   switch (state) {
@@ -20,14 +25,16 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: true,
         personNote: {
           pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} is on it!`
+          text: i18n.tc(`${tb}.assigned`, 0, {
+            user: assignee.displayName
+          })
         }
       }
     case STATE_CONSTANTS.CANCELLED:
       return {
         elevated: false,
         personNote: {
-          text: 'You cancelled this job.'
+          text: i18n.tc(`${tb}.cancelled`)
         }
       }
     case STATE_CONSTANTS.LOST:
@@ -37,7 +44,9 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: false,
         personNote: {
           pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} can't pick this up.`
+          text: i18n.tc(`${tb}.lost`, 0, {
+            user: assignee.displayName
+          })
         }
       }
     case STATE_CONSTANTS.DELIVERED:
@@ -47,7 +56,9 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: true,
         personNote: {
           pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} marked this as delivered`
+          text: i18n.tc(`${tb}.delivered`, 0, {
+            user: assignee.displayName
+          })
         }
       }
     case STATE_CONSTANTS.DELIVERY_CONFIRMED:
@@ -57,7 +68,9 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: false,
         personNote: {
           pictureUrl: new URL(assignee.photoURL!),
-          text: `${assignee.displayName} delivered this`
+          text: i18n.tc(`${tb}.delivery_confirmed`, 0, {
+            user: assignee.displayName
+          })
         }
       }
     default:
