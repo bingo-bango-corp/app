@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import { JobCard, BingoAction } from 'simsalabim-design'
 import { State, Job, JobRelationship } from '@/store/models/job'
 
@@ -91,6 +91,11 @@ export default class JobCardWithActions extends Vue {
   }
 
   mounted() {
+    this.setPropsForState()
+  }
+
+  @Watch('state')
+  onStateChanged() {
     this.setPropsForState()
   }
 }
