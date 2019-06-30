@@ -22,5 +22,15 @@
       }
     },
     "logOut": "Log out 👋"
+  },
+  "chat": {
+    "events": {
+      "assign": "{user} took this job.",
+      "drop": "{user} can't pick this up.",
+      "cancel": "{user} cancelled the request.",
+      "deliver": "{user} marked this as delivered.",
+      "confirm_delivery": "{user} confirmed delivery."
+    },
+    "you": "You"
   }
 }

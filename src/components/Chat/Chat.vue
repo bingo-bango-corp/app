@@ -11,17 +11,18 @@
           <ChatMessage 
             v-for="message in $store.getters['chat/messages']"
             class="message"
+            :notice="message.type === 'notice'"
             :key="message.id"
             :displayName="profileForUid(message.created_by).displayName"
             :photoURL="profileForUid(message.created_by).photoURL"
             :mine="(profileForUid(message.created_by).uid === myProfile.uid)"
-            :message="message.message"
+            :message="textForMessage(message)"
           />
           <transition name="list">
             <TypingIndicator v-if="isOtherPersonTyping" :pictureURL="otherPersonsPublicProfile.photoURL" />
           </transition>
         </div>
-        <div class="inputBar">
+        <div class="inputBar" v-if="jobIsOpen">
           <BingoInput
             class="input"
             v-model="messageText"
@@ -39,6 +40,8 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import textForMessage from './textForMessage'
+
 import { 
   BingoInput,
   ChatMessage,
@@ -46,8 +49,9 @@ import {
   TypingIndicator,
 } from 'simsalabim-design'
 
-import { Job } from '../../store/models/job';
+import { Job, JobRelationship, OPEN_STATES } from '../../store/models/job';
 import { PublicProfile } from '../../store/models/profile';
+import { Message, Notice } from './types';
 
 @Component({
   components: {
@@ -73,7 +77,7 @@ export default class Chat extends Vue {
   @Prop({
     type: String,
     required: true
-  }) readonly iAm!: 'owner' | 'assignee'
+  }) readonly iAm!: JobRelationship
 
   async created() {
     await this.$store.dispatch('chat/openDBChannel', {
@@ -102,6 +106,10 @@ export default class Chat extends Vue {
       default:
         return 'owner'
     }
+  }
+
+  get jobIsOpen() {
+    return OPEN_STATES.includes(this.jobData.state)
   }
 
   get myProfile() {
@@ -181,6 +189,14 @@ export default class Chat extends Vue {
       window.requestAnimationFrame(this.scrollToTop)
       elem.scrollTo(0, c - c / 4)
     }
+  }
+
+  textForMessage(message: Message | Notice) {
+    return textForMessage(
+      message,
+      this.iAm,
+      this.otherPersonsPublicProfile!
+    )
   }
 
   async beforeDestroy() {

@@ -54,9 +54,38 @@ export type SettledState =
 
 export type State = OpenState | SettledState
 
+// transition identifiers between states
+export const STATE_TRANSITION_CONSTANTS = {
+  ASSIGN: 'assign',
+  DROP: 'drop',
+  CANCEL: 'cancel',
+  DELIVER: 'deliver',
+  CONFIRM_DELIVERY: 'confirm_delivery',
+}
+
+export const OWNER_TRANSITIONS = [
+  STATE_TRANSITION_CONSTANTS.CANCEL,
+  STATE_TRANSITION_CONSTANTS.CONFIRM_DELIVERY,
+]
+
+export const ASSIGNEE_TRANSITIONS = [
+  STATE_TRANSITION_CONSTANTS.DELIVER,
+  STATE_TRANSITION_CONSTANTS.ASSIGN,
+  STATE_TRANSITION_CONSTANTS.DROP
+]
+
+export type OwnerTransitions =
+  'cancel' |
+  'confirm_delivery'
+
+export type AssigneeTransitions =
+  'deliver' |
+  'assign' |
+  'drop'
+
+export type Transition = OwnerTransitions | AssigneeTransitions
 
 // Describe relationship between a user and a job
-
 export const USER_JOB_RELATIONSHIPS = {
   OWNER: 'owner',
   ASSIGNEE: 'assignee'
