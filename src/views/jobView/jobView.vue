@@ -4,6 +4,7 @@
       :actions="jobActions"
       :job="data"
       :forceLoading="forceLoading"
+      role="owner"
       @actionClicked="handleActionClicked"
     />
   </div>
