@@ -25,13 +25,21 @@
   },
   "chat": {
     "events": {
-      "assign": "{user} took this job.",
-      "drop": "{user} can't pick this up.",
-      "cancel": "{user} cancelled the request.",
-      "deliver": "{user} marked this as delivered.",
-      "confirm_delivery": "{user} confirmed delivery."
-    },
-    "you": "You"
+      "they_did": {
+        "assign": "{user} took this job.",
+        "drop": "{user} can't pick this up.",
+        "cancel": "{user} cancelled the request.",
+        "deliver": "{user} marked this as delivered.",
+        "confirm_delivery": "{user} confirmed delivery."
+      },
+      "you_did": {
+        "assign": "You took this job.",
+        "drop": "You can't pick this up.",
+        "cancel": "You cancelled the request.",
+        "deliver": "You marked this as delivered.",
+        "confirm_delivery": "You confirmed delivery."
+      }
+    }
   },
   "jobCard": {
     "owner": {

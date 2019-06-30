@@ -8,6 +8,9 @@ import {
 import { PublicProfile } from '@/store/models/profile';
 import { Notice, Message } from './types';
 
+// translation base path
+const tb = 'chat.events'
+
 export default (
   message: Message | Notice,
   role: JobRelationship,
@@ -38,11 +41,11 @@ const adaptNotice = (
 const stringsForEventType: {
   [key in Transition]: string
 } = {
-  'assign': 'chat.events.assign',
-  'cancel': 'chat.events.cancel',
-  'confirm_delivery': 'chat.events.confirm_delivery',
-  'deliver': 'chat.events.deliver',
-  'drop': 'chat.events.drop'
+  'assign': 'assign',
+  'cancel': 'cancel',
+  'confirm_delivery': 'confirm_delivery',
+  'deliver': 'deliver',
+  'drop': 'drop'
 }
 
 const translationWithUser = (
@@ -54,16 +57,13 @@ const translationWithUser = (
   const actionTakenByOwner = OWNER_TRANSITIONS.includes(event)
   const actionTakenByAssignee = ASSIGNEE_TRANSITIONS.includes(event)
 
-  if (actionTakenByOwner && role === 'owner') {
-    return i18n.tc(stringId, 0, {
-      user: i18n.tc('chat.you')
-    })
-  } else if (actionTakenByAssignee && role === 'assignee') {
-    return i18n.tc(stringId, 0, {
-      user: i18n.tc('chat.you')
-    })
+  if (
+    actionTakenByOwner && role === 'owner' ||
+    actionTakenByAssignee && role === 'assignee'
+  ) {
+    return i18n.tc(`${tb}.you_did.${stringId}`)
   } else {
-    return i18n.tc(stringId, 0, {
+    return i18n.tc(`${tb}.they_did.${stringId}`, 0, {
       user: otherPersonsPublicProfile.displayName
     })
   }

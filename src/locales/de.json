@@ -25,13 +25,21 @@
   },
   "chat": {
     "events": {
-      "assign": "{user} kümmert sich drum.",
-      "drop": "{user} kann es doch nicht liefern.",
-      "cancel": "{user} hat die Anfrage abgebrochen.",
-      "deliver": "{user} hat es als geliefert markiert.",
-      "confirm_delivery": "{user} hat die Lieferung bestätigt."
-    },
-    "you": "Du"
+      "they_did": {
+        "assign": "{user} kümmert sich drum.",
+        "drop": "{user} kann es doch nicht liefern.",
+        "cancel": "{user} hat die Anfrage abgebrochen.",
+        "deliver": "{user} hat es als geliefert markiert.",
+        "confirm_delivery": "{user} hat die Lieferung bestätigt."
+      },
+      "you_did": {
+        "assign": "Du hast die Anfrage angenommen.",
+        "drop": "Du kannst es doch nicht liefern.",
+        "cancel": "Du hast die Anfrage abgebrochen.",
+        "deliver": "Du hast es als geliefert markiert.",
+        "confirm_delivery": "Du hast die Lieferung bestätigt."
+      }
+    }
   },
   "jobCard": {
     "owner": {
