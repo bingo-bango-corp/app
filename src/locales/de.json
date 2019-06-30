@@ -4,6 +4,9 @@
     "getThings": "Zeug kriegen",
     "you": "Du"
   },
+  "getThings": {
+    "newRequest": "🙏 Neue Anfrage"
+  },
   "you": {
     "displayName": {
       "headline": "👯‍ Dein Benutzername",
