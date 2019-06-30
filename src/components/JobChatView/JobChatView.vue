@@ -14,9 +14,12 @@
           :state="job.state"
           :job="job"
           :role="role"
+          :collapsed="cardShouldBeCollapsed"
+          @click.native="cardShouldBeCollapsed = !cardShouldBeCollapsed"
           @shouldGoToLoading="handleShouldGoToLoading()"
         />
-        <Chat 
+        <Chat
+          class="chat"
           :jobData="job"
           :iAm="iAmAn"
           @scrollStatus="handleScrollUpdate"
