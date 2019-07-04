@@ -6,7 +6,7 @@
       </div>
     </transition>
     <transition name="fade-translate">
-      <div v-if="!loading" class="content">
+      <div v-show="!loading" class="content">
         <slot></slot>
       </div>
     </transition>

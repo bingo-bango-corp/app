@@ -4,7 +4,9 @@
       <div class="loading" v-if="loading">
         <Spinner />
       </div>
-      <div class="content" v-else>
+    </transition>
+    <transition name="fade">
+      <div class="content" v-show="!loading">
         <JobCardWithActions
           class="JobCard"
           :title="job.thing"
@@ -17,6 +19,7 @@
           :collapsed="cardShouldBeCollapsed"
           @click.native="cardShouldBeCollapsed = !cardShouldBeCollapsed"
           @shouldGoToLoading="handleShouldGoToLoading()"
+          @shouldUpdateJobs="handleShouldUpdateJobs()"
         />
         <Chat
           class="chat"
@@ -77,6 +80,10 @@ export default class JobChatView extends Vue {
 
   handleShouldGoToLoading() {
     this.internallyLoading = true
+  }
+
+  handleShouldUpdateJobs() {
+    this.internallyLoading = false
   }
 
   get iAmAn(): 'owner' | 'assignee' {
