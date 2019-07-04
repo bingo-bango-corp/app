@@ -13,10 +13,31 @@ const tb = 'jobCard.assignee'
 
 export default async (state: State, vm: any): Promise<JobCardProps> => {
   switch (state) {
-    case STATE_CONSTANTS.ASSIGNED:
+    case STATE_CONSTANTS.UNASSIGNED:
+      var owner = await getProfileOfOwner(vm.job)
+
       return {
-        elevated: true,
-        description: vm.description
+        elevated: false,
+        description: vm.description,
+        personNote: {
+          pictureUrl: new URL(owner.photoURL!),
+          text: i18n.tc(`${tb}.assigned`, 0, {
+            name: owner.displayName
+          })
+        }
+      }
+    case STATE_CONSTANTS.ASSIGNED:
+      var owner = await getProfileOfOwner(vm.job)
+      
+      return {
+        elevated: false,
+        description: vm.description,
+        personNote: {
+          pictureUrl: new URL(owner.photoURL!),
+          text: i18n.tc(`${tb}.assigned`, 0, {
+            name: owner.displayName
+          })
+        }
       }
     case STATE_CONSTANTS.LOST:
       return {

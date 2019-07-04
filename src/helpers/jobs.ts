@@ -141,8 +141,8 @@ export const dropJob = async (
 }
 
 export const takeJob = async (
-  uid: string,
-  jobID: string
+  jobID: string,
+  uid: string
 ): Promise<void> => {
   await firebase.app().functions('europe-west1').httpsCallable('takeJob')({
     jobID: jobID,

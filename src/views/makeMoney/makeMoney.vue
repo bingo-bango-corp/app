@@ -2,22 +2,26 @@
   <div class="makeMoney">
     <div class="jobs">
       <JobListView :loading="loading">
-        <div class="job" v-for="(job, index) in nearbyJobs" :key="index">
-          <JobCard class="jobCard"
-            :title="job.thing"
-            :jobId="job.id"
-            :description="job.description"
-            :actions="jobActions"
-            :distance="job.queryMetadata.distance"
-            :tip="{
-              cents: job.tip.cents,
-              currency: job.tip.currency
-            }"
-            :locale="$i18n.locale"
-            :collapsed="(selected != index)"
-            @click.native="toggleJob(index)"
-          />
-        </div>
+        <HeadlineContentPair
+          headline=""
+          description="Nearby Requests"
+        >
+          <div class="job" v-for="(job, index) in nearbyJobs" :key="job.id">
+            <JobCardWithActions
+              :title="job.thing"
+              :description="job.description"
+              :jobId="job.id"
+              :tip="job.tip"
+              :state="job.state"
+              :job="job"
+              :collapsed="selected !== index"
+              role="assignee"
+              @click.native="toggleJob(index)"
+              @shouldGoToLoading="handleShouldGoToLoading()"
+              @shouldUpdateJobs="handleShouldUpdateJobs()"
+            />
+          </div>
+        </HeadlineContentPair>
       </JobListView>
     </div>
   </div>
@@ -27,7 +31,8 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { queryNearbyJobs, takeJob } from '@/helpers/jobs'
 import JobListView from '@/components/JobListView'
-import { JobCard } from 'simsalabim-design'
+import JobCardWithActions from '@/components/JobCardWithActions'
+import { HeadlineContentPair } from 'simsalabim-design'
 import { Route } from 'vue-router'
 import store from '@/store'
 import { mapState } from 'vuex'
@@ -39,7 +44,8 @@ Component.registerHooks([
 
 @Component({
   components: {
-    JobCard,
+    HeadlineContentPair,
+    JobCardWithActions,
     JobListView
   },
 })
@@ -47,17 +53,6 @@ export default class makeMoney extends Vue {
   loading = false
   selected: number | null = null
 
-  jobActions = [
-    {
-      title: '🤚 Pick it up',
-      backgroundColor: 'var(--secondary)',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-        this.takeJob(event.meta.jobId)
-      }
-    },
-  ]
-  
   nearbyJobs: Array<any> = []
   radius: number = 8
  
@@ -84,15 +79,17 @@ export default class makeMoney extends Vue {
   }
 
   toggleJob(index: number) {
-    this.selected = (this.selected === index)
+    this.selected = this.selected === index
       ? null
       : index
   }
 
-  async takeJob(id: string) {
+  handleShouldGoToLoading(): void {
     this.loading = true
-    await takeJob(this.$store.getters.uid, id)
-    this.$router.push('/make-money/current-job/')
+  }
+
+  handleShouldUpdateJobs(): void {
+    this.updateNearbyJobs()
   }
 }
 </script>

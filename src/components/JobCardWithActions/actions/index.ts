@@ -1,5 +1,6 @@
 export { cancelJobAction as cancelJob } from './cancelJob'
 export { confirmDeliveryAction as confirmDelivery } from './confirmDelivery'
 export { goToChat } from './goToChat'
+export { assignJob } from './assignJob'
 export { deliverJobAction as deliverJob } from './deliverJob'
 export { dropJobAction as dropJob } from './dropJob'

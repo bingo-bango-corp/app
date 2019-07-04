@@ -1,8 +1,10 @@
 import { ActionsForState } from './types'
-import { dropJob, deliverJob } from './actions'
+import { dropJob, deliverJob, assignJob } from './actions'
 
 export const assigneeActionsForStates: ActionsForState = {
-  unassigned: null,
+  unassigned: [
+    assignJob
+  ],
   assigned: [
     deliverJob,
     dropJob

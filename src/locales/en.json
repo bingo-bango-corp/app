@@ -50,6 +50,7 @@
       "delivery_confirmed": "{user} delivered this ✨"
     },
     "assignee": {
+      "assigned": "{name}",
       "lost": "You said you can't pick it up.",
       "delivered": "Waiting for {user} to confirm delivery…",
       "delivery_confirmed": "You delivered this 👍"
