@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="makeMoney">
     <div class="jobs">
       <JobListView :loading="loading">
         <div class="job" v-for="(job, index) in nearbyJobs" :key="index">
@@ -59,7 +59,7 @@ export default class makeMoney extends Vue {
   ]
   
   nearbyJobs: Array<any> = []
-  radius: number = 10
+  radius: number = 8
  
   async created() {
     this.loading = true
