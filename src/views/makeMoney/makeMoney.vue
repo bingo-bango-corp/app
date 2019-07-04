@@ -59,7 +59,7 @@ export default class makeMoney extends Vue {
   ]
   
   nearbyJobs: Array<any> = []
-  radius: number = 5
+  radius: number = 10
  
   async created() {
     this.loading = true

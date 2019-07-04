@@ -16,7 +16,8 @@ export type Job = {
   tip: {
     cents: number
     currency: string
-  }
+  },
+  terminal: boolean
 }
 
 export const STATE_CONSTANTS = {

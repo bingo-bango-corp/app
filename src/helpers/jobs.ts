@@ -40,6 +40,7 @@ export const createJob = (
       uid: uid,
       profile: db.collection('users').doc(uid)
     },
+    terminal: false,
     state: 'unassigned'
   }
 
