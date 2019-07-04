@@ -1,12 +1,9 @@
 import { register } from 'register-service-worker'
-import firebase from 'firebase/app'
-import '@firebase/messaging'
 
 export default async () => {
   if (process.env.NODE_ENV === 'production') {
-    const messaging = firebase.messaging()
     register(`${process.env.BASE_URL}service-worker.js`, {
-      async ready(registration) {
+      async ready() {
         console.log(
           'App is being served from cache by a service worker.\n' +
           'For more details, visit https://goo.gl/AFskqB',
