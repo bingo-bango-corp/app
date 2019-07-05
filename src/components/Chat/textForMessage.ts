@@ -62,8 +62,6 @@ const translationWithUser = (
   const actionTakenByOwner = OWNER_TRANSITIONS.includes(event)
   const actionTakenByAssignee = ASSIGNEE_TRANSITIONS.includes(event)
 
-  console.log(timestamp)
-
   const timeString = i18n.d(new Date(timestamp), 'time')
 
   if (

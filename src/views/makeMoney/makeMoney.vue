@@ -1,11 +1,14 @@
 <template>
   <div class="makeMoney">
     <div class="jobs">
-      <JobListView :loading="loading">
-        <HeadlineContentPair
-          headline=""
-          description="Nearby Requests"
-        >
+      <HeadlineContentPair
+        headline=""
+        description="Nearby Requests"
+        refreshButton
+        :loading="loading"
+        @refreshButtonClicked="updateNearbyJobs"
+      >
+        <JobListView :loading="loading">
           <div class="job" v-for="(job, index) in nearbyJobs" :key="job.id">
             <JobCardWithActions
               :title="job.thing"
@@ -21,8 +24,8 @@
               @shouldUpdateJobs="handleShouldUpdateJobs()"
             />
           </div>
-        </HeadlineContentPair>
-      </JobListView>
+        </JobListView>
+      </HeadlineContentPair>
     </div>
   </div>
 </template>
