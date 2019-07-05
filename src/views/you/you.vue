@@ -12,9 +12,13 @@
       description="These are the accounts you've used to sign into Bingo Bango."
       class="linkedAccounts"
     >
-      <div class="account" v-for="(account, index) in accounts" :key="index">
-        {{ account.providerId }}
-      </div>
+      <AccountListItem 
+        class="account"
+        v-for="(account, index) in accounts"
+        :key="index"
+        :accountType="account.providerId"
+        :label="account.email"
+      />
     </HeadlineContentPair>
     <HeadlineContentPair
       :headline="$t('you.theme.headline')"
@@ -39,13 +43,19 @@
 
 <script>
 import { Vue, Component } from 'vue-property-decorator'
-import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
+import { 
+  BingoButton,
+  HeadlineContentPair,
+  BingoInput,
+  AccountListItem
+} from 'simsalabim-design'
 
 @Component({
   components: {
     BingoButton,
     HeadlineContentPair,
-    BingoInput
+    BingoInput,
+    AccountListItem,
   }
 })
 export default class makeMoney extends Vue {
