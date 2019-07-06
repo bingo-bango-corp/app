@@ -125,8 +125,8 @@ router.beforeEach(async (to, from, next) => {
   ) {
     next('/permissions')
   } else {
-    if (!store.getters['permissions/notificationsInitialized']) {
-      await store.dispatch('permissions/initializeNotifications')
+    if (!store.getters['notifications/notificationsInitialized']) {
+      await store.dispatch('notifications/initializeNotifications')
     }
     next()
   }

@@ -9,6 +9,10 @@ export const attachTokenRefreshHandler = (): void => {
   messaging.onTokenRefresh(() => {
     writeCurrentTokenToUser()
   })
+
+  messaging.onMessage((payload) => {
+    
+  })
 }
 
 export const writeCurrentTokenToUser = async (): Promise<boolean> => {

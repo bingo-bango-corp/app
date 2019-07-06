@@ -11,6 +11,7 @@ import preferences from './modules/preferences'
 import chat from './modules/chat'
 import currentJob from './modules/currentJob'
 import location from './modules/location'
+import notifications from './modules/notifications'
 import myJobs from './modules/myJobs'
 import permissions from './modules/permissions'
 
@@ -30,7 +31,8 @@ const store = new Vuex.Store({
     permissions,
     profile,
     preferences,
-    location
+    location,
+    notifications
   },
   plugins: [easyFirestore, vuexLocal.plugin]
 })

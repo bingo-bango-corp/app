@@ -3,5 +3,4 @@ export default interface Permissions {
   allRequiredGranted: boolean | undefined
   location: boolean | undefined
   notifications: boolean | undefined
-  messageTokenInitialized: boolean
 }
