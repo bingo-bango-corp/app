@@ -11,13 +11,12 @@ export const attachTokenRefreshHandler = (): void => {
   })
 }
 
-export const writeCurrentTokenToUser = async (): Promise<void> => {
+export const writeCurrentTokenToUser = async (): Promise<boolean> => {
   const db = firebase.firestore()
   const token = await firebase.messaging().getToken()
+  if (!token) return false
 
-  console.log('writeCurrentToken')
-
-  return db
+  await db
     .collection('users')
     .doc(store.getters.uid)
     .collection('private')
@@ -27,6 +26,8 @@ export const writeCurrentTokenToUser = async (): Promise<void> => {
     }).catch(e => {
       console.error(e)
     })
+  
+  return true
 }
 
 export const requestPermission = async (): Promise<void> => {

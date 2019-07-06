@@ -59,11 +59,11 @@ export default class Permissions extends VuexModule {
 
   @Action({ commit: 'writePermissions' })
   async initializeNotifications(): Promise<PermissionInterface> {
-    await writeCurrentTokenToUser()
+    const result = await writeCurrentTokenToUser()
 
     return {
       ...this.data,
-      messageTokenInitialized: true
+      messageTokenInitialized: result
     }
   }
 }
