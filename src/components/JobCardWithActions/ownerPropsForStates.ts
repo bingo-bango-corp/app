@@ -35,7 +35,10 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: false,
         personNote: {
           text: i18n.tc(`${tb}.cancelled`)
-        }
+        },
+        metadata: i18n.tc('jobCard.created', 0, {
+          longDate: i18n.d(new Date(vm.job.timestamp.seconds * 1000), 'long')
+        })
       }
     case STATE_CONSTANTS.LOST:
       var assignee = await getProfileOfAssignee(vm.job)
