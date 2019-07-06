@@ -53,7 +53,7 @@ export default async (state: State, vm: any): Promise<JobCardProps> => {
         elevated: true,
         personNote: {
           pictureUrl: new URL(owner.photoURL!),
-          text: i18n.tc(`${tb}.assigned`, 0, {
+          text: i18n.tc(`${tb}.delivered`, 0, {
             user: owner.displayName
           })
         }
