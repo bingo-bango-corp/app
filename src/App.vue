@@ -15,6 +15,8 @@ import {Route} from 'vue-router'
 import layouts from '@/layouts'
 import { ThemeProvider } from 'simsalabim-design'
 import { setThemeColorForTheme } from '@/util/setThemeColor'
+import { ensureMyJobsSynced, updateCurrentJobStore } from '@/helpers/jobs'
+import store from '@/store'
 
 @Component({
   components: {
@@ -23,6 +25,11 @@ import { setThemeColorForTheme } from '@/util/setThemeColor'
   }
 })
 export default class App extends Vue {
+  async beforeCreate() {
+    await ensureMyJobsSynced()
+    await updateCurrentJobStore(store.getters.uid)
+  }
+
   mounted() {
     setThemeColorForTheme(this.$store.getters.currentThemeObject)
   }

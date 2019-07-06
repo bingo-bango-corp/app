@@ -3,8 +3,6 @@ import Router from "vue-router"
 import login from "./views/login"
 import store from "@/store"
 
-import { ensureMyJobsSynced, updateCurrentJobStore } from '@/helpers/jobs'
-
 import { RouteList } from 'simsalabim-design'
 import { RouteConfig } from 'vue-router'
 
@@ -125,18 +123,11 @@ router.beforeEach(async (to, from, next) => {
     !allPermissionsGranted &&
     to.path !== '/permissions'
   ) {
-    console.log('forwarding to /permissions')
-    await ensureMyJobsSynced()
-    await updateCurrentJobStore(store.getters.uid)
     next('/permissions')
   } else {
-    await ensureMyJobsSynced()
-    await updateCurrentJobStore(store.getters.uid)
-
     if (!store.getters['permissions/notificationsInitialized']) {
       await store.dispatch('permissions/initializeNotifications')
     }
-
     next()
   }
 })
