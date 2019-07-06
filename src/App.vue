@@ -28,6 +28,7 @@ export default class App extends Vue {
   async beforeCreate() {
     await updateCurrentJobStore(this.$store.getters.uid)
     await setUpServiceWorker()
+    await this.$store.dispatch('myJobs/openDBChannel')
   }
 
   mounted() {

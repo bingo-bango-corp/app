@@ -12,10 +12,11 @@ import chat from './modules/chat'
 import currentJob from './modules/currentJob'
 import viewedJob from './modules/viewedJob'
 import location from './modules/location'
+import myJobs from './modules/myJobs'
 import permissions from './modules/permissions'
 
 const easyFirestore = VuexEasyFirestore(
-  [chat, currentJob, viewedJob],
+  [chat, currentJob, viewedJob, myJobs],
   {logging: true, FirebaseDependency: Firebase}
 )
 

@@ -74,7 +74,7 @@ import { Job, OPEN_STATES, SETTLED_STATES, State } from '../../store/models/job'
 })
 export default class getThings extends Vue {
   myJobs: Job[] = []
-  loading: boolean = true
+  loading: boolean = false
 
   handleNewClick(): void {
     this.$router.push('get-things/new')
@@ -85,15 +85,11 @@ export default class getThings extends Vue {
   }
 
   get openJobs(): Job[] {
-    return this.myJobs.filter((j: Job) => {
-      return OPEN_STATES.includes(j.state)
-    })
+    return this.$store.getters['myJobs/openJobs']
   }
 
   get settledJobs(): Job[] {
-    return this.myJobs.filter((j: Job) => {
-      return SETTLED_STATES.includes(j.state)
-    })
+    return this.$store.getters['myJobs/settledJobs']
   }
 
   jobArrayFromJobList(jobList: JobList): Array<Job> {
@@ -130,13 +126,7 @@ export default class getThings extends Vue {
   }
 
   async updateJobs(): Promise<void> {
-    this.loading = true
-    this.myJobs = this.jobArrayFromJobList(await getOwnJobs(this.$store.getters.uid))
     this.loading = false
-  }
-
-  async mounted(): Promise<void> {
-    this.updateJobs()
   }
 } 
 </script>

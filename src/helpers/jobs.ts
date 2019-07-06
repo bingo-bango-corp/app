@@ -44,7 +44,7 @@ export const createJob = (
     state: 'unassigned'
   }
 
-  return db.collection('jobs').add(data)
+  return store.dispatch('myJobs/insert', data)
 }
 
 export const queryNearbyJobs = async (
