@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import PermissionInterface from '@/store/models/permissions'
+import { writeCurrentTokenToUser } from '@/util/setUpNotifications'
 
 @Module({
   namespaced: true
@@ -9,7 +10,8 @@ export default class Permissions extends VuexModule {
     checked: false,
     location: undefined,
     notifications: undefined,
-    allRequiredGranted: undefined
+    allRequiredGranted: undefined,
+    messageTokenInitialized: false,
   }
 
   get currentPermissions(): PermissionInterface {
@@ -18,6 +20,10 @@ export default class Permissions extends VuexModule {
 
   get allGranted(): boolean | undefined {
     return this.data.allRequiredGranted
+  }
+
+  get notificationsInitialized(): boolean {
+    return this.data.messageTokenInitialized
   }
 
   @Mutation
@@ -43,10 +49,21 @@ export default class Permissions extends VuexModule {
     )
 
     return {
+      ...this.data,
       checked: true,
       allRequiredGranted: allRequiredGranted,
       location: locationPermission.state,
       notifications: notificationsPermission.state,
+    }
+  }
+
+  @Action({ commit: 'writePermissions' })
+  async initializeNotifications(): Promise<PermissionInterface> {
+    await writeCurrentTokenToUser()
+
+    return {
+      ...this.data,
+      messageTokenInitialized: true
     }
   }
 }

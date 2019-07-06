@@ -11,7 +11,8 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import Stub from './stub'
-import setUpNotifications from '@/util/setUpNotifications'
+
+import { requestPermission } from '@/util/setUpNotifications'
 
 @Component({
   components: {
@@ -38,7 +39,7 @@ export default class Permissions extends Vue {
       headline: 'we need to send you notifications',
       description: 'We need it',
       pemFunction: async (next: Function) => {
-        const request = await setUpNotifications(this.$store.getters.publicProfile.uid)
+        const request = await requestPermission()
         next()
       }
     }

@@ -8,10 +8,13 @@ import initFirebase from './initFirebase'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/messaging'
 
 import i18n from './i18n'
 import VueMeta from 'vue-meta'
 import VueChatScroll from 'vue-chat-scroll'
+
+import { attachTokenRefreshHandler } from '@/util/setUpNotifications'
 
 Vue.config.productionTip = false
 
@@ -22,7 +25,12 @@ Vue.use(VueChatScroll)
 
 const initializeApp = async () => {
   await initFirebase()
-  await registerServiceWorker()
+  registerServiceWorker()
+  const sw = await navigator.serviceWorker.ready
+
+  firebase.messaging().useServiceWorker(sw)
+  attachTokenRefreshHandler()
+
   firebase.auth().onAuthStateChanged(async user => {
     if (user) {
       await store.dispatch('updateProfileFromFirebase')
