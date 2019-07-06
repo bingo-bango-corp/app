@@ -1,7 +1,7 @@
 <template>
   <div class="currentJob">
     <JobChatView
-      :job="data"
+      :job="job"
       :forceLoading="forceLoading"
       @actionClicked="handleActionClicked"
       role="assignee"
@@ -33,6 +33,26 @@ Component.registerHooks([
 })
 export default class currentJob extends Vue {
   forceLoading: boolean = false
+
+  created() {
+    this.$store.dispatch('notifications/setCurrentViewValidator', (payload: any) => {
+      const { type, context } = payload
+
+      if (type === 'new-chat-message' && this.job.id === context) {
+        return false
+      } else {
+        return true
+      }
+    })
+  }
+
+  beforeDestroy() {
+    this.$store.dispatch('notifications/purgeCurrentViewValidator')
+  }
+
+  get job() {
+    return this.$store.state.currentJob.data
+  }
 
   handleActionClicked(): void {
     this.forceLoading = true

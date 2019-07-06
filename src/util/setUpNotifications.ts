@@ -11,7 +11,22 @@ export const attachTokenRefreshHandler = (): void => {
   })
 
   messaging.onMessage((payload) => {
-    
+    if (store.getters['notifications/currentViewValidator'](payload.data)) {
+      const { title } = payload.data;
+      const options = {
+        body: payload.data.body,
+        priority: 2,
+        silent: false,
+        actions: payload.data.actions,
+        data: {
+          url: payload.data.link,
+        },
+      };
+
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title, options);
+      });
+    }
   })
 }
 

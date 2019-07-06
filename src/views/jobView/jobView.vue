@@ -26,6 +26,22 @@ import JobChatView from '@/components/JobChatView'
 export default class jobView extends Vue {
   forceLoading: boolean = false
 
+  created() {
+    this.$store.dispatch('notifications/setCurrentViewValidator', (payload: any) => {
+      const { type, context } = payload
+
+      if (type === 'new-chat-message' && this.job.id === context) {
+        return false
+      } else {
+        return true
+      }
+    })
+  }
+
+  beforeDestroy() {
+    this.$store.dispatch('notifications/purgeCurrentViewValidator')
+  }
+
   get job() {
     return this.$store.getters['myJobs/specificJob'](this.$route.params.id)
   }
