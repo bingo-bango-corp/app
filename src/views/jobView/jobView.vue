@@ -1,7 +1,6 @@
 <template>
   <div class="jobView" v-if="job">
     <JobChatView
-      :actions="jobActions"
       :job="job"
       :forceLoading="forceLoading"
       role="owner"
@@ -26,17 +25,6 @@ import JobChatView from '@/components/JobChatView'
 })
 export default class jobView extends Vue {
   forceLoading: boolean = false
-
-  jobActions = [
-    {
-      title: '🚫 Cancel job',
-      backgroundColor: '#EB5757',
-      onClick: (event: any) => {
-        event.event.stopPropagation()
-        this.cancelJob()
-      }
-    },
-  ]
 
   get job() {
     return this.$store.getters['myJobs/specificJob'](this.$route.params.id)
