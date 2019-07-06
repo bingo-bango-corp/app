@@ -48,8 +48,9 @@ import rewardConfig from './rewardConfig'
 export default class newRequest extends Vue {
   what: string = ''
   where: string = ''
-
   selectedReward: any = null
+
+  submitting: boolean = false
 
   rewardConfig: RewardList = rewardConfig;
 
@@ -62,11 +63,17 @@ export default class newRequest extends Vue {
   }
 
   get buttonActive(): boolean {
-    return !(this.what !== '' && this.where !== '' && this.selectedReward !== null);
+    return !(
+      this.what !== '' &&
+      this.where !== '' &&
+      this.selectedReward !== null &&
+      this.submitting === false
+    );
   }
 
   async submit() {
     const location = this.$store.getters.currentLocation
+    this.submitting = true
 
     await createJob(
       this.$store.getters.uid,
@@ -78,6 +85,9 @@ export default class newRequest extends Vue {
         tip: this.selectedReward.value
       }
     )
+
+    this.submitting = false
+    this.$router.push('/get-things')
   }
 } 
 </script>
