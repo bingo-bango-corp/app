@@ -74,7 +74,7 @@ import { Job, OPEN_STATES, SETTLED_STATES, State } from '../../store/models/job'
 })
 export default class getThings extends Vue {
   myJobs: Job[] = []
-  loading: boolean = false
+  loading: boolean = true
 
   handleNewClick(): void {
     this.$router.push('get-things/new')
@@ -126,6 +126,10 @@ export default class getThings extends Vue {
   }
 
   async updateJobs(): Promise<void> {
+    this.loading = false
+  }
+
+  mounted() {
     this.loading = false
   }
 } 
