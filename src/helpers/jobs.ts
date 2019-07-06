@@ -189,6 +189,14 @@ export const updateCurrentJobStore = async (
   }
 }
 
+export const ensureMyJobsSynced = async () => {
+  if (!isMyJobsSynced()) {
+    await store.dispatch('myJobs/openDBChannel')
+  } else {
+    return Promise.resolve()
+  }
+}
+
 export const subscribeToJob = async (
   jobID: string
 ) => {
@@ -205,4 +213,8 @@ export const unsubscribeFromJob = async () => {
 
 export const doesCurrentJobExist = (): boolean => {
   return (store.state.currentJob._sync.signedIn)
+}
+
+export const isMyJobsSynced = (): boolean => {
+  return (store.state.myJobs._sync.signedIn)
 }

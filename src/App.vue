@@ -15,8 +15,6 @@ import {Route} from 'vue-router'
 import layouts from '@/layouts'
 import { ThemeProvider } from 'simsalabim-design'
 import { setThemeColorForTheme } from '@/util/setThemeColor'
-import { updateCurrentJobStore } from '@/helpers/jobs'
-import { setUpServiceWorker } from '@/util/setUpNotifications'
 
 @Component({
   components: {
@@ -25,12 +23,6 @@ import { setUpServiceWorker } from '@/util/setUpNotifications'
   }
 })
 export default class App extends Vue {
-  async beforeCreate() {
-    await updateCurrentJobStore(this.$store.getters.uid)
-    await setUpServiceWorker()
-    await this.$store.dispatch('myJobs/openDBChannel')
-  }
-
   mounted() {
     setThemeColorForTheme(this.$store.getters.currentThemeObject)
   }

@@ -3,6 +3,9 @@ import Router from "vue-router"
 import login from "./views/login"
 import store from "@/store"
 
+import { ensureMyJobsSynced, updateCurrentJobStore } from '@/helpers/jobs'
+import { setUpServiceWorker } from '@/util/setUpNotifications'
+
 import { RouteList } from 'simsalabim-design'
 import { RouteConfig } from 'vue-router'
 
@@ -124,8 +127,14 @@ router.beforeEach(async (to, from, next) => {
     to.path !== '/permissions' &&
     process.env.NODE_ENV === 'production'
   ) {
+    await ensureMyJobsSynced()
+    await updateCurrentJobStore(store.getters.uid)
+    await setUpServiceWorker()
     next('/permissions')
   } else {
+    await ensureMyJobsSynced()
+    await updateCurrentJobStore(store.getters.uid)
+    await setUpServiceWorker()
     next()
   }
 })
