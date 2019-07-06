@@ -2,45 +2,67 @@
   <div class="newRequest">
     <HeadlineContentPair
       headline="🍔 What do you want?"
-      description=""
+      description="Type what you're requesting. It can be anything, as long as someone is willing to get it for you."
     >
       <BingoInput v-model="what" placeholder="Keep it simple and specific"/>
     </HeadlineContentPair>
     <HeadlineContentPair
       headline="🗺 Where do you want it?"
-      description=""
+      description="Describe where you are. There will be a live chat later where you can give further details."
     >
       <BingoInput v-model="where" placeholder="Details like Doorbell name"/>
     </HeadlineContentPair>
     <HeadlineContentPair
       headline="How much do you want to tip?"
-      description=""
+      description="Select your reward. This is on top of what the requested item costs. The more you tip, the faster someone will pick it up."
     >
-      <BingoInput type="number" v-model="tip" placeholder="Enter amount of tip in Euro"/>
+      <RewardPicker class="rewardPicker" :rewards="rewards" v-model="selectedReward" />
     </HeadlineContentPair>
-    <BingoButton @clicked="submit">submit</BingoButton>
+    <BingoButton class="submitButton" :disabled="buttonActive" @clicked="submit">
+      🙏 Request it!
+    </BingoButton>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Model } from 'vue-property-decorator'
 import { createJob } from '@/helpers/jobs'
-import { BingoButton, HeadlineContentPair, BingoInput } from 'simsalabim-design'
+import { 
+  BingoButton,
+  HeadlineContentPair,
+  BingoInput,
+  RewardPicker,
+  RewardList,
+} from 'simsalabim-design'
+
+import rewardConfig from './rewardConfig'
 
 @Component({
   components: {
     BingoButton,
     HeadlineContentPair,
-    BingoInput
+    BingoInput,
+    RewardPicker
   }
 })
 export default class newRequest extends Vue {
   what: string = ''
   where: string = ''
-  tip: number | null = null
+
+  selectedReward: any = null
+
+  rewardConfig: RewardList = rewardConfig;
 
   async mounted() {
     this.$store.dispatch('updateLocation')
+  }
+
+  get rewards(): RewardList {
+    return this.rewardConfig;
+  }
+
+  get buttonActive(): boolean {
+    return !(this.what !== '' && this.where !== '' && this.selectedReward !== null);
   }
 
   async submit() {
@@ -53,16 +75,9 @@ export default class newRequest extends Vue {
       {
         description:this.where,
         thing: this.what,
-        tip: {
-          cents: this.tip! * 100,
-          currency: 'EUR'
-        }
+        tip: this.selectedReward.value
       }
     )
-
-    this.where = ''
-    this.what = ''
-    this.tip = null
   }
 } 
 </script>
