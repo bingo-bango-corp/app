@@ -16,6 +16,9 @@ const myJobs = {
       return Object.values(state.data).filter((j: any) => {
         return SETTLED_STATES.includes(j.state)
       })
+    },
+    specificJob: (state: any) => (jobId: string) => {
+      return state.data[jobId]
     }
   },
   sync: {

@@ -1,8 +1,8 @@
 <template>
-  <div class="jobView">
+  <div class="jobView" v-if="job">
     <JobChatView
       :actions="jobActions"
-      :job="data"
+      :job="job"
       :forceLoading="forceLoading"
       role="owner"
       @actionClicked="handleActionClicked"
@@ -20,7 +20,6 @@ import { mapState } from 'vuex'
 import JobChatView from '@/components/JobChatView'
 
 @Component({
-  computed: mapState('viewedJob', ['data']),
   components: {
     JobChatView
   }
@@ -39,6 +38,10 @@ export default class jobView extends Vue {
     },
   ]
 
+  get job() {
+    return this.$store.getters['myJobs/specificJob'](this.$route.params.id)
+  }
+
   async cancelJob() {
     await cancelJob(this.$route.params.id, this.$store.getters.uid)
     this.$router.push('/get-things')
@@ -46,14 +49,6 @@ export default class jobView extends Vue {
 
   handleActionClicked(): void {
     this.forceLoading = true
-  }
-
-  async beforeCreate() {
-    await subscribeToJob(this.$route.params.id)
-  }
-
-  async beforeDestroy() {
-    await unsubscribeFromJob()
   }
 }
 </script>
