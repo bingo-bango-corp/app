@@ -1,7 +1,7 @@
 <template ref="chat">
   <div class="chatContainer" ref="chat"> 
     <transition name="fade-translate">
-      <div v-if="!loading" class="Chat">
+      <div v-if="!loading && isThereAnotherPerson" class="Chat">
         <div 
           class="messages" 
           v-chat-scroll="{always: false}"
@@ -87,14 +87,28 @@ export default class Chat extends Vue {
     required: true
   }) readonly iAm!: JobRelationship
 
+  get otherPersonsUid() {
+    return (this.jobData as any)[this.otherPersonsRole].uid
+  }
+
+  get isThereAnotherPerson() {
+    return ((this.jobData as any)[this.otherPersonsRole]) ? true : false
+  }
+
   async created() {
     await this.$store.dispatch('chat/openDBChannel', {
       jobID: this.jobData.id
     })
 
+    if (this.isThereAnotherPerson) await this.populateOtherPersonsPublicProfile()
+
+    this.loading = false
+  }
+
+  async populateOtherPersonsPublicProfile() {
     const ref = await firebase.firestore()
       .collection('users')
-      .doc((this.jobData as any)[this.otherPersonsRole].uid)
+      .doc(this.otherPersonsUid)
       .get()
 
     const result = ref.data() as PublicProfile
@@ -103,8 +117,6 @@ export default class Chat extends Vue {
       ...result,
       uid: ref.id
     }
-
-    this.loading = false
   }
 
   get otherPersonsRole() {

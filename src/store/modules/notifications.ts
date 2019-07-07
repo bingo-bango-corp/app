@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { writeCurrentTokenToUser } from '@/util/setUpNotifications'
+import { writeCurrentTokenToUser } from '@/util/setUpNotifications'
 
 interface notificationInterface {
   messageTokenInitialized: boolean
