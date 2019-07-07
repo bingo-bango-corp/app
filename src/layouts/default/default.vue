@@ -1,5 +1,6 @@
 <template>
   <div class="default">
+    <div class="gradientToBackground" />
     <slot></slot>
     <transition name="move">
       <div
