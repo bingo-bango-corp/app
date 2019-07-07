@@ -9,6 +9,14 @@
           ref="messagesContainer"
         >
           <ChatMessage 
+            class="message"
+            v-if="jobIsOpen"
+            displayName="Bartholomeus Bong"
+            photoURL="https://00e9e64bac9b38ebb01a1c974d5a4e60b02bdebd02d140b718-apidata.googleusercontent.com/download/storage/v1/b/bingo_bango_profile_pictures/o/bong.png?qk=AD5uMEswjCsiApNzNZTIwTIMUu2xwcCFtVuFp5rbOPS84GGSaKyidtjFcUk1hj2JTpbS8X_RtIfniP9ppi76BBXJHs6DxLpj3JjP_ioVFX9Qq52JkwrghvO79zuwpu0lRJTIhaBG--hKItiMVQbTa7d6jL7njoZstNpa8FHiNVuJxeF96CnhCyJOyM-tLu5m-o4Hp7U8FZuTW1npLBI48CVYQxs0BdcLCGpwGYnq62ss7Y7E-BVpbVLqsQnqmvf3hcEwxBVZF2WppFfGgtylLw3t49EPpL_F3xXL5KvQrk8s6zyfD1JIWzH295EOadfq8pQhLbVB1ZKxWWa_u5qEiu1yHRzGaaPV6VZQAdJty1mQhB50Xpw4PhDHUKMRXSGacVmmRDBfZ4F4BgBwxw-pSD3jw_EPblXQEyWwFRaihOrR_DcPO0Qr5s7RGPi6WvqO5PXiLpsK7cnRP1NXkRE_akcmOrUe5Ln0FI3_nkWYY6Mvnw9nhav22rJ32Jl4dyCrm2_vQJFa3464NvEx7CYrAWyrKaEOxMrU6BxVqgp_BFYZ1R19hDnVxgj2sBwia8lGSEE2zlR8CR_GI-v8fgI3mUA5Lr0BGLRF84rNEBQWz_nl76O8D6rxWdmu_mZGpcTP0ixYrHBjapq8Egc6py9zy8P8tUuT1rF9Fys_rVsYB95n1mMoIfPcnpr71SZKZyAYjpOvOhzN2sfYy7W4pK1jyaRWB1cLx9tu2KEJwwYZ4bOO_IlvcMdmHAakKAS9VVuw_C0NrcqTFfLOHo9McFAk3MdKZ68idvDeIA"
+            :mine="false"
+            message="This is a demo — so while you can send messages, no one is going to respond. Sorry for that!"
+          />
+          <ChatMessage 
             v-for="message in $store.getters['chat/messages']"
             class="message"
             :notice="message.type === 'notice'"
