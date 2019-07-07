@@ -37,7 +37,6 @@
         </BingoButton>
       </div>
     </HeadlineContentPair>
-    <BingoButton backgroundColor="var(--cardBackground)" color="var(--foreground)" @clicked="signOut">{{ $t('you.logOut') }}</BingoButton>
   </div>
 </template>
 
