@@ -36,7 +36,11 @@
             v-model="messageText"
             @input="typing"
           />
-          <BingoButton @clicked="sendMessage">Send</BingoButton>
+          <BingoButton @clicked="sendMessage">
+            <svg class="sendIcon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path class="sendIconPath" fill-rule="evenodd" clip-rule="evenodd" d="M4 5.66617C4.00001 4.15523 5.60995 3.19214 6.94118 3.90213L22.125 12.0001L6.9417 20.0987C5.6095 20.8093 4.00047 19.8439 4.00041 18.3341L4 5.66617ZM6 5.66618L6.00001 11.0002H13V13.0002H6.00007L6.00041 18.334L17.8752 12.0002L6 5.66618Z"/>
+            </svg>
+          </BingoButton>
         </div>
       </div>
     </transition>
