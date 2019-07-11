@@ -22,6 +22,7 @@
               @click.native="toggleJob(index)"
               @shouldGoToLoading="handleShouldGoToLoading()"
               @shouldUpdateJobs="handleShouldUpdateJobs()"
+              :actionsDisabled="shouldActionsBeDisabled"
             />
           </div>
         </JobListView>
@@ -79,6 +80,10 @@ export default class makeMoney extends Vue {
     this.nearbyJobs = nearbyJobs
 
     this.loading = false
+  }
+
+  get shouldActionsBeDisabled(): boolean {
+    return this.$store.getters['currentJob/exists']
   }
 
   toggleJob(index: number) {
