@@ -12,6 +12,7 @@
       :callActions="false"
       :collapsed="collapsed"
       :locale="$i18n.locale"
+      :actionsDisabled="actionsDisabled"
       @actionClicked="handleActionClicked($event)"
       @click.native="$emit('cardClick', $event)"
     />
@@ -46,6 +47,11 @@ export default class JobCardWithActions extends Vue {
     type: Boolean,
     default: false
   }) readonly collapsed!: boolean
+
+  @Prop({
+    type: Boolean,
+    default: false
+  }) readonly actionsDisabled!: boolean
 
   @Prop({
     type: String
