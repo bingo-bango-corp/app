@@ -1,5 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import { OPEN_STATES } from '@/store/models/job'
 
 const myJobs = {
   firestorePath: 'jobs/{jobID}',
@@ -16,6 +17,9 @@ const myJobs = {
     },
     ownerPictureUrl(state: any) {
       return state.ownerPictureUrl
+    },
+    exists(state: any) {
+      return OPEN_STATES.includes(state.data.state)
     }
   },
   mutations: {

@@ -59,7 +59,7 @@ export default class Default extends Vue {
   }
 
   get shouldDisplayJobBadge(): boolean {
-    return this.$route.meta.hideJobBadge ? false : (OPEN_STATES.includes(this.job.state))
+    return this.$route.meta.hideJobBadge ? false : this.$store.getters['currentJob/exists']
   }
 
   get ownerPictureUrl(): string {
