@@ -3,7 +3,7 @@
     <div class="jobs">
       <HeadlineContentPair
         headline=""
-        description="Nearby Requests"
+        :description="(nearbyJobs.length > 0) ? 'Nearby Requests' : 'No requests nearby.'"
         refreshButton
         :loading="loading"
         @refreshButtonClicked="updateNearbyJobs"
